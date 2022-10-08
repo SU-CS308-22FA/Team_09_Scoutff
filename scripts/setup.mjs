@@ -12,7 +12,7 @@ const setup = async () => {
     await client.connect();
 
     const hasData = await client
-      .db('test')
+      .db('football')
       .collection('users')
       .countDocuments();
 
