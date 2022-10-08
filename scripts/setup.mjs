@@ -39,7 +39,7 @@ const setup = async () => {
     });
 
     const insert = await client
-      .db('test')
+      .db('football')
       .collection('users')
       .insertMany(records);
 
