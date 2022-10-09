@@ -17,8 +17,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
   return {
     redirect: {
-      permanent: false,
-      dfsfkdsfsl,
+      permanent: true,
       destination: `/${session.username}`
     }
   };
