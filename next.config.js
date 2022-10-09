@@ -7,7 +7,6 @@ const nextConfig = {
       'avatars.githubusercontent.com',
       'avatar.tobi.sh',
       'cloudflare-ipfs.com',
-      'asdsadsads'
       'loremflickr.com'
     ]
   },
