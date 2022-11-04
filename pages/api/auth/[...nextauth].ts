@@ -7,9 +7,9 @@ import User from "../../../models/User";
 
 
 import GoogleProvider from "next-auth/providers/google"
-import invariant from "tiny-invariant";
 import { decode, getToken } from "next-auth/jwt";
 
+import { userToAdapterUser } from "../../../adapters/MongooseAdapter";
 
 
 
@@ -38,8 +38,21 @@ export default NextAuth({
 
     
   
-  }
-  ,
+  },
+  
+  
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/api/auth/signout",
+    error: "/auth/signin", // Error code passed in query string as ?error=
+    verifyRequest: "/api/auth/verify-request", // (used for check email message)
+    newUser: "/profile" // If set, new users will be directed here on first sign in
+  },
+
+
+  
+
+  
   
     providers: [
       CredentialsProvider({
@@ -51,21 +64,25 @@ export default NextAuth({
           password: {  label: "Password", type: "password" }
         },
         async authorize(credentials, req) {
-          invariant(credentials, "Credentials must be provided")
 
 
-          //invariant control
-          invariant(credentials.email, "Email cannot be empty")
-          invariant(credentials.password, "Password cannot be empty")
+          await clientPromise()
+          if (!credentials?.email || !credentials?.password) throw new Error('Please enter all fields')
+          
 
-          const user = await User.findOne({ email: credentials.email });
+          const user = await User.findOne({ email: credentials.email }).lean();
 
-
-
-          invariant(user, "User not found")
+          if (!user) throw new Error('No user with that exists')
 
 
-          invariant(user.password, "Password not found")
+
+          if (!user?.password)  throw new Error('That user has no password')
+
+
+          
+
+
+
 
 
 
@@ -79,16 +96,15 @@ export default NextAuth({
 
 
           const isValid = await bcrypt.compare(credentials.password, user.password);
-          if (isValid) {
-            return user;
-          }
-            
-        
+
+          if (!isValid) throw new Error('Invalid password or email')
+          
+
+  
           
 
      
-          // Return null if user data could not be retrieved
-          return null
+          return  userToAdapterUser(user);
         }
       }),
       CredentialsProvider({
@@ -100,30 +116,36 @@ export default NextAuth({
           password: {  label: "Password", type: "password" },
         },
         async authorize(credentials, req) {
-
-          invariant(credentials, "Credentials must be provided")
-
-
-          //invariant control
-          invariant(credentials.email, "Email cannot be empty")
-          invariant(credentials.password, "Password cannot be empty")
-          invariant(credentials.name, "Name cannot be empty")
-
-          //todo better mail validation
-          invariant(credentials.email.includes("@"), "Email must be valid") 
-
-            const user = await User.findOne({ email: credentials.email });
-
-            invariant(!user, "User already exists")
-
-            credentials.password = await bcrypt.hash(credentials.password, 8);
+          await clientPromise()
 
 
-            const {name, email, password} = credentials
+
+          
+
+          if (!credentials?.email) throw new Error("Email cannot be empty")
+          if (!credentials?.password) throw new Error("Password cannot be empty")
+          if (!credentials?.name) throw new Error("Name cannot be empty")
+          if (!credentials?.email.includes("@")) throw new Error("Email must be valid")
+          
+
+
+         
+
+            const user = await User.findOne({ email: credentials!.email });
+
+
+            if (user) throw new Error("User already exists")
+
+
+            credentials!.password = await bcrypt.hash(credentials!.password, 8);
+
+
+            const {name, email, password} = credentials!;
            
             const newUser = new User({name,email,password});
             await newUser.save();
-            return newUser;
+
+            return userToAdapterUser(newUser);
           
         }
       }),
@@ -131,6 +153,7 @@ export default NextAuth({
         id :"update-account",
         name: 'Update Account',
   
+        
 
         credentials: {
           name: { label: "Name", type: "text", placeholder: "" },
@@ -138,9 +161,12 @@ export default NextAuth({
         },
         
         async authorize(credentials,req) {
+          await clientPromise()
 
 
-          invariant(credentials, "Credentials must be provided")
+
+          if (!credentials) throw new Error("Credentials cannot be empty")
+
 
 
 
@@ -175,10 +201,10 @@ export default NextAuth({
 
 
 
+        if (!rawJwt) throw new Error("No session cookie found")
 
 
 
-          invariant(rawJwt, "JWT must be provided")
 
           //decode url encoded 
           const jwt = decodeURIComponent(rawJwt)
@@ -192,10 +218,10 @@ export default NextAuth({
           
           })
 
-          console.log(token)
+
+          if (!token) throw new Error("Token is not valid")
+          if (!token?.email) throw new Error("Token is not valid")
          
-          invariant(token, "Token must be provided")
-          invariant(token.email, "Token does not contain email")
 
 
          
@@ -211,9 +237,15 @@ export default NextAuth({
 
 
         
-          const user = await User.findOneAndUpdate({email: token.email}, update, {new: true});
+          const user = await User.findOneAndUpdate({email: token.email}, update, {new: true}).lean();
 
-          return user;
+
+        
+
+
+          
+
+          return userToAdapterUser(user);
 
           
 

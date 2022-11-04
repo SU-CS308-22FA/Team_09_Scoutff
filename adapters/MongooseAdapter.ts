@@ -1,4 +1,4 @@
-import { Adapter } from "next-auth/adapters"
+import { Adapter, AdapterUser } from "next-auth/adapters"
 import mongoose from "mongoose"
 
 import Account from "../models/Account"
@@ -18,6 +18,33 @@ interface MongooseAdapterProps {
 }
 
 
+interface ConvertUser {
+    name: string
+    email: string
+    image: string
+    role: string
+    _id ?: string
+}
+
+
+//function that takes a plain object of mongoose user and returns a plain object of next-auth user
+export const userToAdapterUser = (user: ConvertUser | null): AdapterUser => {
+
+
+    return {
+        id: user?._id ?? "",
+        name: user?.name ?? "",
+        email: user?.email ?? "",
+        image: user?.image ?? "",
+        role: user?.role ?? "",
+        emailVerified: null,
+        username : "",
+    }
+}
+
+
+
+
 export default function MongooseAdapter({client,options}  : MongooseAdapterProps) : Adapter<false>{
 
 
@@ -26,24 +53,27 @@ export default function MongooseAdapter({client,options}  : MongooseAdapterProps
 
             const newUser =  new User(user)
             await newUser.save()
-            return newUser
+            return userToAdapterUser(newUser)
         },
         async getUser(id) {
 
 
-            const user = await User.findById(id)
+            const user = await User.findById(id).lean()
             if (!user) return null
-            return user
+
+           
+            return userToAdapterUser(user)
+
         },
         async getUserByEmail(email) {
 
 
 
        
-            const user = await User.findOne({email})
+            const user = await User.findOne({email}).lean()
 
             if (!user) return null
-            return user
+            return userToAdapterUser(user)
         },
 
 
@@ -56,13 +86,13 @@ export default function MongooseAdapter({client,options}  : MongooseAdapterProps
         },
         async getSessionAndUser(sessionToken) {
 
-
+ 
 
             const session = await Session.findOne({sessionToken})
             if (!session) return null
-            const user = await User.findById(session.userId)
+            const user = await User.findById(session.userId).lean()
             if (!user) return null
-            return {session,user}
+            return {session,user: userToAdapterUser(user)}
         },
 
         async getUserByAccount(provider_providerAccountId) {
@@ -72,18 +102,20 @@ export default function MongooseAdapter({client,options}  : MongooseAdapterProps
 
             const account = await Account.findOne(provider_providerAccountId)
             if (!account) return null
-            const user = await User.findById(account.userId)
+            const user = await User.findById(account.userId).lean()
             if (!user) return null
-            return user
+            return userToAdapterUser(user)
         },
         async updateUser(user) {
 
+            
 
-            console.log("updateUser",user)
 
-            const updatedUser = await User.findByIdAndUpdate(user.id,user,{new: true})
-            if (!updatedUser) return null
-            return updatedUser
+
+            const updatedUser = await User.findByIdAndUpdate(user.id,user,{new: true}).lean()
+           
+            return userToAdapterUser(updatedUser)
+            
         },
         async updateSession(session) {
 

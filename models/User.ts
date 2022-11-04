@@ -35,5 +35,10 @@ const userSchema = new Schema<IUser>({
     },
 })
 
-export default mongoose.models.User || mongoose.model("User",userSchema)
+
+type InterfaceUser = mongoose.Document & IUser
+
+
+
+export default (mongoose.models.User  as mongoose.Model<InterfaceUser>) || mongoose.model("User",userSchema)
 

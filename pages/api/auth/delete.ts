@@ -57,11 +57,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const session = await Session.startSession()
     session.startTransaction()
     try {
-        await Account.deleteMany({ userId: userId })
+        
+        await Promise.all([
+            User.deleteOne({ _id: userId }),
+            Account.deleteOne({ userId }),
+            Session.deleteMany({ userId })
+        ])
 
-        await User.deleteOne({ _id: userId })
-
-        await Session.deleteMany({ userId: userId })
 
         await session.commitTransaction()
         session.endSession()
@@ -74,6 +76,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     
+    
+
 
 
 
@@ -82,6 +86,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
     res.setHeader("Set-Cookie", [
+
+   
+        "__Secure-next-auth.session-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; httponly; samesite=strict",
+        "__Secure-next-auth.csrf-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; httponly; samesite=strict",
+        "__Secure-next-auth.callback-url=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure; httponly; samesite=strict",
+
+        
         `next-auth.callback-url=${encodeURIComponent("/")}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
         `next-auth.csrf-token=${encodeURIComponent("")}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
         `next-auth.session-token=${encodeURIComponent("")}; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`,
