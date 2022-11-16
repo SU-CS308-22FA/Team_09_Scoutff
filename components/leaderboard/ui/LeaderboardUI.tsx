@@ -1,38 +1,39 @@
 import {
-    Button,
-    Flex,
-    Heading,
-    Image,
-    Stack,
-    Text,
-    useBreakpointValue,
-    Wrap,
-  } from "@chakra-ui/react";
-  import React from "react";
-  
-  export default function LeaderboardUI() {
-    return (
-      <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
-        <Flex p={8} flex={1} align={"center"} justify={"center"}>
-          <Stack spacing={6} w={"full"} maxW={"lg"}>
-            <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
-              
-              <br />{" "}
-              <Text color={"blue.400"} as={"span"}>
-                Leaderboards PAGE
-              </Text>{" "}
-            </Heading>
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Text,
+  useBreakpointValue,
+  Wrap, 
+  Center, Square, Circle, Box, HStack, Grid, Spacer, Divider
+} from "@chakra-ui/react";
+import React from "react";
 
 
-          </Stack>
-        </Flex>
-        <Flex flex={1}>
+export default function LeaderboardUI() {
+  return (
+    
+    <Flex color='white' h='500px' marginTop='50px' marginLeft='60px' marginRight='60px' bg='gray.300' padding='30px' rounded='20'>
 
-        </Flex>
-      </Stack>
-    );
-  
-    function techStackButton(text: string) {
-      return <Button rounded={"base"}>{text}</Button>;
-    }
+
+      <Box  w='100px' flex='1' bg='#647C90' sx={{ borderRadius: "10%" }} >
+        <Center margin='20px' color='black' fontFamily='cursive' fontSize='18px'>Top Ratings</Center>
+        <Divider color='gray.300'></Divider>
+      </Box>
+      <Box  w='100px' flex='1' bg='#647C90' marginX='40px' sx={{ borderRadius: "10%" }}>
+        <Center margin='20px' color='black' fontFamily='cursive' fontSize='18px'>Top Scorers</Center>
+        <Divider color='gray.300'></Divider>
+      </Box>
+      <Box  w='100px' flex='1' bg='#647C90' sx={{ borderRadius: "10%" }}>
+        <Center margin='20px' color='black' fontFamily='cursive' fontSize='18px'>Market Values</Center>
+        <Divider color='gray.300'></Divider>
+      </Box>
+    </Flex>
+  );
+
+  function techStackButton(text: string) {
+    return <Button rounded={"base"}>{text}</Button>;
   }
+}
