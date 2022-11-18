@@ -2,6 +2,7 @@ import {
     Flex,
     Box,
     FormControl,
+    FormErrorMessage,
     FormLabel,
     Input,
     InputGroup,
@@ -27,11 +28,27 @@ import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
+import { useForm, FieldError } from 'react-hook-form'
   
   export default function SignupCard() {
 
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState<String>("");
+
+    const {
+      handleSubmit,
+      register,
+      formState: { errors, isSubmitting },
+    } = useForm()
+    
+    function onSubmit(values: any) {
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2))
+          resolve()
+        }, 3000)
+      })
+    }
 
 
 
@@ -101,7 +118,7 @@ import { signIn } from 'next-auth/react';
               Sign up
             </Heading>
           </Stack>
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
           <Box
             rounded={'lg'}
             bg={useColorModeValue('white', 'gray.700')}
@@ -126,10 +143,15 @@ import { signIn } from 'next-auth/react';
                 <FormLabel>Email address</FormLabel>
                 <Input type="email" />
               </FormControl>
-              <FormControl id="password" isRequired>
+              <FormControl id="password" isInvalid={Boolean(errors.password)}>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
-                  <Input type={showPassword ? 'text' : 'password'} />
+                  <Input type={showPassword ? 'text' : 'password'} 
+                  {...register('password', {
+                required: 'This is required',
+                minLength: { value: 8, message: 'Minimum length should be minimum 8!' },
+                maxLength: { value: 20, message: 'Maximum length should be maximum 20!' }
+              })}/>
                   <InputRightElement h={'full'}>
                     <Button
                       variant={'ghost'}
@@ -138,8 +160,19 @@ import { signIn } from 'next-auth/react';
                       }>
                       {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                     </Button>
+                    
                   </InputRightElement>
+
                 </InputGroup>
+                  <Stack pt={4}>
+                <FormErrorMessage>
+              {errors.password && errors.password.message?.toString()}
+        </FormErrorMessage>
+             </Stack>
+                
+                  
+                  
+
               </FormControl>
               <Stack spacing={10} pt={2}>
                 <Button
