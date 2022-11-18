@@ -26,7 +26,7 @@ const Links = [
   },
   {
     name: "Squads",
-    path: "/squads",
+    path: "/squadby",
   },
   {
     name: "Leaderboards",
