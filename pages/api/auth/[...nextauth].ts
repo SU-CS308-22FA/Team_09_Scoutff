@@ -39,11 +39,22 @@ export const authOptions :  NextAuthOptions = {
       return token
     },
 
+    
+
     async signIn({user, account, profile, email, credentials}) {
 
+      //get baseurl from request
+      const baseUrl = process.env.NEXTAUTH_URL
+      const errorPage = `${baseUrl}/error?error=EmailNotVerified`
 
-      if (email?.verificationRequest)
-        return true
+      const userNotExist = `${baseUrl}/error?error=UserNotExist`
+
+      const verificationRequest = email?.verificationRequest
+
+
+      if (verificationRequest) 
+          return await User.exists({email: user.email}) ? true : userNotExist
+      
 
         
       //update user if email is verified
@@ -52,10 +63,9 @@ export const authOptions :  NextAuthOptions = {
         user = await User.findOneAndUpdate({email}, {emailVerified: new Date()}, {new: true}).lean()
       }
 
-      //get baseurl from request
-      const baseUrl = process.env.NEXTAUTH_URL
 
-      const errorPage = `${baseUrl}/error?error=EmailNotVerified`
+
+
 
 
 
@@ -95,6 +105,8 @@ export const authOptions :  NextAuthOptions = {
           }
         },
         from: process.env.EMAIL_FROM,
+        normalizeIdentifier: (identifier) => identifier.toLowerCase(),
+        
         
       }),
 
