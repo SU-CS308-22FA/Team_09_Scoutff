@@ -18,6 +18,7 @@ import {
     AlertDescription,
     AlertIcon,
     AlertTitle,
+    useToast,
   } from '@chakra-ui/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import Layout from "../../components/layout/Layout"
@@ -28,44 +29,37 @@ import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
-import { useForm, FieldError } from 'react-hook-form'
+import { useForm, FieldError, SubmitHandler } from 'react-hook-form'
+
+type FormValues = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};
+
   
   export default function SignupCard() {
 
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState<String>("");
 
+    const toast = useToast()
+
     const {
       handleSubmit,
       register,
       formState: { errors, isSubmitting },
-    } = useForm()
+    } = useForm<FormValues>()
     
-    function onSubmit(values: any) {
-      return new Promise<void>((resolve) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2))
-          resolve()
-        }, 3000)
-      })
-    }
+
+    
 
 
+    const handleFormSubmit :  SubmitHandler<FormValues>  = async (data) => {
 
-    const handleFormSubmit = async (e: React.FormEvent) => {
-      e.preventDefault()
 
       
-  
-      
-  
-      const target = e.currentTarget as typeof e.currentTarget & {
-        email: { value: string }
-        password: { value: string }
-        firstName: { value: string }
-        lastName: { value: string }
-      }
-
   
   
 
@@ -74,23 +68,39 @@ import { useForm, FieldError } from 'react-hook-form'
       const result = await signIn('register',
       {
         redirect: false,
-        email: target.email.value,
-        name: target.firstName.value + " " + target?.lastName?.value ?? "",
-        password: target.password.value,
+        name : `${data.firstName} ${data.lastName}`,
+        ...data,
       })
+
+
+      const error = result?.error
+
+      if (error && error !== "EmailNotVerified") {
+        setErrorMessage(error)
+        return
+      }
+
   
       console.log(result, "register result")
   
-      const emailSend = await signIn('email', {email : target.email.value, redirect: false})
-  
-      console.log(emailSend, "email send")
-  
-      if (result && result.error) {
-        setErrorMessage(result.error)
-  
-      } else {
-        router.push('/profile')
+      const emailSend = await signIn('email', {email : data.email, redirect: false})
+
+      if (emailSend && emailSend.error) {
+        setErrorMessage(emailSend.error)
+        return
       }
+
+      toast({
+        title: "Registration successful.",
+        description: "We've sent you an email with a link to verify your account.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      })
+  
+      setErrorMessage("")
+      
+      
   
    
     
@@ -118,7 +128,7 @@ import { useForm, FieldError } from 'react-hook-form'
               Sign up
             </Heading>
           </Stack>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(handleFormSubmit)}>
           <Box
             rounded={'lg'}
             bg={useColorModeValue('white', 'gray.700')}
@@ -129,19 +139,19 @@ import { useForm, FieldError } from 'react-hook-form'
                 <Box>
                   <FormControl id="firstName" isRequired>
                     <FormLabel>First Name</FormLabel>
-                    <Input type="text" />
+                    <Input type="text" {...register("firstName")} />
                   </FormControl>
                 </Box>
                 <Box>
                   <FormControl id="lastName">
                     <FormLabel>Last Name</FormLabel>
-                    <Input type="text" />
+                    <Input type="text" {...register("lastName")} />
                   </FormControl>
                 </Box>
               </HStack>
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+                <Input type="email" {...register("email")} />
               </FormControl>
               <FormControl id="password" isInvalid={Boolean(errors.password)}>
                 <FormLabel>Password</FormLabel>
@@ -165,9 +175,13 @@ import { useForm, FieldError } from 'react-hook-form'
 
                 </InputGroup>
                   <Stack pt={4}>
-                <FormErrorMessage>
-              {errors.password && errors.password.message?.toString()}
-        </FormErrorMessage>
+                  { errors.password &&
+
+        <Alert status='error'>
+                 <AlertIcon />
+                  <AlertDescription>{errors.password && errors.password.message?.toString()}</AlertDescription>
+                </Alert>
+        }
              </Stack>
                 
                   
