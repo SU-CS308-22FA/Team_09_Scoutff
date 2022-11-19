@@ -1,8 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { createSchema, createYoga } from 'graphql-yoga'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import schema from '../../lib/schema'
-import {resolvers} from '../../lib/resolvers'
+import { readFileSync } from 'node:fs'
+import path from 'path';
+import {resolvers} from "../../lib/graphql/resolvers"
+
 
 export const config = {
  api: {
@@ -11,6 +13,13 @@ export const config = {
  }
 }
 
+
+const schema = readFileSync(path.join(process.cwd(),  'lib', 'graphql', 'schema.graphql'), 'utf8')
+
+ 
+
+
+
 export default createYoga<{
  req: NextApiRequest
  res: NextApiResponse
@@ -18,8 +27,9 @@ export default createYoga<{
  // Needed to be defined explicitly because our endpoint lives at a different path other than `/graphql`
  graphqlEndpoint: '/api/graphql',
  schema: createSchema({
-    typeDefs: /* GraphQL */ 
-    schema,
-    resolvers
+    typeDefs: schema,
+    resolvers : {
+        Query: resolvers.Query ?? {},
+    }
   }),
 })

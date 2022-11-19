@@ -34,8 +34,6 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@graphql-codegen/typescript": "^2.8.2",
-    "@graphql-codegen/typescript-resolvers": "^2.7.7",
     "@types/bcrypt": "^5.0.0",
     "@types/node": "18.11.6",
     "@types/react": "^18.0.25",
