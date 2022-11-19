@@ -175,9 +175,13 @@ type FormValues = {
 
                 </InputGroup>
                   <Stack pt={4}>
-                <FormErrorMessage>
-              {errors.password && errors.password.message?.toString()}
-        </FormErrorMessage>
+                  { errors.password &&
+
+        <Alert status='error'>
+                 <AlertIcon />
+                  <AlertDescription>{errors.password && errors.password.message?.toString()}</AlertDescription>
+                </Alert>
+        }
              </Stack>
                 
                   
