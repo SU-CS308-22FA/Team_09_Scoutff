@@ -27,7 +27,7 @@ import invariant from "tiny-invariant"
 
   interface Props {
     csrfToken: string,
-    token: string,
+    name: string,
   }
 
   export const getServerSideProps : GetServerSideProps = async (context) => {
@@ -39,7 +39,7 @@ import invariant from "tiny-invariant"
   }
   
 
-  export default function UserCompIndex({ csrfToken } : Props) {
+  export default function UserCompIndex({ name,csrfToken } : Props) {
 
     const router = useRouter()
 
@@ -110,6 +110,7 @@ import invariant from "tiny-invariant"
   }
 
   const { data: session } = useSession()
+  const names = name.split(" ")
   if (session) {
     return (
       <Container maxW="container.xl" p={0}>
@@ -123,13 +124,13 @@ import invariant from "tiny-invariant"
           <GridItem colSpan={1}>
             <FormControl>
               <FormLabel>First Name</FormLabel>
-              <Input placeholder="Name" />
+              <Input placeholder={names.at(0)} />
             </FormControl>
           </GridItem>
           <GridItem colSpan={1}>
             <FormControl>
               <FormLabel>Last Name</FormLabel>
-              <Input placeholder="Last Name" />
+              <Input placeholder={names.at(1)} />
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>

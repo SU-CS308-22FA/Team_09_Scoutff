@@ -3,6 +3,7 @@ import Player from "../../models/Player";
 import mongooseConnection from "../mongoose"
 import { Resolvers } from './resolvers-types'
 import { GraphQLResolveInfo } from "graphql";
+import { getToken } from "next-auth/jwt";
 
 
 const fieldExists = (obj: GraphQLResolveInfo, field: string) => {
@@ -36,6 +37,18 @@ export const resolvers : Resolvers = {
         },
         user: async (parent, { email },context,info) => {
             await mongooseConnection()
+
+            const token = await getToken({ req: context.req})
+
+
+            if(token?.email !== email && token?.role !== "admin") {
+                return null
+            }
+
+
+
+
+
             const likedPlayersExist = fieldExists(info, "likedPlayers")
 
             const foundUser = User.findOne({ email })
@@ -44,6 +57,14 @@ export const resolvers : Resolvers = {
         },
         users: async (parent,arg,context,info) => {
             await mongooseConnection()
+
+            const token = await getToken({ req: context.req})
+
+            if(token?.role !== "admin") {
+                return null
+            }
+
+
 
             const likedPlayersExist = fieldExists(info, "likedPlayers")
 
