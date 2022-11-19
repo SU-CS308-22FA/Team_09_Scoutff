@@ -1,5 +1,5 @@
 import { useSession, signIn, signOut } from "next-auth/react"
-import { Button } from "@chakra-ui/react";
+import {ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure, Button } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";

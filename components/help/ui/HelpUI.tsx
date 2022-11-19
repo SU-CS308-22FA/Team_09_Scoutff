@@ -27,7 +27,7 @@ import {
 
             <Stack marginLeft='200px' w='800px' h='800px'>
               <Center fontSize='20px'>Suggestions or complaints</Center>
-              <Input type='file' width='800px' placeholder='What do you think about Scoutff?'/>
+              <Input width='800px' placeholder='What do you think about Scoutff?'/>
 
               <Button>Submit</Button>
             </Stack>
