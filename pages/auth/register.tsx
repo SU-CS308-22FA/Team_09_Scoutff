@@ -149,11 +149,14 @@ type FormValues = {
                   </FormControl>
                 </Box>
               </HStack>
-              <FormControl id="email" isRequired>
+              <FormControl id="email" isRequired isInvalid={Boolean(errors.email)}>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" {...register("email")} />
+                <Input type="email" {...register("email",{
+                required: 'This is required',
+                pattern: { value: /[a-zA-Z][a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/, message: 'Please enter a valid email' },
+              })} />
               </FormControl>
-              <FormControl id="password" isInvalid={Boolean(errors.password)}>
+              <FormControl id="password" isRequired isInvalid={Boolean(errors.password)}>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
                   <Input type={showPassword ? 'text' : 'password'} 
@@ -174,6 +177,15 @@ type FormValues = {
                   </InputRightElement>
 
                 </InputGroup>
+                <Stack pt={4}>
+                  { errors.email &&
+
+        <Alert status='error'>
+                 <AlertIcon />
+                  <AlertDescription>{errors.email && errors.email.message?.toString()}</AlertDescription>
+                </Alert>
+        }
+             </Stack>
                   <Stack pt={4}>
                   { errors.password &&
 
