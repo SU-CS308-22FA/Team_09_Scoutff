@@ -6,6 +6,7 @@ specifiers:
   '@chakra-ui/react': ^2.3.7
   '@emotion/react': ^11.10.5
   '@emotion/styled': ^11.10.5
+  '@graphql-yoga/plugin-response-cache': ^1.0.0
   '@next-auth/mongodb-adapter': ^1.1.1
   '@types/bcrypt': ^5.0.0
   '@types/node': 18.11.6
@@ -41,6 +42,7 @@ dependencies:
   '@chakra-ui/react': 2.3.7_ydu7fid2w3vesyc65jyv4dbawa
   '@emotion/react': 11.10.5_cuziicjcvwawlf5iuhzacuhqcy
   '@emotion/styled': 11.10.5_hmjty4frusbltjhl3xd7udcm2y
+  '@graphql-yoga/plugin-response-cache': 1.0.0_4spz3xzhzxdaebxkzuyuvlzlxq
   '@next-auth/mongodb-adapter': 1.1.1_c2hs3f6tdo2m2hud5hzs3zngde
   axios: 1.1.3
   bcrypt: 5.1.0
@@ -2249,6 +2251,20 @@ packages:
       tslib: 2.4.0
     dev: false
 
+  /@envelop/response-cache/4.0.3_pbptz7adnmiijjca652cpfgxr4:
+    resolution: {integrity: sha512-5podyYKo2VzGnlPYYTbC6ivOdJ1TbzX2zOunOhVbnSbY2tAKwo+9kkpi7e2hfe4eUbpZTnuh05gpTZXcPPdo+A==}
+    peerDependencies:
+      '@envelop/core': ^3.0.3
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      '@envelop/core': 3.0.3
+      '@graphql-tools/utils': 8.13.1_graphql@16.6.0
+      fast-json-stable-stringify: 2.1.0
+      graphql: 16.6.0
+      lru-cache: 6.0.0
+      tslib: 2.4.1
+    dev: false
+
   /@envelop/types/3.0.0:
     resolution: {integrity: sha512-ohcZE+XNvgNqURdCA5RLN0yW3nbvi4Pkq8TA6RpG16PKakl3yDgzXBLit1SR6+9By0/XCBfto/9r48ZH25kmvw==}
     dependencies:
@@ -2319,6 +2335,15 @@ packages:
       value-or-promise: 1.0.11
     dev: false
 
+  /@graphql-tools/utils/8.13.1_graphql@16.6.0:
+    resolution: {integrity: sha512-qIh9yYpdUFmctVqovwMdheVNJqFh+DQNWIhX87FJStfXYnmweBUDATok9fWPleKeFwxnW8IapKmY8m8toJEkAw==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      graphql: 16.6.0
+      tslib: 2.4.1
+    dev: false
+
   /@graphql-tools/utils/9.1.1_graphql@16.6.0:
     resolution: {integrity: sha512-DXKLIEDbihK24fktR2hwp/BNIVwULIHaSTNTNhXS+19vgT50eX9wndx1bPxGwHnVBOONcwjXy0roQac49vdt/w==}
     peerDependencies:
@@ -2334,6 +2359,19 @@ packages:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 16.6.0
+    dev: false
+
+  /@graphql-yoga/plugin-response-cache/1.0.0_4spz3xzhzxdaebxkzuyuvlzlxq:
+    resolution: {integrity: sha512-8vOWIOFW0B51pCwQAkC+3mfleYraSJSIKKFhxa4eNHArp1PuhKZQkvLq7u6q6E+RehGtnc0ZyNchiYCwGZrf/w==}
+    peerDependencies:
+      graphql: ^15.2.0 || ^16.0.0
+      graphql-yoga: ^3.0.0
+    dependencies:
+      '@envelop/response-cache': 4.0.3_pbptz7adnmiijjca652cpfgxr4
+      graphql: 16.6.0
+      graphql-yoga: 3.0.0_7uxbpiey6b7yrpyfypcq7cvn24
+    transitivePeerDependencies:
+      - '@envelop/core'
     dev: false
 
   /@graphql-yoga/subscription/3.0.0:
@@ -3814,7 +3852,6 @@ packages:
 
   /fast-json-stable-stringify/2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
-    dev: true
 
   /fast-levenshtein/2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}

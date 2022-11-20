@@ -12,6 +12,14 @@ const fieldExists = (obj: GraphQLResolveInfo, field: string) => {
     });
 };
 
+const pages = {
+    defaultPageCount: 10,
+    maxPageCount: 25
+}
+
+
+
+
 export const resolvers : Resolvers = {
     Query: {
         player : async (parent, {slug}, context, info) => {
@@ -27,13 +35,13 @@ export const resolvers : Resolvers = {
             return await (likedByExist ? foundPlayer.populate("likedBy") : foundPlayer).lean()
         },
         
-        players: async (parent,arg,context,info) => {
+        players: async (parent,{sort,skip,take},context,info) => {
             await mongooseConnection()
             const likedByExist = fieldExists(info, "likedBy")
 
             const foundPlayers =  Player.find()
 
-            return await (likedByExist ? foundPlayers.populate("likedBy") : foundPlayers).limit(10).lean()
+            return await (likedByExist ? foundPlayers.populate("likedBy") : foundPlayers).skip(skip ?? 0).limit(Math.min(take ?? pages.defaultPageCount,pages.maxPageCount)).sort(`-${sort}`).lean()
         },
         user: async (parent, { email },context,info) => {
             await mongooseConnection()
@@ -55,10 +63,11 @@ export const resolvers : Resolvers = {
 
             return await (likedPlayersExist ? foundUser.populate("likedPlayers") : foundUser).lean()
         },
-        users: async (parent,arg,context,info) => {
+        users: async (parent,{sort,skip,take},context,info) => {
             await mongooseConnection()
 
             const token = await getToken({ req: context.req})
+
 
             if(token?.role !== "admin") {
                 return null
@@ -72,16 +81,11 @@ export const resolvers : Resolvers = {
             const foundUsers = User.find()
 
 
-            return await (likedPlayersExist ? foundUsers.populate("likedPlayers") : foundUsers).limit(10).lean();
+            return await (likedPlayersExist ? foundUsers.populate("likedPlayers") : foundUsers).skip(skip ?? 0).limit(Math.min(take ?? pages.defaultPageCount,pages.maxPageCount)).sort(`-${sort}`).lean()
+
         },
         
-        
     },
-    Player: {
-        
-    },
-    User: {
-    }
 
 
 }

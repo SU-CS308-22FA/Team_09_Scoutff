@@ -21,9 +21,9 @@
 
 
     type Query {
-        users : [User!]
+        users(sort:String,skip:Int,take:Int) : [User!]
         user(email: String!): User
-        players: [Player!]
+        players(sort:String,skip:Int,take:Int): [Player!]!
         player(slug: String!): Player
     }
 
