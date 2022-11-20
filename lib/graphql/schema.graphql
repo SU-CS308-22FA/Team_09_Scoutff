@@ -17,6 +17,7 @@
         photo: String
         flag: String
         likedBy: [User!]
+        market_value: Float
     }
 
 

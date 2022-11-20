@@ -232,6 +232,7 @@ export const authOptions :  NextAuthOptions = {
           //Get only not empty values from credentials
           //Ignore other credentials
           const {name,password} = credentials
+          
           const update = {name,  password}
 
 

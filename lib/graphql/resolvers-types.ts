@@ -19,6 +19,7 @@ export type Player = {
   flag?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   likedBy?: Maybe<Array<User>>;
+  market_value?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
   photo?: Maybe<Scalars['String']>;
   rating?: Maybe<Scalars['Float']>;
@@ -163,6 +164,7 @@ export type PlayerResolvers<ContextType = any, ParentType extends ResolversParen
   flag?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   likedBy?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
+  market_value?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   rating?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
