@@ -5,24 +5,6 @@ import React from "react";
 import LBCompIndex from "../components/leaderboard/ui";
 import { InferGetStaticPropsType } from "next";
 
-type MarketValueRanking = {
-  name: string;
-  marketValue: number;
-};
-
-type RatingRanking = {
-  name: string;
-  rating: number;
-};
-
-
-type GraphQLResponse<T>= {
-  data: {
-    players: Array<T>;
-  };
-};
-
-
 
 
 

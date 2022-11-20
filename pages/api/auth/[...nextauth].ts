@@ -238,6 +238,9 @@ export const authOptions :  NextAuthOptions = {
 
 
 
+
+
+
           //Remove empty values
           for (const [key,value] of Object.entries(update)) {
 
@@ -246,6 +249,7 @@ export const authOptions :  NextAuthOptions = {
               delete update[typedKey]
           }
         }
+
 
 
 

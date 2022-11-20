@@ -15,7 +15,11 @@ import {
     Stack,
     HStack,
     VStack,
-    Text
+    Text,
+    useToast,
+    Alert,
+    AlertIcon,
+    AlertDescription
   } from "@chakra-ui/react";
   import ConfirmButton from "./ConfirmButton";
   import { decode, getToken } from "next-auth/jwt"
@@ -24,6 +28,7 @@ import Router, { useRouter } from "next/router"
 import { GetServerSideProps } from "next/types"
 import React, { useEffect, useState } from "react"
 import invariant from "tiny-invariant"
+import { SubmitHandler, useForm } from "react-hook-form";
 
   interface Props {
     csrfToken: string,
@@ -37,11 +42,34 @@ import invariant from "tiny-invariant"
       },
     }
   }
+
+  type FormValues = {
+    firstName: string;
+    lastName: string;
+    password: string;
+    confirmPassword: string;
+  };
   
 
   export default function UserCompIndex({ name,csrfToken } : Props) {
 
+    const toast = useToast()
+
     const router = useRouter()
+
+    const names = name.split(" ")
+
+
+    
+
+    const {
+      handleSubmit,
+      register,
+      watch,
+      formState: { errors, isSubmitting },
+    } = useForm<FormValues>()
+    
+
 
 
 
@@ -70,39 +98,70 @@ import invariant from "tiny-invariant"
       
     }
   }
-  const handleUpdate = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleUpdate :  SubmitHandler<FormValues>  = async (data) => {
 
-    const currentTarget = e.currentTarget
+
+    toast({
+      title: "Updating...",
+      status: "info",
+      duration: 2000,
+      isClosable: true,
+    })
+
+
+ 
+    //Join first and last name if any of 
+
+    const newNames = [data.firstName,data.lastName].map((name,index) => name === "" ? (names.at(index) ?? "") : name ).join(" ")
+
+    console.log(newNames)
+
+
+  
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    if (data && (data.password === data.confirmPassword)) {
+
+        await signIn("update-account", { ...data , name : (newNames === name) ? "" : newNames,redirect: false })
+
+        toast({
+          title: "Updated",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        })
+
+    }
+    else {
+      toast({
+        title: "Invalid form format",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      })
+    }
+
+    
 
    
 
-
-
-
-
-    //Get name password and email from form
-    //currentTarget has property of name, email, password
-
-    const target = e.currentTarget as typeof e.currentTarget & {
-      name: { value: string };
-      password: { value: string };
-    };
-
-
-    const name = target.name.value
-    const password = target.password.value
-
-    // if all of the fields are empty, do nothing
-    if (!name  && !password) {
-      return
-    }
+ 
 
 
 
 
 
-    await signIn("update-account", { name : name,password : password, redirect: false })
 
 
     
@@ -110,7 +169,6 @@ import invariant from "tiny-invariant"
   }
 
   const { data: session } = useSession()
-  const names = name.split(" ")
   if (session) {
     return (
       <Container maxW="container.xl" p={0}>
@@ -120,35 +178,42 @@ import invariant from "tiny-invariant"
           <Heading size="2xl">Preferences</Heading>
           <Text>Change your preferences.</Text>
         </VStack>
+        <form onSubmit={handleSubmit(handleUpdate)}>
         <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
           <GridItem colSpan={1}>
             <FormControl>
               <FormLabel>First Name</FormLabel>
-              <Input placeholder={names.at(0)} />
+              <Input placeholder={names.at(0)}  {...register("firstName")}/>
             </FormControl>
           </GridItem>
           <GridItem colSpan={1}>
             <FormControl>
               <FormLabel>Last Name</FormLabel>
-              <Input placeholder={names.at(1)} />
+              <Input placeholder={names.at(1)} {...register("lastName")}/>
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>
             <FormControl>
               <FormLabel>Password</FormLabel>
-              <Input type={"password"} placeholder="*******" />
+              <Input type={"password"} placeholder="*******" {...register("password")} />
+
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>
-            <FormControl>
+            <FormControl isInvalid={Boolean(errors.confirmPassword)}>
               <FormLabel>Confirm Password</FormLabel>
-              <Input type={"password"} placeholder="*******"/>
+              <Input type={"password"} placeholder="*******" {...register("confirmPassword",{
+                validate: (value) => value === watch("password") || "Passwords don't match.",
+              })}/>
+
+        
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>
           </GridItem>
           <GridItem colSpan={1}>
-            <Button size="lg" w="full" bg="green.300" color="whiteAlpha.900">
+            <Button size="lg" w="full" bg="green.300" color="whiteAlpha.900"                   type='submit'
+                  loadingText="Submitting">
               Update
             </Button>
           </GridItem>
@@ -157,6 +222,17 @@ import invariant from "tiny-invariant"
               headerText="Delete this account?"
               bodyText="Are you sure you want to delete your account? This cannot be undone."
               onSuccessAction={() => {
+                deleteUserData()
+                toast({
+                  title: "Account Deletion.",
+                  description: "Your account is being deleted.",
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                })
+
+
+                
                 console.log("Successfully Deleted");
               }}
               buttonText="Delete Account"
@@ -164,6 +240,7 @@ import invariant from "tiny-invariant"
             />
             </GridItem>
         </SimpleGrid>
+        </form>
       </VStack>
       <VStack
         w="full"

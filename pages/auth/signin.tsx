@@ -4,7 +4,8 @@ import { CtxOrReq } from "next-auth/client/_utils"
 import { getCsrfToken, getSession, GetSessionParams, signIn } from "next-auth/react"
 import Layout from "../../components/layout/Layout"
 import * as React from "react";
-import { Center, Image, Flex, Badge, Text, Stack, FormControl, FormLabel, Checkbox, Link, useColorModeValue } from "@chakra-ui/react";
+import { Center, Image, Flex, Badge, Text, Stack, FormControl, FormLabel, Checkbox, useColorModeValue } from "@chakra-ui/react";
+import Link from "next/link"
 import { unstable_getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]"
 import { useRouter } from "next/router"
@@ -97,7 +98,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
                 align={'start'}
                 justify={'space-between'}>
                 <Checkbox>Remember me</Checkbox>
-                <Link color={'blue.400'}>Forgot password?</Link>
+                <Link href="" color={'blue.400'}>Forgot password?</Link>
               </Stack>
               <Button type="submit"
                 bg={'blue.400'}
