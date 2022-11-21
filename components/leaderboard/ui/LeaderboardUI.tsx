@@ -20,7 +20,7 @@ import {
   TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 
 import type { RatingPlayers, MarketPlayers } from "../../../pages/leaderboards";
 
@@ -43,6 +43,7 @@ function Leaderboard(str: { name: string | undefined; LBplayers: string | undefi
           <Table color='black'  colorScheme='gray'>
           <TableCaption>
           <Center>
+          <Button onClick={() => router.push('/' + str.name)} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>              
           <Button onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>             {/*onClick={() => router.push('/' + str.name)}*/} 
           <Modal isOpen={isOpen}  onClose={onClose}>
             <ModalOverlay />
