@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut, getCsrfToken } from "next-auth/react"
 import { Button } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
@@ -9,8 +9,10 @@ import HomeCompIndex from "../components/home/ui";
 import Navbar from "../components/layout/navbar/navbar";
 import UserCompIndex from "../components/user/ui";
 import HelpCompIndex from "../components/help/ui";
+import { GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from "next";
+import { ParsedUrlQuery } from "querystring";
 
-export default function Home() {
+export default function Home({csrfToken} : InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div>
       <Head>
@@ -27,3 +29,20 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps  = async (context : GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
+  const csrfToken = await getCsrfToken(context)
+
+
+
+
+
+
+
+  return {
+    props: { 
+      csrfToken
+     },
+  }
+}
+

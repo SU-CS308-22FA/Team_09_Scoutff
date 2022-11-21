@@ -6,19 +6,34 @@ import {
     Stack,
     Text,
     useBreakpointValue,
-    Wrap, UnorderedList, ListItem, Input, Textarea, Center
+    Wrap, UnorderedList, ListItem, Input, Textarea, Center, useToast
   } from "@chakra-ui/react";
   import React from "react";
   import Comments from "../../../models/Comments";
   import { useState } from "react";
+import axios from "axios";
 
 
   export default function HelpUI() {
 
+    const toast = useToast()
+
     const [comment, setValue] = useState('');
 
     const handleSubmit = async () => {
-      Comments.insertMany({comment})
+
+        await axios.post("/api/comment", {
+          comment
+        })
+
+        toast({
+            title: "Comment added.",
+            description: "Your comment has been added.",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          })
+        
     }
     
     return (

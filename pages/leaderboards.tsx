@@ -12,14 +12,19 @@ import Player from "../models/Player";
 
 
 const GET_PLAYERS = gql`
-  query {
-    players {
-      name
-      rating
-      market_value
-
+query {
+  players(limit:1000,sortBy:RATING_DESC,query :{
+    statistics : {
+      season_id : 19367
     }
+  }) {
+   	name
+    statistics {
+      id
+    }
+    
   }
+}
 `;
 
 
