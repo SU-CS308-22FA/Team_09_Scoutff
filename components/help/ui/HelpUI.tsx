@@ -9,8 +9,19 @@ import {
     Wrap, UnorderedList, ListItem, Input, Textarea, Center
   } from "@chakra-ui/react";
   import React from "react";
-  
+  import Comments from "../../../models/Comments";
+  import { useState } from "react";
+
+
   export default function HelpUI() {
+
+    const [comment, setValue] = useState('');
+
+    const handleSubmit = async () => {
+      
+      Comments.insertMany;
+  
+    }
     return (
         <Flex p={8} flex={1} marginLeft='100px'>
             <Stack>
@@ -27,9 +38,9 @@ import {
 
             <Stack marginLeft='200px' w='800px' h='800px'>
               <Center fontSize='20px'>Suggestions or complaints</Center>
-              <Input width='800px' placeholder='What do you think about Scoutff?'/>
+              <Input value={comment} width='800px' placeholder='What do you think about Scoutff?'/>
 
-              <Button>Submit</Button>
+              <Button onClick={handleSubmit}>Submit</Button>
             </Stack>
         </Flex>
 
