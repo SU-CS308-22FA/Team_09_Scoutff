@@ -8,4 +8,5 @@ const LBCompIndex = () => {
   );
 };
 
+
 export default LBCompIndex;

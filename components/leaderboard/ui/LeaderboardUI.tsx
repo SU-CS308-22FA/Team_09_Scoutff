@@ -6,6 +6,7 @@ import {
   Stack,
   Text,
   useBreakpointValue,
+  useColorModeValue,
   Wrap, 
   Center,Table,
   Thead,
@@ -14,6 +15,7 @@ import {
   Tr,
   Th,
   Td,
+  Container,
   TableCaption,
   TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure,
 } from "@chakra-ui/react";
@@ -26,14 +28,11 @@ function Leaderboard(str: { name: string | undefined; LBplayers: string | undefi
   return(
     <>
     
-     {str.LBplayers}
-      <Box marginX='30px' h='450px' w='250px' flex='1' borderColor='black' borderWidth='3px' borderRadius='lg' overflow='hidden'  > {/*sx={{ borderRadius: "10%" }}*/} 
-      <Center  color='black' fontFamily='arial' fontSize='18px'>{str.name}</Center>
-            <Center>
-              <Divider color='gray.300' w='300px' ></Divider>
-            </Center>
+      <Box marginX='10px' h='310px' w='400px' bg='white' borderColor='white' borderWidth='3px' borderRadius='3xl' overflow='auto'  > {/*sx={{ borderRadius: "10%" }}*/} 
+      <Center  color='black' fontFamily='heading' fontWeight={'semibold'} fontSize='18px'>{str.name} </Center>
+            
         <TableContainer>
-          <Table color='black' variant='striped' colorScheme='gray'>
+          <Table color='black'  colorScheme='gray'>
           <TableCaption>
           <Center>
           <Button onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>             {/*onClick={() => router.push('/' + str.name)}*/} 
@@ -98,7 +97,7 @@ function Leaderboard(str: { name: string | undefined; LBplayers: string | undefi
               </ModalBody>
             </ModalContent>
             </Modal>        
-        </Center>
+         </Center>
           </TableCaption>
             <Thead>
               <Tr>
@@ -119,20 +118,11 @@ function Leaderboard(str: { name: string | undefined; LBplayers: string | undefi
             <Td>P3</Td>
             <Td>{str.LBplayers} 3</Td>
           </Tr>
-          <Tr>
-            <Td>P4</Td>
-            <Td>{str.LBplayers} 4</Td>
-          </Tr>
-          <Tr>
-            <Td>P5</Td>
-            <Td>{str.LBplayers} 5</Td>
-          </Tr>
+          
             </Tbody>
             
           </Table>
         </TableContainer>
-
-        
       </Box>  
       
     </>
@@ -142,27 +132,39 @@ function Leaderboard(str: { name: string | undefined; LBplayers: string | undefi
 export default function LeaderboardUI() {
   return (
     
-    <Spacer color='white' marginTop='50px' marginLeft='30px' marginRight='30px' padding='10px' rounded='20'>
-      
-      <Flex marginBottom='150px' h='380px'>
-        <Leaderboard name="Top Ratings" LBplayers="Rating"></Leaderboard>
-        <Leaderboard name="Top Scorers" LBplayers="Goals"> </Leaderboard>
+    <Box  bg='gray.100'>
+      <Box bg='gray.100' h='50px'></Box>
+      <Flex  marginBottom='50px' marginLeft='75px' marginRight='75px' >
+        <Leaderboard name={"Top Ratings"} LBplayers="Rating"></Leaderboard>
+        <Spacer />
+        <Leaderboard name="Top Scorers" LBplayers="Goals"></Leaderboard>
+        <Spacer />
         <Leaderboard name="Top Market Values" LBplayers="Value"></Leaderboard>
       </Flex>
 
-      <Flex marginBottom='150px' h='380px'>
+      <Flex marginBottom='50px' marginLeft='75px' marginRight='75px' >
         <Leaderboard name="Top Assists" LBplayers="Assists"></Leaderboard>
-        <Leaderboard name="Chances Created" LBplayers="Chances Creates"></Leaderboard>
-        <Leaderboard name="Successful Tackles" LBplayers="Successful Tackles"></Leaderboard>
+        <Spacer />
+        <Leaderboard name="Chances Created" LBplayers="Chances Created"></Leaderboard>
+        <Spacer />
+        <Leaderboard name="Successful Tackles" LBplayers="Tackles"></Leaderboard>
       </Flex>
 
-      <Flex marginBottom='150px' h='380px'>
-        <Leaderboard name="Yellow Cards" LBplayers="Yellow Cards"></Leaderboard>
+      <Flex marginBottom='50px' marginLeft='75px' marginRight='75px' >
+        <Leaderboard name="Yellow Cards" LBplayers="Cards"></Leaderboard>
+        <Spacer />
         <Leaderboard name="Expected Goals" LBplayers="X-Goals"></Leaderboard>
+        <Spacer />
         <Leaderboard name="Clean sheets" LBplayers="Clean Sheets"></Leaderboard>
       </Flex>
-    </Spacer>
-
+      <Box 
+        bg={"gray.100"}
+        color={useColorModeValue('gray.700', 'gray.200')}>
+          <Box h='30px'>
+          <Center>© 2022 Scoutff</Center>
+          </Box>
+      </Box>
+    </Box>
     
   );
 
