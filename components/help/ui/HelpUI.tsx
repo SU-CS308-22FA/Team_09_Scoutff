@@ -18,10 +18,9 @@ import {
     const [comment, setValue] = useState('');
 
     const handleSubmit = async () => {
-      
-      Comments.insertMany;
-  
+      Comments.insertMany({comment})
     }
+    
     return (
         <Flex p={8} flex={1} marginLeft='100px'>
             <Stack>
@@ -38,7 +37,7 @@ import {
 
             <Stack marginLeft='200px' w='800px' h='800px'>
               <Center fontSize='20px'>Suggestions or complaints</Center>
-              <Input value={comment} width='800px' placeholder='What do you think about Scoutff?'/>
+              <Input value={comment} onChange={({target})=> setValue(target?.value)} width='800px' placeholder='What do you think about Scoutff?'/>
 
               <Button onClick={handleSubmit}>Submit</Button>
             </Stack>

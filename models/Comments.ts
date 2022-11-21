@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
-interface IComment {
-    comment: string
+export interface IComment {
+    comment: string;
 
 }
 
@@ -16,4 +16,4 @@ const commentSchema = new Schema<IComment>({
 type ICommentt = mongoose.Document & IComment
 
 
-export default (mongoose.models.Comment  as mongoose.Model<ICommentt>)  || mongoose.model("Comment", commentSchema)
+export default (mongoose.models.Comments as mongoose.Model<ICommentt>)  || mongoose.model("Comment", commentSchema)
