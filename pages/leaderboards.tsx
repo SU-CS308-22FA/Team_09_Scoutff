@@ -10,13 +10,14 @@ import Player from "../models/Player";
 
 // 2. Function to create GraphQL client
 
-/* 
+
 const GET_PLAYERS = gql`
   query {
     players {
-      rating,
-      name,
-      slug
+      name
+      rating
+      market_value
+
     }
   }
 `;
@@ -32,7 +33,7 @@ const createClient = (token : string) =>
       },
     }),
     cache: new InMemoryCache(),
-  }); */
+  }); 
 
 
 
@@ -60,7 +61,7 @@ export default function Home() {
 }
 
 export async function getStaticProps() {
-/*   const apiKey = process.env.REALM_API_KEY;
+  const apiKey = process.env.REALM_API_KEY;
   const app = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
 
 
@@ -72,7 +73,11 @@ export async function getStaticProps() {
   // Log in user using realm API key
   const credentials = Realm.Credentials.apiKey("ThqKqf1EJZZHFaB2kfjfEM0SQmv1FquOhD0VHqEPzxEqtmF3WBOynzZhsMcHFl7Z");
 
+  //const credentials = Realm.Credentials.jwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjIyNjg5ODM5MzMsImlhdCI6MTY2ODk4MjEzMywiYXVkIjoiZm9vdGJhbGwtdWh1YW4iLCJzdWIiOiI2MzcwZTMxMGQzZDc4MWJiNWIwYzEwNzYiLCJlbWFpbCI6ImVyaGFuYkBzYWJhbmNpdW5pdi5lZHUifQ.Cz2iVFOxpAER7W-WBuhnTXFGd-Y3QX3mda_YvbwfvFw")
   const user = await app.logIn(credentials);
+
+
+
 
 
 
@@ -81,11 +86,19 @@ export async function getStaticProps() {
 
   const client = createClient(user.accessToken ?? "");
 
+
+
   const { data } = await client.query({
     query: GET_PLAYERS,
   });
 
-  console.log(data); */
+
+
+  console.log(data);
+
+
+
+  
 
 
 
