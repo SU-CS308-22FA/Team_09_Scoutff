@@ -5,27 +5,33 @@ import React from "react";
 import LBCompIndex from "../components/leaderboard/ui";
 
 import * as Realm from "realm-web";
-import { ApolloClient, gql, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, gql, HttpLink, InMemoryCache ,useQuery} from "@apollo/client";
 import Player from "../models/Player";
 
 // 2. Function to create GraphQL client
 
 
-const GET_PLAYERS = gql`
-query {
-  players(limit:1000,sortBy:RATING_DESC,query :{
-    statistics : {
-      season_id : 19367
-    }
-  }) {
-   	name
-    statistics {
-      id
-    }
-    
-  }
+export type RatingPlayers = {
+  rating: number;
+  name : string;
 }
-`;
+
+export type MarketPlayers = {
+  name: string;
+  market_value: number;
+}
+
+type GraphQLProps<T> = {
+  player : Array<T>;
+}
+
+
+
+
+
+const GET_PLAYERS_RATING = gql`query {players(limit:10,sortBy:RATING_DESC,query :{rating_gt:0}) { name rating}}`;
+
+const GET_PLAYERS_MARKET = gql`query {players(limit:10,sortBy:MARKET_VALUE_DESC,query :{market_value_gt : 0}) {name market_value}}`;
 
 
 const createClient = (token : string) =>
@@ -42,7 +48,9 @@ const createClient = (token : string) =>
 
 
 
-export default function Home() {
+export default function Home({dataRating,dataMarket} : {dataRating : RatingPlayers[],dataMarket : MarketPlayers[]}) {
+
+  console.log(dataMarket,dataRating);
 
 
   
@@ -56,7 +64,7 @@ export default function Home() {
 
       <main>
         
-        <LBCompIndex />
+        <LBCompIndex dataMarket={dataMarket} dataRating={dataRating} />
 
       </main>
     </div>
@@ -90,16 +98,28 @@ export async function getStaticProps() {
 
 
   const client = createClient(user.accessToken ?? "");
+  
 
 
 
-  const { data } = await client.query({
-    query: GET_PLAYERS,
+  const dataRating   = await client.query({
+    query: GET_PLAYERS_RATING,
   });
 
 
 
-  console.log(data);
+  const  dataMarket  = await client.query({
+    query: GET_PLAYERS_MARKET,
+  });
+
+
+
+
+
+
+  
+
+
 
 
 
@@ -110,6 +130,8 @@ export async function getStaticProps() {
 
   return {
     props: {
+      dataRating : dataRating.data.players,
+      dataMarket : dataMarket.data.players,
     },
   };
 }

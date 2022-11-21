@@ -22,6 +22,14 @@ import {
 import React from "react";
 import { useRouter } from "next/router";
 
+import type { RatingPlayers, MarketPlayers } from "../../../pages/leaderboards";
+
+type Props = {
+  dataMarket : MarketPlayers[];
+  dataRating : RatingPlayers[];
+}
+
+
 function Leaderboard(str: { name: string | undefined; LBplayers: string | undefined; }){
   //const router = useRouter()
   const {isOpen, onClose, onOpen} = useDisclosure();
@@ -129,7 +137,9 @@ function Leaderboard(str: { name: string | undefined; LBplayers: string | undefi
   )}
 
 
-export default function LeaderboardUI() {
+export default function LeaderboardUI({dataMarket,dataRating} : Props ) {
+
+
   return (
     
     <Box  bg='gray.100'>
