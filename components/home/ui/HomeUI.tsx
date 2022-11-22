@@ -13,7 +13,7 @@ import {
   export default function HomeUI() {
     return (
       <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
-        <Flex p={8} flex={1} align={"center"} justify={"center"}>
+        <Flex p={8} flex={1} align={"center"} justify={"center"} marginBottom='50px'>
           <Stack spacing={6} w={"full"} maxW={"lg"}>
             <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
               <Text
@@ -30,24 +30,15 @@ import {
                   zIndex: -1,
                 }}
               >
-                {"Let's Learn"}
+                {"Welcome to"}
               </Text>
               <br />{" "}
               <Text color={"blue.400"} as={"span"}>
-                ASFSAFSASAF
+                SCOUTFF
               </Text>{" "}
             </Heading>
-            <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>
-              These are the Tech Stack we will learn along:
-            </Text>
-            <Wrap>
-              {/* <Stack direction={{ base: "column", md: "row" }} spacing={4}> */}
-              {techStackButton("Scoutff")}
-              {techStackButton("Mobx for State Management")}
-              {techStackButton("Chakra UI for Making Beautiful UI easil")}
-              {techStackButton("MongoDB (soon)")}
-              {/* </Stack> */}
-            </Wrap>
+           
+            
           </Stack>
         </Flex>
         <Flex flex={1}>
@@ -55,7 +46,7 @@ import {
             alt={"Login Image"}
             objectFit={"cover"}
             src={
-              "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1772000/tff-iha-1772376.jpg"
             }
           />
         </Flex>
