@@ -80,8 +80,8 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
           <Center>
             {data ?
             <>
-                      <Button onClick={() => router.push('/' + name)} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>              
-                      <Button onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>     
+                      <Button marginX='5px' onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See top 10 ➤</Button>     
+                      <Button marginX='5px' onClick={() => router.push('/' + name)} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>
             </>
             : "No data available"}
      
@@ -146,7 +146,7 @@ export default function LeaderboardUI({dataMarket,dataRating} : Props ) {
         <Spacer />
         <Leaderboard name="Top Scorers" LBplayers="Goals"></Leaderboard>
         <Spacer />
-        <Leaderboard name="Top Market Values" LBplayers="Value" data={dataMarket}></Leaderboard>
+        <Leaderboard name="Highest market values" LBplayers="Value" data={dataMarket}></Leaderboard>
       </Flex>
 
       <Flex marginBottom='50px' marginLeft='75px' marginRight='75px' >
