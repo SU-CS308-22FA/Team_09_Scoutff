@@ -1,24 +1,15 @@
 import mongoose from "mongoose";
 import { unstable_getServerSession } from "next-auth"
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from "next/types"
+import { GetServerSideProps, GetServerSidePropsContext, GetStaticPropsContext, InferGetServerSidePropsType, InferGetStaticPropsType, PreviewData } from "next/types"
 import { ParsedUrlQuery } from "querystring";
 import Player from "../models/Player";
 import clientPromise from "../lib/mongoose";
 import { authOptions } from "./api/auth/[...nextauth]"
 
-interface PlayerSummary {
-    name : string,
-    rating : number,
-
-}
-
-interface ServerProps {
-    playerWithSuperLeagueRatings : Array<PlayerSummary>
-}
 
 
 
-export default function Super({playerWithSuperLeagueRatings} : ServerProps) {
+export default function Super({playerWithSuperLeagueRatings} : InferGetStaticPropsType<typeof getStaticProps>) {
 
 
     
@@ -60,18 +51,7 @@ export default function Super({playerWithSuperLeagueRatings} : ServerProps) {
 
 
 
-export const getServerSideProps = async (context : GetServerSidePropsContext<ParsedUrlQuery,PreviewData>) => {
-    const session = await unstable_getServerSession(context.req, context.res, authOptions)
-
-    
-    if (!session) {
-        return {
-        redirect: {
-            destination: '/auth/signin',
-            permanent: false,
-        },
-        }
-    }
+export const getStaticProps = async (context : GetStaticPropsContext<ParsedUrlQuery,PreviewData>) => {
 
     
 

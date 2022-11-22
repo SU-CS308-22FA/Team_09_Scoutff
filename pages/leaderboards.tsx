@@ -138,5 +138,6 @@ export async function getStaticProps() {
       dataRating : dataRating.data.players,
       dataMarket : dataMarket.data.players,
     },
+    revalidate: 60,
   };
 }

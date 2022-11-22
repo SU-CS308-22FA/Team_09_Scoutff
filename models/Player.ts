@@ -8,6 +8,7 @@ export interface IPlayer {
     photo: string;
     flag: string;
     likedBy : Array<IUser>;
+    market_value: string;
 }
 
 
@@ -37,6 +38,11 @@ const playerSchema = new Schema<IPlayer>({
         ref: "User",
         default: []
     }],
+    market_value: {
+        type: String,
+        required : [true, "Please enter a market value"],
+    }
+
     
 
 })

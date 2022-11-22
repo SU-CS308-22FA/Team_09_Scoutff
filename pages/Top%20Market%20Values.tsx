@@ -1,23 +1,15 @@
 import mongoose from "mongoose";
 import { unstable_getServerSession } from "next-auth"
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from "next/types"
+import { GetServerSideProps, GetServerSidePropsContext, GetStaticPropsContext, InferGetServerSidePropsType, InferGetStaticPropsType, PreviewData } from "next/types"
 import { ParsedUrlQuery } from "querystring";
 import Player from "../models/Player";
 import clientPromise from "../lib/mongoose";
 import { authOptions } from "./api/auth/[...nextauth]"
 
-interface PlayerSummary {
-    name : string,
-    market_value : number,
-}
-
-interface ServerProps {
-    playerWithMarketValues : Array<PlayerSummary>
-}
 
 
 
-export default function General({playerWithMarketValues} : ServerProps) {
+export default function General({playerWithMarketValues} : InferGetStaticPropsType<typeof getStaticProps>) {
 
 
     
@@ -59,18 +51,9 @@ export default function General({playerWithMarketValues} : ServerProps) {
 
 
 
-export const getServerSideProps = async (context : GetServerSidePropsContext<ParsedUrlQuery,PreviewData>) => {
-    const session = await unstable_getServerSession(context.req, context.res, authOptions)
+export const getStaticProps = async (context : GetStaticPropsContext<ParsedUrlQuery,PreviewData>) => {
 
-    
-    if (!session) {
-        return {
-        redirect: {
-            destination: '/auth/signin',
-            permanent: false,
-        },
-        }
-    }
+ 
 
     
 
@@ -96,5 +79,6 @@ export const getServerSideProps = async (context : GetServerSidePropsContext<Par
         props: {
             playerWithMarketValues
         },
+        revalidate : 60
     }
     }
