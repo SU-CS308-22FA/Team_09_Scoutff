@@ -8,7 +8,9 @@ import Link from "next/link";
 import HomeCompIndex from "../components/home/ui";
 import Navbar from "../components/layout/navbar/navbar";
 
+
 export default function Home() {
+  
   return (
     <div>
       <Head>
@@ -19,6 +21,7 @@ export default function Home() {
 
       <main>
         <HomeCompIndex />
+
       </main>
     </div>
   );

@@ -44,7 +44,7 @@ import axios from "axios";
                 <ListItem marginTop='20px'>Who built this website?</ListItem>
                 <Text>Erhan and some of his friends</Text>
                 <ListItem marginTop='20px'>What happens when I add a player to my favorites</ListItem>
-                <Text>You can receive emails abut that player weekly</Text>  
+                <Text>You can receive emails about that player weekly</Text>  
                 <ListItem marginTop='20px'>Which framework did you use?</ListItem>
                 <Text>Next.js mostly</Text>
               </UnorderedList>
