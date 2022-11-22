@@ -30,21 +30,63 @@ type Props = {
 }
 
 
-function Leaderboard(str: { name: string | undefined; LBplayers: string | undefined; }){
+type LeaderboardProps = {
+    data ?: Array<any> ;
+    name : string | undefined;
+    LBplayers : string | undefined;
+  
+}
+
+const converter = (data : string) => {
+  data = data.toLowerCase();
+
+  switch(data) {
+    case "rating":
+      return "rating";
+    case "value":
+      return "market_value";
+    default:
+      return null;
+
+}
+}
+  
+
+
+function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
   //const router = useRouter()
   const {isOpen, onClose, onOpen} = useDisclosure();
+
+  const convertedIndex = converter(LBplayers ?? "");
+
+  const playerData = data?.map((player,index) => {
+    return (
+      <Tr key={index}>
+        <Td>{index + 1} - {player.name}</Td>
+        <Td>{convertedIndex ? player[convertedIndex] : null}</Td>
+      </Tr>
+    )
+  })
+  
   return(
     <>
     
       <Box marginX='10px' h='310px' w='400px' bg='white' borderColor='white' borderWidth='3px' borderRadius='3xl' overflow='auto'  > {/*sx={{ borderRadius: "10%" }}*/} 
-      <Center  color='black' fontFamily='heading' fontWeight={'semibold'} fontSize='18px'>{str.name} </Center>
+      <Center  color='black' fontFamily='heading' fontWeight={'semibold'} fontSize='18px'>{name} </Center>
             
         <TableContainer>
           <Table color='black'  colorScheme='gray'>
           <TableCaption>
           <Center>
-          <Button onClick={() => router.push('/' + str.name)} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>              
-          <Button onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>             {/*onClick={() => router.push('/' + str.name)}*/} 
+            {data ?
+            <>
+                      <Button onClick={() => router.push('/' + name)} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>              
+                      <Button onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>     
+            </>
+            : "No data available"}
+     
+            
+
           <Modal isOpen={isOpen}  onClose={onClose}>
             <ModalOverlay />
             <ModalContent>
@@ -57,49 +99,12 @@ function Leaderboard(str: { name: string | undefined; LBplayers: string | undefi
                     <Thead>
                       <Tr>
                         <Th>Player</Th>
-                        <Th>{str.LBplayers}</Th>
+                        <Th>{LBplayers}</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
-                      <Tr>
-                        <Td>P1</Td>
-                        <Td>{str.LBplayers} 1</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>P2</Td>
-                        <Td>{str.LBplayers} 2</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>P3</Td>
-                        <Td>{str.LBplayers} 3</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>P4</Td>
-                        <Td>{str.LBplayers} 4</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>P5</Td>
-                        <Td>{str.LBplayers} 5</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>P6</Td>
-                        <Td>{str.LBplayers} 6</Td>
-                      </Tr> <Tr>
-                        <Td>P7</Td>
-                        <Td>{str.LBplayers} 7</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>P8</Td>
-                        <Td>{str.LBplayers} 8</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>P9</Td>
-                        <Td>{str.LBplayers} 9</Td>
-                      </Tr>
-                      <Tr>
-                        <Td>P10</Td>
-                        <Td>{str.LBplayers} 10</Td>
-                      </Tr>
+                      {playerData}
+
                     </Tbody>
                   </Table>
                 </TableContainer>
@@ -111,22 +116,13 @@ function Leaderboard(str: { name: string | undefined; LBplayers: string | undefi
             <Thead>
               <Tr>
                 <Th>Player</Th>
-                <Th>{str.LBplayers}</Th>
+                <Th>{LBplayers}</Th>
               </Tr>
             </Thead>
             <Tbody>
-            <Tr>
-            <Td>P1</Td>
-            <Td>{str.LBplayers} 1</Td>
-          </Tr>
-          <Tr>
-            <Td>P2</Td>
-            <Td>{str.LBplayers} 2</Td>
-          </Tr>
-          <Tr>
-            <Td>P3</Td>
-            <Td>{str.LBplayers} 3</Td>
-          </Tr>
+              {playerData?.slice(0,3)}
+
+
           
             </Tbody>
             
@@ -146,11 +142,11 @@ export default function LeaderboardUI({dataMarket,dataRating} : Props ) {
     <Box  bg='gray.100'>
       <Box bg='gray.100' h='50px'></Box>
       <Flex  marginBottom='50px' marginLeft='75px' marginRight='75px' >
-        <Leaderboard name={"Top Ratings"} LBplayers="Rating"></Leaderboard>
+        <Leaderboard name={"Top Ratings"} LBplayers="Rating" data={dataRating}></Leaderboard>
         <Spacer />
         <Leaderboard name="Top Scorers" LBplayers="Goals"></Leaderboard>
         <Spacer />
-        <Leaderboard name="Top Market Values" LBplayers="Value"></Leaderboard>
+        <Leaderboard name="Top Market Values" LBplayers="Value" data={dataMarket}></Leaderboard>
       </Flex>
 
       <Flex marginBottom='50px' marginLeft='75px' marginRight='75px' >

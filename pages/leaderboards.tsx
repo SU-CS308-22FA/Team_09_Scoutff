@@ -6,7 +6,9 @@ import LBCompIndex from "../components/leaderboard/ui";
 
 import * as Realm from "realm-web";
 import { ApolloClient, gql, HttpLink, InMemoryCache ,useQuery} from "@apollo/client";
-import Player from "../models/Player";
+import Player, { IPlayer } from "../models/Player";
+import { InferGetStaticPropsType } from "next";
+import LeaderboardUI from "../components/leaderboard/ui/LeaderboardUI";
 
 // 2. Function to create GraphQL client
 
@@ -22,7 +24,7 @@ export type MarketPlayers = {
 }
 
 type GraphQLProps<T> = {
-  player : Array<T>;
+  players : Array<T>;
 }
 
 
@@ -48,9 +50,12 @@ const createClient = (token : string) =>
 
 
 
-export default function Home({dataRating,dataMarket} : {dataRating : RatingPlayers[],dataMarket : MarketPlayers[]}) {
+export default function Home({dataRating,dataMarket} :InferGetStaticPropsType<typeof getStaticProps>)  {
 
-  console.log(dataMarket,dataRating);
+
+  const CompIndex = <LBCompIndex>
+        <LeaderboardUI dataMarket={dataMarket} dataRating={dataRating}></LeaderboardUI>
+  </LBCompIndex>;
 
 
   
@@ -64,7 +69,7 @@ export default function Home({dataRating,dataMarket} : {dataRating : RatingPlaye
 
       <main>
         
-        <LBCompIndex dataMarket={dataMarket} dataRating={dataRating} />
+        {CompIndex}
 
       </main>
     </div>
@@ -102,13 +107,13 @@ export async function getStaticProps() {
 
 
 
-  const dataRating   = await client.query({
+  const dataRating   = await client.query<GraphQLProps<RatingPlayers>>({
     query: GET_PLAYERS_RATING,
   });
 
 
 
-  const  dataMarket  = await client.query({
+  const  dataMarket  = await client.query<GraphQLProps<MarketPlayers>>({
     query: GET_PLAYERS_MARKET,
   });
 
