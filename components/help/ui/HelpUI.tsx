@@ -41,10 +41,10 @@ import axios from "axios";
             <Stack>
               <Heading>Frequently Asked Questions</Heading>
               <UnorderedList fontSize='20px'>
-                <ListItem marginTop='20px'>Who built this website?</ListItem>
-                <Text>Erhan and some of his friends</Text>
                 <ListItem marginTop='20px'>What happens when I add a player to my favorites</ListItem>
                 <Text>You can receive emails about that player weekly</Text>  
+                <ListItem marginTop='20px'>Can I see leaderoards without creating an account?</ListItem>
+                <Text>Yes, guest users can examine leaderboards</Text> 
                 <ListItem marginTop='20px'>Which framework did you use?</ListItem>
                 <Text>Next.js mostly</Text>
               </UnorderedList>
