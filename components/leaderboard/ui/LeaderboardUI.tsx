@@ -81,7 +81,7 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
             {data ?
             <>
                       <Button marginX='5px' onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See top 10 ➤</Button>     
-                      <Button marginX='5px' onClick={() => router.push('/' + name)} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>
+                      
             </>
             : "No data available"}
      
@@ -96,6 +96,11 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
               <ModalBody>
               <TableContainer>
                   <Table variant='simple'>
+                    <TableCaption>{data ?
+            <>     
+                      <Button marginX='5px' onClick={() => router.push('/' + name)} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>
+            </>
+            : "No data available"}  </TableCaption>
                     <Thead>
                       <Tr>
                         <Th>Player</Th>
@@ -115,8 +120,7 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
           </TableCaption>
             <Thead>
               <Tr>
-                <Th>Player</Th>
-                <Th>{LBplayers}</Th>
+                
               </Tr>
             </Thead>
             <Tbody>

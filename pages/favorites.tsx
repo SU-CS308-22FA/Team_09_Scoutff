@@ -56,7 +56,7 @@ export default function Home({csrfToken,favourites} : InferGetServerSidePropsTyp
         <div>There are no favourites</div>}
 
         <Button onClick={addFavorite} width="500px">
-          Arda Gülerin favorisi ol
+          Add Arda Güler to your favorites
         </Button>
 
       </main>

@@ -129,7 +129,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
                 </Text>
 
                 <Text align={'center'}>
-                  Continue as a  <Link href='/' color={'blue.400'}>Guest</Link>
+                  <Link href='/' color={'blue.400'}>Continue as a Guest</Link>
                 </Text>
 
             </Stack>
