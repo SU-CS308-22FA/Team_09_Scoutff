@@ -17,7 +17,7 @@ import {
     Td,
     Container,useToast,
     TableCaption,
-    TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure,
+    TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure, Alert, AlertDescription, AlertIcon, AlertTitle,
   } from "@chakra-ui/react";
   import React from "react";
   import { useState } from 'react';
@@ -29,14 +29,25 @@ import { signIn } from "next-auth/react";
 
 export default function Forgot() {
 
+  type FormValues = {
+    email: string;
+  };
+  
   const {
-    handleSubmit
-  } = useForm()
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>()
+  
   const toast = useToast()
   const [errorMessage, setErrorMessage] = useState<String>("");
-const handleFormForgot  = async (email: any) => {
+  
+const handleFormForgot :  SubmitHandler<FormValues>   = async (data) => {
 
-    const emailSend = await signIn('email', {email : email, redirect: false})
+
+
+
+    const emailSend = await signIn('email', {email : data.email, redirect: false})
     if (emailSend && emailSend.error) {
       setErrorMessage(emailSend.error)
       return
@@ -74,10 +85,13 @@ const handleFormForgot  = async (email: any) => {
                       type="email"
                       placeholder="test@test.com"
                       size="lg"
-                      
+     
+                      {...register("email")}
                       
                     />
                   </FormControl>
+
+                  
                   
                   <Button
                     variant="solid"
@@ -89,6 +103,17 @@ const handleFormForgot  = async (email: any) => {
                     Submit
                   </Button>
              </form>
+
+             {
+              errorMessage &&      
+              <Stack pt={3}>
+                <Alert status='error'>
+                  <AlertIcon />
+                  <AlertTitle>Error!</AlertTitle>
+                  <AlertDescription>{errorMessage}</AlertDescription>
+                </Alert>
+             </Stack>
+            }
               </Box>
             
           
