@@ -72,16 +72,22 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
     <>
     
       <Box marginX='10px' h='310px' w='400px' bg='white' borderColor='white' borderWidth='3px' borderRadius='3xl' overflow='auto'  > {/*sx={{ borderRadius: "10%" }}*/} 
-      <Center  color='black' fontFamily='heading' fontWeight={'semibold'} fontSize='18px'>{name} </Center>
-            
+      <VStack>
+      <Box h='2px' w='200px' bg='white'></Box>
+        <Center  color='black' fontFamily='heading' fontWeight={'semibold'} fontSize='18px'>{name} </Center>
+         <Box h='10px' w='200px' bg='white'></Box>
+         </VStack>
+
         <TableContainer>
           <Table color='black'  colorScheme='gray'>
           <TableCaption>
           <Center>
             {data ?
             <>
+            <VStack>
+            <Box h='7px' w='200px' bg='white'> </Box>
                       <Button marginX='5px' onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See top 10 ➤</Button>     
-                      
+                      </VStack>       
             </>
             : "No data available"}
      
