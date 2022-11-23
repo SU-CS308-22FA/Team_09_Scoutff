@@ -98,7 +98,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
                 align={'start'}
                 justify={'space-between'}>
                 <Checkbox>Remember me</Checkbox>
-                <Link href="" color={'blue.400'}>Forgot password?</Link>
+                <Link href="/auth/forgot" color={'blue.400'}>Forgot password?</Link>
               </Stack>
               <Button type="submit"
                 bg={'blue.400'}
