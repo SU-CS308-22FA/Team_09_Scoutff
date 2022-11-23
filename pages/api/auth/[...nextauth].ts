@@ -44,7 +44,7 @@ export const authOptions :  NextAuthOptions = {
     async signIn({user, account, profile, email, credentials}) {
 
       //get baseurl from request
-      const baseUrl = process.env.NEXTAUTH_URL
+      const baseUrl = (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ?? process.env.NEXTAUTH_URL
       const errorPage = `${baseUrl}/error?error=EmailNotVerified`
 
       const userNotExist = `${baseUrl}/error?error=UserNotExist`
@@ -89,6 +89,8 @@ export const authOptions :  NextAuthOptions = {
     newUser: "/profile" // If set, new users will be directed here on first sign in
   },
 
+  
+
 
   
 
@@ -108,6 +110,7 @@ export const authOptions :  NextAuthOptions = {
         normalizeIdentifier: (identifier) => identifier.toLowerCase(),
         
         
+        
       }),
 
       CredentialsProvider({
@@ -121,11 +124,14 @@ export const authOptions :  NextAuthOptions = {
         async authorize(credentials, req) {
 
 
+
           await clientPromise()
           if (!credentials?.email || !credentials?.password) throw new Error('Please enter all fields')
           
 
           const user = await User.findOne({ email: credentials.email }).lean();
+
+          console.log(process.env.EMAIL_SERVER_PASSWORD,process.env.EMAIL_SERVER_USER,process.env.EMAIL_SERVER_PORT,process.env.EMAIL_SERVER_HOST)
 
           if (!user) throw new Error('No user with that exists')
 
