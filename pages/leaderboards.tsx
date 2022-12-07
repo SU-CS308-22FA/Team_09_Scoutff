@@ -5,7 +5,7 @@ import React from "react";
 import LBCompIndex from "../components/leaderboard/ui";
 
 import * as Realm from "realm-web";
-import { ApolloClient, gql, HttpLink, InMemoryCache ,useQuery} from "@apollo/client";
+import { ApolloClient, DocumentNode, gql, HttpLink, InMemoryCache ,NormalizedCacheObject,useQuery} from "@apollo/client";
 import Player, { IPlayer } from "../models/Player";
 import { InferGetStaticPropsType } from "next";
 import LeaderboardUI from "../components/leaderboard/ui/LeaderboardUI";
@@ -18,22 +18,83 @@ export type RatingPlayers = {
   name : string;
 }
 
-export type MarketPlayers = {
-  name: string;
-  market_value: number;
+export type StatPlayers = Record<string, Object | number> &  {
+  name : string;
 }
+
+
+
 
 type GraphQLProps<T> = {
-  players : Array<T>;
+  playersNestedSort : Array<T>;
 }
 
 
+const quotedString = (str: string) => `"${str}"`;
+
+
+const dotSeperatedStringToNestedGraphqlSelection = (str: string) => {
+  const arr = str.split(".");
+  if (arr.length === 1) return str;
+  return arr.reduceRight((acc, curr, index) => {
+    if (acc === "") return curr;
 
 
 
-const GET_PLAYERS_RATING = gql`query {players(limit:10,sortBy:RATING_DESC,query :{rating_gt:0}) { name rating}}`;
+    return `${curr} {${acc}}`;
+  }
+  );
 
-const GET_PLAYERS_MARKET = gql`query {players(limit:10,sortBy:MARKET_VALUE_DESC,query :{market_value_gt : 0}) {name market_value}}`;
+};
+
+
+
+
+
+
+const getQueryResults =  async (client : ApolloClient<NormalizedCacheObject>  ,rankings : Array<string>)  => {
+
+  const query =  await Promise.all(rankings.map(async (ranking) => {
+
+    const queryConverted = gql`query {playersNestedSort(input : {limit:10,path:${quotedString(ranking)}}) { name ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
+
+
+
+    
+    const data = await client.query<GraphQLProps<
+      StatPlayers
+    
+    >>({
+      query: queryConverted,
+    });
+    
+
+
+
+
+
+
+
+
+    return data.data.playersNestedSort;
+
+
+    
+  }));
+
+  
+
+
+
+
+  
+
+  return query;
+
+  
+}
+
+
 
 
 const createClient = (token : string) =>
@@ -50,11 +111,12 @@ const createClient = (token : string) =>
 
 
 
-export default function Home({dataRating,dataMarket} :InferGetStaticPropsType<typeof getStaticProps>)  {
+export default function Home({data} :InferGetStaticPropsType<typeof getStaticProps>)  {
+
 
 
   const CompIndex = <LBCompIndex>
-        <LeaderboardUI dataMarket={dataMarket} dataRating={dataRating}></LeaderboardUI>
+        <LeaderboardUI data={data}></LeaderboardUI>
   </LBCompIndex>;
 
 
@@ -104,17 +166,13 @@ export async function getStaticProps() {
   const client = createClient(user.accessToken ?? "");
   
 
-
-
-  const dataRating   = await client.query<GraphQLProps<RatingPlayers>>({
-    query: GET_PLAYERS_RATING,
-  });
+  
 
 
 
-  const  dataMarket  = await client.query<GraphQLProps<MarketPlayers>>({
-    query: GET_PLAYERS_MARKET,
-  });
+
+
+
 
 
 
@@ -134,9 +192,10 @@ export async function getStaticProps() {
 
   return {
     props: {
-      dataRating : dataRating.data.players,
-      dataMarket : dataMarket.data.players,
+      data :  await getQueryResults(client,["rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards"])
+
+      
     },
-    revalidate: 60,
+    revalidate: 6000,
   };
 }

@@ -22,11 +22,10 @@ import {
 import React from "react";
 import router, { useRouter } from "next/router";
 
-import type { RatingPlayers, MarketPlayers } from "../../../pages/leaderboards";
+import type { StatPlayers } from "../../../pages/leaderboards";
 
 type Props = {
-  dataMarket : MarketPlayers[];
-  dataRating : RatingPlayers[];
+  data : StatPlayers[][];
 }
 
 
@@ -45,11 +44,54 @@ const converter = (data : string) => {
       return "rating";
     case "value":
       return "market_value";
+    case "goals":
+      return "statistics.attacking.goals"
+    case "assists":
+      return "statistics.passes.assists";
+    case "cards":
+      return "statistics.cards.yellow_cards";
+    case "chances created":
+      return "statistics.passes.big_chance_created";
+    
+ 
+
     default:
       return null;
 
 }
 }
+
+/* const convertNested = (player : any, path : string)  {
+  const arr = path.split(".");
+  if (arr.length === 1) return player[path];
+  return arr.reduceRight((acc, curr, index) => {
+    if (acc === "") return player[curr];
+    return player[curr][acc];
+  }
+  );
+} */
+
+const convertNested = (player : any, path : string)  : number => {
+  const arr = path.split(".");
+  if (arr.length < 1) return 0;
+
+  if (arr.length === 1) return player[path];
+
+
+  return parseFloat(arr.reduce((acc : any, curr,index) => {
+
+
+    if (acc === "") return player[curr];
+
+    
+    return acc[curr];
+  },""
+  ));
+  
+}
+
+
+
   
 
 
@@ -60,10 +102,13 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
   const convertedIndex = converter(LBplayers ?? "");
 
   const playerData = data?.map((player,index) => {
+    const data  = convertedIndex ?  convertNested(player,convertedIndex) : null
+
+
     return (
       <Tr key={index}>
         <Td>{index + 1} - {player.name}</Td>
-        <Td>{convertedIndex ? player[convertedIndex] : null}</Td>
+        <Td>{data}</Td>
       </Tr>
     )
   })
@@ -144,7 +189,12 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
   )}
 
 
-export default function LeaderboardUI({dataMarket,dataRating} : Props ) {
+export default function LeaderboardUI({data} : Props ) {
+
+
+
+
+  const [dataRating,dataMarket,dataGoals,dataChances,dataAssists,dataYellow] = data
 
 
   return (
@@ -154,21 +204,21 @@ export default function LeaderboardUI({dataMarket,dataRating} : Props ) {
       <Flex  marginBottom='50px' marginLeft='75px' marginRight='75px' >
         <Leaderboard name={"Top Ratings"} LBplayers="Rating" data={dataRating}></Leaderboard>
         <Spacer />
-        <Leaderboard name="Top Scorers" LBplayers="Goals"></Leaderboard>
+        <Leaderboard name="Top Scorers" data={dataGoals} LBplayers="Goals"></Leaderboard>
         <Spacer />
         <Leaderboard name="Highest market values" LBplayers="Value" data={dataMarket}></Leaderboard>
       </Flex>
 
       <Flex marginBottom='50px' marginLeft='75px' marginRight='75px' >
-        <Leaderboard name="Top Assists" LBplayers="Assists"></Leaderboard>
+        <Leaderboard name="Top Assists" data={dataAssists} LBplayers="Assists"></Leaderboard>
         <Spacer />
-        <Leaderboard name="Chances Created" LBplayers="Chances Created"></Leaderboard>
+        <Leaderboard name="Chances Created" data={dataChances}  LBplayers="Chances Created"></Leaderboard>
         <Spacer />
         <Leaderboard name="Successful Tackles" LBplayers="Tackles"></Leaderboard>
       </Flex>
 
       <Flex marginBottom='50px' marginLeft='75px' marginRight='75px' >
-        <Leaderboard name="Yellow Cards" LBplayers="Cards"></Leaderboard>
+        <Leaderboard name="Yellow Cards" data={dataYellow}  LBplayers="Cards"></Leaderboard>
         <Spacer />
         <Leaderboard name="Expected Goals" LBplayers="X-Goals"></Leaderboard>
         <Spacer />
