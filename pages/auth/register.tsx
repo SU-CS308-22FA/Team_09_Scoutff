@@ -231,6 +231,9 @@ type FormValues = {
                 <Text align={'center'}>
                   Already a user? <Link href='./signin' color={'blue.400'}>Login</Link>
                 </Text>
+                <Text align={'center'}>
+                  <Link href='/' color={'blue.400'}>Continue as a Guest</Link>
+                </Text>
               </Stack>
             </Stack>
           </Box>

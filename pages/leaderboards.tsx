@@ -5,22 +5,96 @@ import React from "react";
 import LBCompIndex from "../components/leaderboard/ui";
 
 import * as Realm from "realm-web";
-import { ApolloClient, gql, HttpLink, InMemoryCache } from "@apollo/client";
-import Player from "../models/Player";
+import { ApolloClient, DocumentNode, gql, HttpLink, InMemoryCache ,NormalizedCacheObject,useQuery} from "@apollo/client";
+import Player, { IPlayer } from "../models/Player";
+import { InferGetStaticPropsType } from "next";
+import LeaderboardUI from "../components/leaderboard/ui/LeaderboardUI";
 
 // 2. Function to create GraphQL client
 
 
-const GET_PLAYERS = gql`
-  query {
-    players {
-      name
-      rating
-      market_value
+export type RatingPlayers = {
+  rating: number;
+  name : string;
+}
 
-    }
+export type StatPlayers = Record<string, Object | number> &  {
+  name : string;
+}
+
+
+
+
+type GraphQLProps<T> = {
+  playersNestedSort : Array<T>;
+}
+
+
+const quotedString = (str: string) => `"${str}"`;
+
+
+const dotSeperatedStringToNestedGraphqlSelection = (str: string) => {
+  const arr = str.split(".");
+  if (arr.length === 1) return str;
+  return arr.reduceRight((acc, curr, index) => {
+    if (acc === "") return curr;
+
+
+
+    return `${curr} {${acc}}`;
   }
-`;
+  );
+
+};
+
+
+
+
+
+
+const getQueryResults =  async (client : ApolloClient<NormalizedCacheObject>  ,rankings : Array<string>)  => {
+
+  const query =  await Promise.all(rankings.map(async (ranking) => {
+
+    const queryConverted = gql`query {playersNestedSort(input : {limit:10,path:${quotedString(ranking)}}) { name ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
+
+
+
+    
+    const data = await client.query<GraphQLProps<
+      StatPlayers
+    
+    >>({
+      query: queryConverted,
+    });
+    
+
+
+
+
+
+
+
+
+    return data.data.playersNestedSort;
+
+
+    
+  }));
+
+  
+
+
+
+
+  
+
+  return query;
+
+  
+}
+
+
 
 
 const createClient = (token : string) =>
@@ -37,7 +111,13 @@ const createClient = (token : string) =>
 
 
 
-export default function Home() {
+export default function Home({data} :InferGetStaticPropsType<typeof getStaticProps>)  {
+
+
+
+  const CompIndex = <LBCompIndex>
+        <LeaderboardUI data={data}></LeaderboardUI>
+  </LBCompIndex>;
 
 
   
@@ -51,7 +131,7 @@ export default function Home() {
 
       <main>
         
-        <LBCompIndex />
+        {CompIndex}
 
       </main>
     </div>
@@ -71,9 +151,8 @@ export async function getStaticProps() {
 
 
   // Log in user using realm API key
-  const credentials = Realm.Credentials.apiKey("ThqKqf1EJZZHFaB2kfjfEM0SQmv1FquOhD0VHqEPzxEqtmF3WBOynzZhsMcHFl7Z");
+  const credentials = Realm.Credentials.apiKey(process.env.REALM_API_KEY ?? "");
 
-  //const credentials = Realm.Credentials.jwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjIyNjg5ODM5MzMsImlhdCI6MTY2ODk4MjEzMywiYXVkIjoiZm9vdGJhbGwtdWh1YW4iLCJzdWIiOiI2MzcwZTMxMGQzZDc4MWJiNWIwYzEwNzYiLCJlbWFpbCI6ImVyaGFuYkBzYWJhbmNpdW5pdi5lZHUifQ.Cz2iVFOxpAER7W-WBuhnTXFGd-Y3QX3mda_YvbwfvFw")
   const user = await app.logIn(credentials);
 
 
@@ -85,16 +164,24 @@ export async function getStaticProps() {
 
 
   const client = createClient(user.accessToken ?? "");
+  
+
+  
 
 
 
-  const { data } = await client.query({
-    query: GET_PLAYERS,
-  });
 
 
 
-  console.log(data);
+
+
+
+
+
+
+  
+
+
 
 
 
@@ -105,6 +192,10 @@ export async function getStaticProps() {
 
   return {
     props: {
+      data :  await getQueryResults(client,["rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards"])
+
+      
     },
+    revalidate: 6000,
   };
 }

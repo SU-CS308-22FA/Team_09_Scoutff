@@ -98,7 +98,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
                 align={'start'}
                 justify={'space-between'}>
                 <Checkbox>Remember me</Checkbox>
-                <Link href="" color={'blue.400'}>Forgot password?</Link>
+                <Link href="/auth/forgot" color={'blue.400'}>Forgot password?</Link>
               </Stack>
               <Button type="submit"
                 bg={'blue.400'}
@@ -108,7 +108,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
                 }}>
                 Sign in
               </Button>
-
+                
             </Stack>
 
             {
@@ -127,6 +127,11 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
                 <Text align={'center'}>
                   Don't have an account? <Link href='./register' color={'blue.400'}>Sign Up </Link>
                 </Text>
+
+                <Text align={'center'}>
+                  <Link href='/' color={'blue.400'}>Continue as a Guest</Link>
+                </Text>
+
             </Stack>
 
           </Stack>

@@ -9,41 +9,29 @@ const SquadsCompIndex = () => {
           <VStack>
             <HStack marginBottom='50px'>
               <VStack marginRight='140px'>
-                <Text fontSize='20px'>First Expert</Text>
+                <Text fontSize='20px'>Team of the week</Text>
                 <SquadsUI></SquadsUI>  
-                <HStack>
-                  <Button>Edit</Button>
-                  <Button>Like</Button>
-                </HStack>
+                <Button>Like</Button>
               </VStack>
 
               <VStack >
-                <Text fontSize='20px'>Second Expert</Text>
+                <Text fontSize='20px'>Team of the season</Text>
                 <SquadsUI></SquadsUI>  
-                <HStack>
-                  <Button>Edit</Button>
-                  <Button>Like</Button>
-                </HStack>
+                <Button>Like</Button>
               </VStack>
             </HStack>
 
             <HStack marginBottom='50px'>
               <VStack marginRight='140px'>
-                <Text fontSize='20px'>Third Expert</Text>
+                <Text fontSize='20px'>Future Stars</Text>
                 <SquadsUI></SquadsUI>  
-                <HStack>
-                  <Button>Edit</Button>
-                  <Button>Like</Button>
-                </HStack>
+                <Button>Like</Button>
               </VStack>
 
               <VStack >
-                <Text fontSize='20px'>Fourth Expert</Text>
+                <Text fontSize='20px'>Old but gold</Text>
                 <SquadsUI></SquadsUI>  
-                <HStack>
-                  <Button>Edit</Button>
-                  <Button>Like</Button>
-                </HStack>
+                <Button>Like</Button>
               </VStack>
             </HStack>
           </VStack>

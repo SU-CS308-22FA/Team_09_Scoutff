@@ -26,7 +26,7 @@ const Links = [
   },
   {
     name: "Squads",
-    path: "/squads",
+    path: "/squadby",
   },
   {
     name: "Leaderboards",
@@ -51,7 +51,7 @@ const dropdownLink1 = [
 ];
 const dropdownLink2 = [
   {
-    name:"Help                                  \t" ,
+    name:"Help" ,
     path: "/help",
   },
  

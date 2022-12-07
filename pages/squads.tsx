@@ -19,9 +19,7 @@ export default function Home() {
       </Head>
 
       <main>
-        
         <SquadsCompIndex />
-
       </main>
     </div>
   );

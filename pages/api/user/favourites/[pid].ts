@@ -1,17 +1,25 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
+import { getCsrfToken } from "next-auth/react";
 import invariant from "tiny-invariant";
 import { addFavourite, removeFavourite } from "../../../../lib/api/user";
 import dbConnect from "../../../../lib/mongoose";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
+    const csrfToken = await getCsrfToken({ req })
+
+
     const pid = req.query.pid
+
 
     const playerId = Array.isArray(pid) ? pid[0] : pid
 
 
     invariant(playerId, "Player Id cannot be empty")
+
+    invariant(csrfToken === req.body.csrfToken, "Invalid CSRF Token")
+
 
     await dbConnect()
 

@@ -6,31 +6,58 @@ import {
     Stack,
     Text,
     useBreakpointValue,
-    Wrap,
+    Wrap, UnorderedList, ListItem, Input, Textarea, Center, useToast
   } from "@chakra-ui/react";
   import React from "react";
-  
+  import Comments from "../../../models/Comments";
+  import { useState } from "react";
+import axios from "axios";
+
+
   export default function HelpUI() {
+
+    const toast = useToast()
+
+    const [comment, setValue] = useState('');
+
+    const handleSubmit = async () => {
+
+        await axios.post("/api/comment", {
+          comment
+        })
+
+        toast({
+            title: "Comment added.",
+            description: "Your comment has been added.",
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+          })
+        
+    }
+    
     return (
-      <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
-        <Flex p={8} flex={1} align={"center"} justify={"center"}>
-          <Stack spacing={6} w={"full"} maxW={"lg"}>
-            <Heading fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}>
-              
-              <br />{" "}
-              <Text color={"red.400"} as={"span"}>
-                <div>HELP HELP HELP HELP</div>
-                Hello what's the problem?
-              </Text>{" "}
-            </Heading>
+        <Flex p={8} flex={1} marginLeft='100px'>
+            <Stack>
+              <Heading>Frequently Asked Questions</Heading>
+              <UnorderedList fontSize='20px'>
+                <ListItem marginTop='20px'>What happens when I add a player to my favorites</ListItem>
+                <Text>You can receive emails about that player weekly</Text>  
+                <ListItem marginTop='20px'>Can I see leaderoards without creating an account?</ListItem>
+                <Text>Yes, guest users can examine leaderboards</Text> 
+                <ListItem marginTop='20px'>Which framework did you use?</ListItem>
+                <Text>Next.js mostly</Text>
+              </UnorderedList>
+            </Stack>
 
+            <Stack marginLeft='200px' w='800px' h='800px'>
+              <Center fontSize='20px'>Suggestions or complaints</Center>
+              <Input value={comment} onChange={({target})=> setValue(target?.value)} width='800px' placeholder='What do you think about Scoutff?'/>
 
-          </Stack>
+              <Button onClick={handleSubmit}>Submit</Button>
+            </Stack>
         </Flex>
-        <Flex flex={1}>
 
-        </Flex>
-      </Stack>
     );
   
     function techStackButton(text: string) {
