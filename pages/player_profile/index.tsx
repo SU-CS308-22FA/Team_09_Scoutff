@@ -23,6 +23,7 @@ import { stat } from "fs";
 import React from "react";
 
 interface Props {
+    shirt_number: string
     name: string
     image: string
     position: string
@@ -31,11 +32,12 @@ interface Props {
     assists: number
     appearances: number 
     rating: number
-    team: string
+    age: number
+    // team: string
 }
 
 
-const PlayerPage: React.FC<Props> = ({name, image, position, details, goals, assists, appearances, rating, team}) => {
+const PlayerPage: React.FC<Props> = ({shirt_number, name, image, position, details, goals, assists, appearances, rating, age /*team*/}) => {
   return (
     <Flex
       minH={'100vh'}
@@ -50,9 +52,9 @@ const PlayerPage: React.FC<Props> = ({name, image, position, details, goals, ass
 
         <VStack>
         <Heading size="md" fontWeight="bold" ml="4" color={"gray.800"}>
-          {name}
+          {shirt_number} {name}
         </Heading>
-        <Text fontSize="sm">{position} / {team}</Text>
+        <Text fontSize="sm">{position} / {age}</Text>
         <Button colorScheme="twitter" mt="4">
         Add to favorites 🌟
       </Button>
@@ -76,12 +78,14 @@ const PlayerPage: React.FC<Props> = ({name, image, position, details, goals, ass
           </Thead>
         </Th>
         <Tbody>
+          <Flex>
             <Tr>
               <Td textAlign="center">{goals}</Td>
               <Td textAlign="center">{assists}</Td>
               <Td textAlign="center">{appearances}</Td>
               <Td textAlign="center">{rating}</Td>
-            </Tr>         
+            </Tr>
+            </Flex>         
         </Tbody>
       </Table>
     </HStack>
@@ -103,7 +107,9 @@ const PlayerPage: React.FC<Props> = ({name, image, position, details, goals, ass
         assists= {19}
         appearances= {10}
         rating= {9.8}
-        team= "PSG"
+        age= {35}
+        // team= "PSG"
+        shirt_number = "#10"
       />
     );
   }

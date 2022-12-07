@@ -21,8 +21,8 @@ import { signOut } from "next-auth/react";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
   {
-    name: "Register",
-    path: "/auth/register",
+    name: "Featured Player Profile",
+    path: "/player_profile",
   },
   {
     name: "Squads",
