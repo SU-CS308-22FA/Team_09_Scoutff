@@ -24,13 +24,15 @@ import router, { useRouter } from "next/router";
 
 import type { StatPlayers } from "../../../pages/leaderboards";
 
+import Link from "next/link";
+
 type Props = {
   data : StatPlayers[][];
 }
 
 
 type LeaderboardProps = {
-    data ?: Array<any> ;
+    data ?: Array<StatPlayers> ;
     name : string | undefined;
     LBplayers : string | undefined;
   
@@ -52,6 +54,13 @@ const converter = (data : string) => {
       return "statistics.cards.yellow_cards";
     case "chances created":
       return "statistics.passes.big_chance_created";
+    case "clean sheets":
+      return "statistics.defending.clean_sheets";
+    case "tackles":
+      return "statistics.defending.tackles_per_game";
+    case "shots":
+      return "statistics.attacking.total_shots_per_game";
+
     
  
 
@@ -96,6 +105,8 @@ const convertNested = (player : any, path : string)  : number => {
 
 
 function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
+
+  console.log(data,"data",name,"name",LBplayers,"LBplayers");
   //const router = useRouter()
   const {isOpen, onClose, onOpen} = useDisclosure();
 
@@ -104,10 +115,12 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
   const playerData = data?.map((player,index) => {
     const data  = convertedIndex ?  convertNested(player,convertedIndex) : null
 
+    console.log(player)
+
 
     return (
       <Tr key={index}>
-        <Td>{index + 1} - {player.name}</Td>
+        <Td>{index + 1} - <Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         <Td>{data}</Td>
       </Tr>
     )
@@ -194,7 +207,8 @@ export default function LeaderboardUI({data} : Props ) {
 
 
 
-  const [dataRating,dataMarket,dataGoals,dataChances,dataAssists,dataYellow] = data
+  const [dataRating,dataMarket,dataGoals,dataChances,dataAssists,dataYellow,dataClean,dataTackle,dataShots] = data
+
 
 
   return (
@@ -214,15 +228,15 @@ export default function LeaderboardUI({data} : Props ) {
         <Spacer />
         <Leaderboard name="Chances Created" data={dataChances}  LBplayers="Chances Created"></Leaderboard>
         <Spacer />
-        <Leaderboard name="Successful Tackles" LBplayers="Tackles"></Leaderboard>
+        <Leaderboard name="Successful Tackles (Per Game)" LBplayers="Tackles" data={dataTackle}></Leaderboard>
       </Flex>
 
       <Flex marginBottom='50px' marginLeft='75px' marginRight='75px' >
         <Leaderboard name="Yellow Cards" data={dataYellow}  LBplayers="Cards"></Leaderboard>
         <Spacer />
-        <Leaderboard name="Expected Goals" LBplayers="X-Goals"></Leaderboard>
+        <Leaderboard name="Total Shots (Per Game)" data={dataShots} LBplayers="Shots"></Leaderboard>
         <Spacer />
-        <Leaderboard name="Clean sheets" LBplayers="Clean Sheets"></Leaderboard>
+        <Leaderboard name="Clean sheets" LBplayers="Clean Sheets" data={dataClean}></Leaderboard>
       </Flex>
       <Box 
         bg={"gray.100"}

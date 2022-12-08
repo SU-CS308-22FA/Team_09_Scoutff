@@ -1,3 +1,4 @@
+import { TeamInterface } from "./TeamInterface";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 export interface PlayerInterface {
@@ -22,6 +23,7 @@ export interface PlayerInterface {
     market_value?: number;
     contract_until?: Date;
     height_meter ?: number;
+    team ?: TeamInterface;
 
 }
 
@@ -162,6 +164,7 @@ interface Defending {
     error_lead_to_a_shot ?: string;
     error_lead_toa_goal ?: string;
     penalties_conceded ?: string;
+    clean_sheets ?: string;
 }
 
 export interface ConvertedDefending extends Modify<Defending, {
@@ -173,6 +176,7 @@ export interface ConvertedDefending extends Modify<Defending, {
     error_lead_to_a_shot ?: number;
     error_lead_toa_goal ?: number;
     penalties_conceded ?: number;
+    clean_sheets ?: number;
 }> {}
 
 

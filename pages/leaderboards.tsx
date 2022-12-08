@@ -17,6 +17,7 @@ import { getClient } from "../lib/realm/login";
 
 export type StatPlayers = Record<string, Object | number> &  {
   name : string;
+  slug : string;
 }
 
 
@@ -53,7 +54,7 @@ const getQueryResults =  async (client : ApolloClient<NormalizedCacheObject>  ,r
 
   const query =  await Promise.all(rankings.map(async (ranking) => {
 
-    const queryConverted = gql`query {playersNestedSort(input : {limit:10,path:${quotedString(ranking)}}) { name ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
+    const queryConverted = gql`query {playersNestedSort(input : {limit:10,path:${quotedString(ranking)}}) { slug name ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
 
 
 
@@ -164,7 +165,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      data : client ?  await getQueryResults(client,["rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards"]) : []
+      data : client ?  await getQueryResults(client,["rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards","statistics.defending.clean_sheets","statistics.defending.tackles_per_game","statistics.attacking.total_shots_per_game"]) : []
 
       
     },

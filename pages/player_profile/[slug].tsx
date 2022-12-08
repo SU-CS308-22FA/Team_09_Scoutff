@@ -30,6 +30,7 @@ import React from "react";
 import * as Realm from "realm-web";
 import { PlayerInterface, PlayerWithStatisticsInterface } from "../../interfaces/PlayerInterface";
 import { SportAPIInterface } from "../../interfaces/SportAPIınterface";
+import { TeamInterface } from "../../interfaces/TeamInterface";
 import { getClient } from "../../lib/realm/login";
 
 
@@ -59,6 +60,12 @@ const convertToQuery = (slug : string) => {
       photo
       has_photo
       position_name
+
+      team {
+        name
+        logo
+        has_logo
+      }
       
       statistics {
         matches {
@@ -89,7 +96,6 @@ type PlayerProps = {
   name?: string
   image?: string
   position?: string
-  details?: string
   goals?: number
   assists?: number
   appearances?: number
@@ -97,13 +103,14 @@ type PlayerProps = {
   age?: number
   _id: string
   csrfToken: string
+  team?: TeamInterface
 
 }
 
 
 
 
-const PlayerPage= ({shirt_number, name, image, position, details, goals, assists, appearances, rating, age,_id,csrfToken /*team*/} : PlayerProps) => {
+const PlayerPage= ({shirt_number, name, image, position, goals, assists, appearances, rating, age,_id,csrfToken, team} : PlayerProps) => {
   return (
     <Flex
       minH={'100vh'}
@@ -113,7 +120,7 @@ const PlayerPage= ({shirt_number, name, image, position, details, goals, assists
     <Box p="4" w="800px" mx="auto" textAlign="center" rounded="md" boxShadow="md">
       <Flex justifyContent="center" alignItems="center" mb="6">
         <HStack>
-          <SimpleGrid columns={2} alignItems="center">
+          <SimpleGrid columns={3} alignItems="center">
         <Image src={image} borderRadius='full' boxSize='200px'/>
 
         <VStack>
@@ -125,12 +132,15 @@ const PlayerPage= ({shirt_number, name, image, position, details, goals, assists
         Add to favorites 🌟
       </Button>
         </VStack>
+
+        <VStack>
+          <Image src={team?.logo} borderRadius='full' boxSize='100px'/>
+          <Text fontSize="sm">{team?.name}</Text>
+        </VStack>
         </SimpleGrid>
         </HStack>
       </Flex>
-      <Stack spacing="4" mt="4">
-        <Text>{details}</Text>
-      </Stack>
+
       <HStack p="4" w="full" mx="auto" rounded="md" boxShadow="md">
       <Table>
           <Thead>
@@ -180,13 +190,12 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
         name={data.name}
         image={data.has_photo ? data.photo : undefined}
         position={data.position_name}
-        details="Lionel Andrés Messi is an Argentine professional footballer who plays as a forward and captains both Spanish club Barcelona and the Argentina national team."
         goals= {data?.statistics?.attacking?.goals}
         assists= {data?.statistics?.passes?.assists}
         appearances= {data?.statistics?.matches?.matches_total}
         rating= {data?.statistics?.rating}
         age= {data?.age}
-        // team= "PSG"
+        team={data?.team}
         shirt_number = {`#${data.shirt_number}`}
         csrfToken = {csrfToken}
       />
@@ -229,6 +238,7 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
     const {data} =  client ?   await client.query<GraphQLProps<PlayerWithStatisticsInterface>>({
       query: convertToQuery(slug as string),
     }) : {data : {player : {}}};
+
 
 
 
