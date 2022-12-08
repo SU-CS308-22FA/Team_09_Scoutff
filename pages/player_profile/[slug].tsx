@@ -30,38 +30,13 @@ import React from "react";
 import * as Realm from "realm-web";
 import { PlayerInterface, PlayerWithStatisticsInterface } from "../../interfaces/PlayerInterface";
 import { SportAPIInterface } from "../../interfaces/SportAPIınterface";
-
-const createClient = (token : string) =>
-  new ApolloClient({
-    ssrMode : true,
-    link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-    cache: new InMemoryCache(),
-  }); 
+import { getClient } from "../../lib/realm/login";
 
 
 
   type GraphQLProps<T> = {
     player : T;
   }
-
-interface Props {
-    shirt_number: string
-    name: string
-    image: string
-    position: string
-    details: string
-    goals: number
-    assists: number
-    appearances: number 
-    rating: number
-    age: number
-    // team: string
-}
 
 
 
@@ -222,19 +197,8 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
   
 
   export const getServerSideProps = async (context : GetServerSidePropsContext<ParsedUrlQuery,PreviewData>) => {
-    const apiKey = process.env.REALM_API_KEY;
-    const app = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
-  
-  
-    //convert each rating in statistics.rating array to double
-  
-    
-  
-  
-    // Log in user using realm API key
-    const credentials = Realm.Credentials.apiKey(process.env.REALM_API_KEY ?? "");
-  
-    const user = await app.logIn(credentials);
+
+
   
   
   
@@ -243,7 +207,7 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
   
   
 
-    const client = createClient(user.accessToken ?? "");
+    const client = await getClient();
 
     //get slug from url
     const slug = context.query.slug
@@ -262,9 +226,9 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
 
     
 
-    const {data} =   await client.query<GraphQLProps<PlayerWithStatisticsInterface>>({
+    const {data} =  client ?   await client.query<GraphQLProps<PlayerWithStatisticsInterface>>({
       query: convertToQuery(slug as string),
-    });
+    }) : {data : {player : {}}};
 
 
 

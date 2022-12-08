@@ -9,14 +9,11 @@ import { ApolloClient, DocumentNode, gql, HttpLink, InMemoryCache ,NormalizedCac
 import Player, { IPlayer } from "../models/Player";
 import { InferGetStaticPropsType } from "next";
 import LeaderboardUI from "../components/leaderboard/ui/LeaderboardUI";
+import { getClient } from "../lib/realm/login";
 
 // 2. Function to create GraphQL client
 
 
-export type RatingPlayers = {
-  rating: number;
-  name : string;
-}
 
 export type StatPlayers = Record<string, Object | number> &  {
   name : string;
@@ -97,17 +94,6 @@ const getQueryResults =  async (client : ApolloClient<NormalizedCacheObject>  ,r
 
 
 
-const createClient = (token : string) =>
-  new ApolloClient({
-    ssrMode : true,
-    link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-    cache: new InMemoryCache(),
-  }); 
 
 
 
@@ -141,33 +127,19 @@ export default function Home({data} :InferGetStaticPropsType<typeof getStaticPro
 }
 
 export async function getStaticProps() {
-  const apiKey = process.env.REALM_API_KEY;
-  const app = new Realm.App({ id: process.env.NEXT_PUBLIC_APP_ID! });
 
 
-  //convert each rating in statistics.rating array to double
+
+
+
+
+
+
+
+  const client = await getClient()
+
 
   
-
-
-  // Log in user using realm API key
-  const credentials = Realm.Credentials.apiKey(process.env.REALM_API_KEY ?? "");
-
-  const user = await app.logIn(credentials);
-
-
-
-
-
-
-
-
-
-  const client = createClient(user.accessToken ?? "");
-  
-
-  
-
 
 
 
@@ -192,7 +164,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      data :  await getQueryResults(client,["rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards"])
+      data : client ?  await getQueryResults(client,["rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards"]) : []
 
       
     },
