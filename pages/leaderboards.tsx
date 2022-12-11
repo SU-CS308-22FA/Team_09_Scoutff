@@ -65,42 +65,21 @@ const getQueryResults =  async (client : ApolloClient<NormalizedCacheObject>  ,r
     >>({
       query: queryConverted,
     });
-    
-
-
-
-
-
-
-
-
+  
     return data.data.playersNestedSort;
-
-
     
   }));
 
-  
-
-
-
-
-  
 
   return query;
 
-  
 }
 
 
 
 
 
-
-
 export default function Home({data} :InferGetStaticPropsType<typeof getStaticProps>)  {
-
-
 
   const CompIndex = <LBCompIndex>
         <LeaderboardUI data={data}></LeaderboardUI>
@@ -124,44 +103,11 @@ export default function Home({data} :InferGetStaticPropsType<typeof getStaticPro
     </div>
   );
 
-  
 }
 
 export async function getStaticProps() {
 
-
-
-
-
-
-
-
-
   const client = await getClient()
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
 
   return {
     props: {

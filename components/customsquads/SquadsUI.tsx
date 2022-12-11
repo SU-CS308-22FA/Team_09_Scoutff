@@ -14,6 +14,7 @@ import {
   Input
 } from "@chakra-ui/react";
 import React from "react";
+import type { StatPlayers } from "../../pages/customsquads";
 
 function Player(str: { position: string | undefined; }){
   return(<VStack>
@@ -23,7 +24,18 @@ function Player(str: { position: string | undefined; }){
   </VStack> )
 }
 
-export default function SquadsUI() {
+type Props = {
+  data : StatPlayers[][];
+}
+
+type SquadsProps = {
+  data ?: Array<StatPlayers> ;
+  name : string | undefined;
+  LBplayers : string | undefined;
+
+}
+
+export default function SquadsUI({data} : Props) {
   return (
     <Flex>
       <HStack w='480px'>
