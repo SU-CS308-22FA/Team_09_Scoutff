@@ -106,7 +106,6 @@ const convertNested = (player : any, path : string)  : number => {
 
 function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
 
-  console.log(data,"data",name,"name",LBplayers,"LBplayers");
   //const router = useRouter()
   const {isOpen, onClose, onOpen} = useDisclosure();
 
@@ -115,7 +114,6 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
   const playerData = data?.map((player,index) => {
     const data  = convertedIndex ?  convertNested(player,convertedIndex) : null
 
-    console.log(player)
 
 
     return (

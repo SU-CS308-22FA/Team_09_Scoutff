@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -18,6 +18,9 @@ import {
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, useApolloClient, useQuery } from "@apollo/client";
+import { useApp } from "../../../hook/useApp";
+import * as Realm from "realm-web";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
   {
@@ -70,7 +73,19 @@ const buttonLink = [
     
   },
 ];
+
+
+const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:10,path:"name",query:"${graphqlQuery}"}) { name slug photo}}`;
+
+
+
 const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
+
+  
+
+
+  
+
   <Box
     px={2}
     py={1}
@@ -84,8 +99,18 @@ const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
   </Box>
 );
 
-export default function Navbar() {
+export default function Navbar(props : any) {
+  const client = useApolloClient();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const app = useApp();
+
+
+
+  
+
+
 
   return (
     <>
@@ -98,6 +123,8 @@ export default function Navbar() {
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
+
+          
           <HStack
               as={"nav"}
               spacing={4}
@@ -121,6 +148,32 @@ export default function Navbar() {
                 </NavLink>
               ))}
             </HStack>
+
+            <Button
+              variant={"outline"}
+              colorScheme={"blue"}
+              size={"sm"}
+              mr={4}
+              onClick={() => {
+                client.query({
+                  query: convertToQuery("erhan"),
+                }).then((result) => {
+                  console.log("result",result);
+                }).catch((error) => {
+                  console.log("error",error);
+                  
+
+
+
+                  
+
+
+                  
+                });
+
+              }}
+              //leftIcon={<AddIcon />}
+            />
 
             
             <Button
