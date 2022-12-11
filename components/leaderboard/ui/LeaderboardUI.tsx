@@ -43,7 +43,7 @@ const converter = (data : string) => {
 
   switch(data) {
     case "rating":
-      return "rating";
+      return "statistics.rating";
     case "value":
       return "market_value";
     case "goals":
