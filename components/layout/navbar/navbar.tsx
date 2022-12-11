@@ -157,6 +157,9 @@ export default function Navbar(props : any) {
               onClick={() => {
                 client.query({
                   query: convertToQuery("erhan"),
+          
+
+
                 }).then((result) => {
                   console.log("result",result);
                 }).catch((error) => {
