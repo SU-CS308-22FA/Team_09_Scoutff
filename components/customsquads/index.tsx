@@ -15,10 +15,10 @@ type Props = {
 const SquadsCompIndex = ({data} : Props) => {
   return (
     <div>
-        <Flex  margin='100px' marginLeft='200px' marginTop='20px'>
+        <Flex  margin='100px' marginLeft='50px' marginTop='20px'>
           <VStack>
             <HStack marginBottom='50px'>
-              <VStack marginRight='140px'>
+              <VStack marginRight='40px'>
                 <Text fontSize='20px'>Team of the week</Text>
                 <SquadsUI data={data}></SquadsUI>  
                 <Button>Like</Button>
@@ -32,7 +32,7 @@ const SquadsCompIndex = ({data} : Props) => {
             </HStack>
 
             <HStack marginBottom='50px'>
-              <VStack marginRight='140px'>
+              <VStack marginRight='40px'>
                 <Text fontSize='20px'>Future Stars</Text>
                 <SquadsUI data={data}></SquadsUI>  
                 <Button>Like</Button>

@@ -78,7 +78,7 @@ const getQueryResults =  async (client : ApolloClient<NormalizedCacheObject>  ,r
 
   const query =  await Promise.all(rankings.map(async (ranking) => {
 
-    const queryConverted = gql`query {playersNestedSort(input : {limit:20,path:${quotedString(ranking)}}) { slug name position ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
+    const queryConverted = gql`query {playersNestedSort(input : {limit:200,path:${quotedString(ranking)}}) { slug name position ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
     
     const data = await client.query<GraphQLProps<
       StatPlayers
