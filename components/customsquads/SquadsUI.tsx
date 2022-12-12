@@ -33,7 +33,7 @@ function Player(str: { position: string | undefined, myData: JSX.Element[] | und
 
       <Table size="10px">
         <Tbody fontSize="14px">
-          {str.myData?.slice(0,1)}
+          {str.myData}
 
         </Tbody>
         
@@ -70,18 +70,21 @@ const convertNested = (player : any, path : string)  : number => {
 }
 
 
-export default function SquadsUI({data} : SquadProps) {
+export default function SquadsUI({data} : Props) {
+
+  const [dataRating,dataYellow] = data
+  console.log(dataRating);
 
   const convertedIndex = "statistics.rating";
-  
-  const playerData = data?.map((player,index) => {
-    const data  = convertedIndex ?  convertNested(player,convertedIndex): null
-
-
+  const positionIndex = "position"
+  const playerData = dataRating?.map((player,index) => {
+    const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+    
     return (
       <Tr key={index}>
         <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-        <Td>{data}</Td>
+        <Td>{dataRating}</Td>
+        <Td>{player.position}</Td>
       </Tr>
     )
   })

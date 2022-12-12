@@ -13,7 +13,6 @@ type Props = {
 
 
 const SquadsCompIndex = ({data} : Props) => {
-  const [dataRating,dataYellow] = data
   return (
     <div>
         <Flex  margin='100px' marginLeft='200px' marginTop='20px'>
@@ -21,13 +20,13 @@ const SquadsCompIndex = ({data} : Props) => {
             <HStack marginBottom='50px'>
               <VStack marginRight='140px'>
                 <Text fontSize='20px'>Team of the week</Text>
-                <SquadsUI data={dataRating}></SquadsUI>  
+                <SquadsUI data={data}></SquadsUI>  
                 <Button>Like</Button>
               </VStack>
 
               <VStack >
                 <Text fontSize='20px'>Team of the season</Text>
-                <SquadsUI data={dataRating}></SquadsUI>  
+                <SquadsUI data={data}></SquadsUI>  
                 <Button>Like</Button>
               </VStack>
             </HStack>
@@ -35,13 +34,13 @@ const SquadsCompIndex = ({data} : Props) => {
             <HStack marginBottom='50px'>
               <VStack marginRight='140px'>
                 <Text fontSize='20px'>Future Stars</Text>
-                <SquadsUI data={dataRating}></SquadsUI>  
+                <SquadsUI data={data}></SquadsUI>  
                 <Button>Like</Button>
               </VStack>
 
               <VStack >
                 <Text fontSize='20px'>Old but gold</Text>
-                <SquadsUI data={dataRating}></SquadsUI>  
+                <SquadsUI data={data}></SquadsUI>  
                 <Button>Like</Button>
               </VStack>
             </HStack>
