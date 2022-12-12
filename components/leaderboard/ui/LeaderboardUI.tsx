@@ -94,7 +94,30 @@ const convertNested = (player : any, path : string)  : number => {
 
   
 
-
+/**
+ * 
+ * @param {data,name,LBplayers} is a LeaderboardProbs object
+ * 
+ *    LeaderboardProbs type was defined as :
+ *    {data ?: Array<any> ;
+ *    name : string | undefined;
+ *    LBplayers : string | undefined;}
+ *    corresponding variables are mapped to their respective 
+ *    counterparts defined by this type.
+ * 
+ *    convertedIndex -> decide on the name that will be used 
+ *    to retrieve data from the database. Same data has 2 different 
+ *    names, first being the one used in literal leaderboards, and 
+ *    second being the corresponding name for that data in the database
+ * 
+ *    data.map -> loop the players that are obtained by 'data'
+ *    this is how the rows are formed( instead of writing 1,2,3,...)
+ *    
+ * @returns the structure of a single line in a leaderboard with the 
+ *    structure of "index - player_name data"
+ *    example: "2 - Ferdi Kadioglu 8"
+ * 
+ */
 function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
   //const router = useRouter()
   const {isOpen, onClose, onOpen} = useDisclosure();
@@ -189,6 +212,16 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
   )}
 
 
+/**
+ * 
+ * @param {data} is a Probs object
+ * Probs type was defined as:
+ * {data : StatPlayers[][];}
+ * 
+ * 
+ * @returns all of the leaderboard objects specified in
+ * a css-styled composition
+ */
 export default function LeaderboardUI({data} : Props ) {
 
 
