@@ -113,7 +113,6 @@ export async function getStaticProps() {
     props: {
       data : client ?  await getQueryResults(client,["statistics.rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards","statistics.defending.clean_sheets","statistics.defending.tackles_per_game","statistics.attacking.total_shots_per_game"]) : []
 
-      
     },
     revalidate: 6000,
   };

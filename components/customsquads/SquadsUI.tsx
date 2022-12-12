@@ -11,7 +11,11 @@ import {
   Center,
   HStack,
   VStack,
-  Input
+  Input,
+  Tr,
+  Link,
+  Td,
+  useDisclosure
 } from "@chakra-ui/react";
 import React from "react";
 import type { StatPlayers } from "../../pages/customsquads";
@@ -28,14 +32,47 @@ type Props = {
   data : StatPlayers[][];
 }
 
-type SquadsProps = {
+type SquadProps = {
   data ?: Array<StatPlayers> ;
-  name : string | undefined;
-  LBplayers : string | undefined;
-
 }
 
-export default function SquadsUI({data} : Props) {
+const convertNested = (player : any, path : string)  : number => {
+  const arr = path.split(".");
+  if (arr.length < 1) return 0;
+
+  if (arr.length === 1) return player[path];
+
+
+  return parseFloat(arr.reduce((acc : any, curr,index) => {
+
+
+    if (acc === "") return player[curr];
+
+    
+    return acc[curr];
+  },""
+  ));
+  
+}
+
+
+export default function SquadsUI({data} : SquadProps) {
+
+  const convertedIndex = "statistics.rating";
+  
+  const playerData = data?.map((player,index) => {
+    const data  = convertedIndex ?  convertNested(player,convertedIndex): null
+
+
+    return (
+      <Tr key={index}>
+        <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+        <Td>{data}</Td>
+      </Tr>
+    )
+  })
+
+
   return (
     <Flex>
       <HStack w='480px'>
@@ -48,27 +85,35 @@ export default function SquadsUI({data} : Props) {
         
         <Center marginTop='30px' fontSize='20px'>
           <Player position='ST'></Player>
+          {playerData?.slice(0,1)}
         </Center>
 
         <Center marginTop='40px' fontSize='20px'>
          
           <Player position='LM'></Player>
+          {playerData?.slice(1,2)}
+
           
           <VStack marginX='30px'>
             <Player position='CAM'></Player>
+            {playerData?.slice(2,3)}
           </VStack>
 
           <Player position='RM'></Player>
+          {playerData?.slice(3,4)}
+
           
         </Center>
 
         <Center marginTop='60px' fontSize='20px'>
           <VStack marginRight='15px'>
             <Player position='CDM'></Player>
+            {playerData?.slice(4,5)}
           </VStack>  
 
           <VStack marginLeft='15px'>
             <Player position='CDM'></Player>
+            {playerData?.slice(5,6)}
           </VStack>
 
 
@@ -77,18 +122,22 @@ export default function SquadsUI({data} : Props) {
         <Center marginTop='50px' fontSize='20px'>
           <VStack>
             <Player position='LB'></Player>
+            {playerData?.slice(6,7)}
           </VStack>  
 
           <VStack marginX='5px'>
             <Player position='CB'></Player>
+            {playerData?.slice(7,8)}
           </VStack>
 
           <VStack marginX='5px'>
             <Player position='CB'></Player>
+            {playerData?.slice(8,9)}
           </VStack>  
 
           <VStack>
             <Player position='RB'></Player>
+            {playerData?.slice(9,10)}
           </VStack>
 
         </Center>
@@ -96,6 +145,7 @@ export default function SquadsUI({data} : Props) {
         <Center marginTop='20px' fontSize='20px'>
           
           <Player position='GK'></Player>
+          {playerData?.slice(10,11)}
         
         </Center>
 
