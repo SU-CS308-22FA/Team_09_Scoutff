@@ -192,7 +192,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      data :  await getQueryResults(client,["rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards"])
+      data :  await getQueryResults(client,["statistics.rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards"])
 
       
     },
