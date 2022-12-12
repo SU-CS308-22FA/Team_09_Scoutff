@@ -15,16 +15,30 @@ import {
   Tr,
   Link,
   Td,
-  useDisclosure
+  useDisclosure,
+  Tbody,
+  TableContainer,
+  Table
 } from "@chakra-ui/react";
 import React from "react";
 import type { StatPlayers } from "../../pages/customsquads";
 
-function Player(str: { position: string | undefined; }){
+function Player(str: { position: string | undefined, myData: JSX.Element[] | undefined}){
   return(<VStack>
     <Text fontSize='30px'>👕</Text>
-    <Input placeholder={str.position} _placeholder={{ opacity: 1, color: 'blue.700' }} size='sm' w='114px' />
-    
+
+    {/* <Input placeholder={str.position} _placeholder={{ opacity: 1, color: 'blue.700' }} size='sm' w='114px' /> */}
+
+    <TableContainer w='114px'>
+
+      <Table size="10px">
+        <Tbody fontSize="14px">
+          {str.myData?.slice(0,1)}
+
+        </Tbody>
+        
+      </Table>
+    </TableContainer>
   </VStack> )
 }
 
@@ -84,36 +98,33 @@ export default function SquadsUI({data} : SquadProps) {
         {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
         
         <Center marginTop='30px' fontSize='20px'>
-          <Player position='ST'></Player>
-          {playerData?.slice(0,1)}
+          <Player position='ST' myData={playerData?.slice(0,1)}></Player>
+
+
+          
         </Center>
 
         <Center marginTop='40px' fontSize='20px'>
          
-          <Player position='LM'></Player>
-          {playerData?.slice(1,2)}
+          <Player position='LM' myData={playerData?.slice(1,2)}></Player>
 
           
           <VStack marginX='30px'>
-            <Player position='CAM'></Player>
-            {playerData?.slice(2,3)}
+            <Player position='CAM' myData={playerData?.slice(2,3)}></Player>
           </VStack>
 
-          <Player position='RM'></Player>
-          {playerData?.slice(3,4)}
+          <Player position='RM' myData={playerData?.slice(3,4)}></Player>
 
           
         </Center>
 
         <Center marginTop='60px' fontSize='20px'>
           <VStack marginRight='15px'>
-            <Player position='CDM'></Player>
-            {playerData?.slice(4,5)}
+            <Player position='CDM' myData={playerData?.slice(4,5)}></Player>
           </VStack>  
 
           <VStack marginLeft='15px'>
-            <Player position='CDM'></Player>
-            {playerData?.slice(5,6)}
+            <Player position='CDM' myData={playerData?.slice(5,6)}></Player>
           </VStack>
 
 
@@ -121,31 +132,26 @@ export default function SquadsUI({data} : SquadProps) {
 
         <Center marginTop='50px' fontSize='20px'>
           <VStack>
-            <Player position='LB'></Player>
-            {playerData?.slice(6,7)}
+            <Player position='LB' myData={playerData?.slice(6,7)}></Player>
           </VStack>  
 
           <VStack marginX='5px'>
-            <Player position='CB'></Player>
-            {playerData?.slice(7,8)}
+            <Player position='CB' myData={playerData?.slice(7,8)}></Player>
           </VStack>
 
           <VStack marginX='5px'>
-            <Player position='CB'></Player>
-            {playerData?.slice(8,9)}
+            <Player position='CB' myData={playerData?.slice(8,9)}></Player>
           </VStack>  
 
           <VStack>
-            <Player position='RB'></Player>
-            {playerData?.slice(9,10)}
+            <Player position='RB' myData={playerData?.slice(9,10)}></Player>
           </VStack>
 
         </Center>
 
         <Center marginTop='20px' fontSize='20px'>
           
-          <Player position='GK'></Player>
-          {playerData?.slice(10,11)}
+          <Player position='GK' myData={playerData?.slice(10,11)}></Player>
         
         </Center>
 
