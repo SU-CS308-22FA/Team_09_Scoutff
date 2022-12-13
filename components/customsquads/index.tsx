@@ -19,30 +19,30 @@ const SquadsCompIndex = ({data} : Props) => {
           <VStack>
             <HStack marginBottom='50px'>
               <VStack marginRight='40px'>
-                <Text fontSize='20px'>Team of the week</Text>
-                <SquadsUI data={data}></SquadsUI>  
+                <Text fontSize='20px'>Team of the season</Text>
+                <SquadsUI data={data} title="rating"></SquadsUI>  
+                <Button>Like</Button>
+              </VStack>
+              <VStack >
+                <Text fontSize='20px'>Youngsters of the season (U21)</Text>
+                <SquadsUI data={data} title="young"></SquadsUI>  
                 <Button>Like</Button>
               </VStack>
 
-              <VStack >
-                <Text fontSize='20px'>Team of the season</Text>
-                <SquadsUI data={data}></SquadsUI>  
-                <Button>Like</Button>
-              </VStack>
             </HStack>
 
             <HStack marginBottom='50px'>
               <VStack marginRight='40px'>
-                <Text fontSize='20px'>Future Stars</Text>
-                <SquadsUI data={data}></SquadsUI>  
+                <Text fontSize='20px'>Oldest squad</Text>
+                <SquadsUI data={data} title="aged"></SquadsUI>  
+                <Button>Like</Button>
+              </VStack>
+              <VStack >
+                <Text fontSize='20px'>Most yellow cards</Text>
+                <SquadsUI data={data} title="yellow" ></SquadsUI>  
                 <Button>Like</Button>
               </VStack>
 
-              <VStack >
-                <Text fontSize='20px'>Old but gold</Text>
-                <SquadsUI data={data}></SquadsUI>  
-                <Button>Like</Button>
-              </VStack>
             </HStack>
           </VStack>
 
