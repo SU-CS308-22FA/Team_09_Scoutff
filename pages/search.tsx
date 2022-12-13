@@ -68,11 +68,11 @@ const SearchBar = () => {
   }, [debouncedSearch]);
 
   return (
-  <div >
-    <HStack>
+  <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),0)}>
+    <HStack zIndex={200}  >
       <InputGroup>
       <InputLeftElement children={<SearchIcon/>}  />
-      <Input placeholder="Search" onFocus={ () => setFocusedSearch(true)} onBlur={() => setFocusedSearch(false)}
+      <Input placeholder="Search"
     type= "search"
     colorScheme="teal" 
     onChange={(e) => setSearch(e.target.value)}
@@ -82,51 +82,57 @@ const SearchBar = () => {
   {loading && <Spinner />}
   </HStack>
 
+
+  {focusedSearch &&  
   <div style={{position:"absolute"}}>
-
-  {focusedSearch &&  players.map((player) => {
-    return (
+    {players.map((player) => {
+          return (
       
-      <LinkBox
-    
-      backgroundColor="Background"
-      width= "250px"
-      maxHeight={70}
-      z-index= "30"
-            rounded="lg"
-            _hover={{
-              color: "gray",
-              transform: 'scale(1.05)',
-              transition: 'all 0.5s ease',
-              bg: 'rgba(0,0,0,0.1)',
-            }}
-            as="article" borderWidth='1px' >
-         
-      <Flex key={player.slug} p={4} >
-        
-          <Avatar
-            src={player.photo}
-            width="40px"
-            height="40px"
-          />
-        
-        <Flex direction="column" ml={4}>
-          <LinkOverlay href={`/player_profile/${player.slug}`} fontSize={"sm"}>
-            {player.name}
-          </LinkOverlay>
+            <LinkBox key={player.slug}
+          
+            backgroundColor="Background"
+            width= "250px"
+            maxHeight={70}
+            z-index= "30"
+                  rounded="lg"
+                  _hover={{
+                    color: "gray",
+                    transform: 'scale(1.05)',
+                    transition: 'all 0.5s ease',
+                    bg: 'rgba(0,0,0,0.1)',
+                  }}
+                  as="article" borderWidth='1px' >
+               
+            <Flex key={player.slug} p={4} >
+              
+                <Avatar
+                  src={player.photo}
+                  width="40px"
+                  height="40px"
+                />
+              
+              <Flex direction="column" ml={4}>
+                <LinkOverlay href={`/player_profile/${player.slug}`} fontSize={"sm"}>
+                  {player.name}
+                </LinkOverlay>
+      
+                <Text fontSize={"x-small"}
+                >{player.team.name}</Text>
+              </Flex>
+            </Flex>
+            </LinkBox>
+          );
 
-          <Text fontSize={"x-small"}
-          >{player.team.name}</Text>
-        </Flex>
-      </Flex>
-      </LinkBox>
-    );
+    })}
+  
+  </div>
+    
+
   }
-  )}
+  
   </div>
 
 
-</div>
 
   );
 };
