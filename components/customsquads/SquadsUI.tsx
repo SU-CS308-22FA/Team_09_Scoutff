@@ -34,7 +34,7 @@ function Player(str: { position: string | undefined, myData: JSX.Element[] | und
     <TableContainer w='160px'>
 
       <Table size="10px">
-        <Tbody fontSize="14.4px" fontFamily="sans-serif">
+        <Tbody fontSize="14.3px" fontFamily="sans-serif">
           {str.myData}
 
         </Tbody>
@@ -46,7 +46,9 @@ function Player(str: { position: string | undefined, myData: JSX.Element[] | und
 
 type Props = {
   data : StatPlayers[][];
+  title: string
 }
+
 
 type SquadProps = {
   data ?: Array<StatPlayers> ;
@@ -72,7 +74,8 @@ const convertNested = (player : any, path : string)  : number => {
 }
 
 
-export default function SquadsUI({data} : Props) {
+export default function SquadsUI({data, title} : Props) {
+  
 
   var gkCheck= 0;
   var dfCheck= 0;
@@ -87,15 +90,333 @@ export default function SquadsUI({data} : Props) {
   var fwCheck2= 0;
 
 
-  const [dataRating,dataYellow] = data
+  const [dataRating,dataYellow,dataAge] = data
+
+  
+  
+    const convertedIndex = "statistics.rating";
+    const keeperData = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "G" && gkCheck < 1){
+        gkCheck++;
+        return (
+          <VStack>
+            <Center>
+              <Tr key={index}>
+                <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+              </Tr>
+            </Center>
+            <Center>
+              {dataRating}
+            </Center>
+          </VStack>
+        )
+      }else{
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const defenceData = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+
+    
+      if(player.position === "D" && dfCheck3 < 1 && dfCheck3 > -1){
+        dfCheck3++;
+        return (
+          <VStack>
+          <Center>
+            <Tr key={index}>
+              <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+            </Tr>
+          </Center>
+            <Center>
+              {dataRating}
+            </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "D"){
+          dfCheck3++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const defenceData2 = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+
+      if(player.position === "D" && dfCheck2 < 2 && dfCheck2 > 0){
+        dfCheck2++;
+        return (
+          <VStack>
+
+          <Center>
+            <Tr key={index}>
+              <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+            </Tr>
+          </Center>
+                    <Center>
+                    {dataRating}
+                  </Center>
+        
+                </VStack>
+        )
+      }else{
+        if(player.position === "D"){
+          dfCheck2++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const defenceData3 = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+
+      if(player.position === "D" && dfCheck1 < 3 && dfCheck1 > 1){
+        dfCheck1++;
+        return (
+          <VStack>
+
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+
+          <Center>
+            {dataRating}
+          </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "D"){
+          dfCheck1++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const defenceData4 = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+
+      if(player.position === "D" && dfCheck < 4 && dfCheck > 2){
+        dfCheck++;
+        return (
+
+          <VStack>
+
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+
+          <Center>
+          {dataRating}
+          </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "D"){
+          dfCheck++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const midfieldData = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "M" && mfCheck2 < 3  && mfCheck2 > 1){
+        mfCheck2++;
+        return (
+          <VStack>
+
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+          <Center>
+              {dataRating}
+            </Center>
+
+          </VStack>
+          
+        )
+      }else{
+        if(player.position === "M"){
+          mfCheck2++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const midfieldData2 = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "M" && mfCheck1 < 2 && mfCheck1 > 0){
+        mfCheck1++;
+        return (
+          <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+            <Center>
+              {dataRating}
+            </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "M"){
+          mfCheck1++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const midfieldData3 = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "M" && mfCheck < 1 && mfCheck > -1){
+        mfCheck++;
+        return (
+          <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+
+          <Center>
+              {dataRating}
+            </Center>
+
+          
+          </VStack>
+        )
+      }else{
+        if(player.position === "M"){
+          mfCheck++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const forwardData = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "F" && fwCheck2 < 3  && fwCheck2 > 1){
+        fwCheck2++;
+        return (
+          <VStack>
+            <Center>
+            <Tr key={index}>
+              <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+            </Tr>
+            </Center>
+
+            <Center>
+              {dataRating}
+            </Center>
+
+        
+          </VStack>
+        )
+      }else{
+        if(player.position === "F"){
+          fwCheck2++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const forwardData2 = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "F" && fwCheck1 < 2  && fwCheck1 > 0){
+        fwCheck1++;
+        return (
+          <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+          <Center>
+              {dataRating}
+            </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "F"){
+          fwCheck1++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const forwardData3 = dataRating?.map((player,index) => {
+      const dataRating  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "F" && fwCheck < 1  && fwCheck > -1){
+        fwCheck++;
+        return (
+          <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+          <Center>
+              {dataRating}
+            </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "F"){
+          fwCheck++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+  
+
+   gkCheck= 0;
+   dfCheck= 0;
+   dfCheck1= 0;
+   dfCheck2= 0;
+   dfCheck3= 0;
+   mfCheck= 0;
+   mfCheck1= 0;
+   mfCheck2= 0;
+   fwCheck= 0;
+   fwCheck1= 0;
+   fwCheck2= 0;
+
 
   
 
   
-  const convertedIndex = "statistics.rating";
-  const keeperData = dataRating?.map((player,index) => {
-    const dataRating1  = convertedIndex ?  convertNested(player,convertedIndex): null
-    if(player.position === "G" && gkCheck < 1){
+
+  
+  const convertedIndex2 = "statistics.cards.yellow_cards";
+  const keeperDataYellow = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
+    if(player.position === "G" && gkCheck < 1 ){
       gkCheck++;
       return (
         <VStack>
@@ -105,7 +426,7 @@ export default function SquadsUI({data} : Props) {
             </Tr>
           </Center>
           <Center>
-            {dataRating1}
+            {dataYellow}
           </Center>
         </VStack>
       )
@@ -115,8 +436,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const defenceData = dataRating?.map((player,index) => {
-    const dataRating2  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const defenceDataYellow1 = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
 
    
     if(player.position === "D" && dfCheck3 < 1 && dfCheck3 > -1){
@@ -129,7 +450,7 @@ export default function SquadsUI({data} : Props) {
           </Tr>
         </Center>
           <Center>
-            {dataRating2}
+            {dataYellow}
           </Center>
 
         </VStack>
@@ -143,8 +464,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const defenceData2 = dataRating?.map((player,index) => {
-    const dataRating2  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const defenceDataYellow2 = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
 
     if(player.position === "D" && dfCheck2 < 2 && dfCheck2 > 0){
       dfCheck2++;
@@ -157,7 +478,7 @@ export default function SquadsUI({data} : Props) {
           </Tr>
         </Center>
                   <Center>
-                  {dataRating2}
+                  {dataYellow}
                 </Center>
       
               </VStack>
@@ -171,8 +492,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const defenceData3 = dataRating?.map((player,index) => {
-    const dataRating2  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const defenceDataYellow3 = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
 
     if(player.position === "D" && dfCheck1 < 3 && dfCheck1 > 1){
       dfCheck1++;
@@ -186,7 +507,7 @@ export default function SquadsUI({data} : Props) {
         </Center>
 
         <Center>
-          {dataRating2}
+          {dataYellow}
         </Center>
 
         </VStack>
@@ -200,8 +521,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const defenceData4 = dataRating?.map((player,index) => {
-    const dataRating2  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const defenceDataYellow4 = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
 
     if(player.position === "D" && dfCheck < 4 && dfCheck > 2){
       dfCheck++;
@@ -216,7 +537,7 @@ export default function SquadsUI({data} : Props) {
         </Center>
 
         <Center>
-        {dataRating2}
+        {dataYellow}
         </Center>
 
         </VStack>
@@ -230,8 +551,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const midfieldData = dataRating?.map((player,index) => {
-    const dataRating3  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const midfieldDataYellow = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
     if(player.position === "M" && mfCheck2 < 3  && mfCheck2 > 1){
       mfCheck2++;
       return (
@@ -243,7 +564,7 @@ export default function SquadsUI({data} : Props) {
         </Tr>
         </Center>
         <Center>
-            {dataRating3}
+            {dataYellow}
           </Center>
 
         </VStack>
@@ -258,8 +579,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const midfieldData2 = dataRating?.map((player,index) => {
-    const dataRating3  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const midfieldDataYellow2 = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
     if(player.position === "M" && mfCheck1 < 2 && mfCheck1 > 0){
       mfCheck1++;
       return (
@@ -270,7 +591,7 @@ export default function SquadsUI({data} : Props) {
         </Tr>
         </Center>
           <Center>
-            {dataRating3}
+            {dataYellow}
           </Center>
 
         </VStack>
@@ -284,8 +605,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const midfieldData3 = dataRating?.map((player,index) => {
-    const dataRating3  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const midfieldDataYellow3 = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
     if(player.position === "M" && mfCheck < 1 && mfCheck > -1){
       mfCheck++;
       return (
@@ -297,7 +618,7 @@ export default function SquadsUI({data} : Props) {
         </Center>
 
         <Center>
-            {dataRating3}
+            {dataYellow}
           </Center>
 
         
@@ -312,8 +633,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const forwardData = dataRating?.map((player,index) => {
-    const dataRating4  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const forwardDataYellow = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
     if(player.position === "F" && fwCheck2 < 3  && fwCheck2 > 1){
       fwCheck2++;
       return (
@@ -325,7 +646,7 @@ export default function SquadsUI({data} : Props) {
           </Center>
 
           <Center>
-            {dataRating4}
+            {dataYellow}
           </Center>
 
        
@@ -340,8 +661,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const forwardData2 = dataRating?.map((player,index) => {
-    const dataRating4  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const forwardDataYellow2 = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
     if(player.position === "F" && fwCheck1 < 2  && fwCheck1 > 0){
       fwCheck1++;
       return (
@@ -352,7 +673,7 @@ export default function SquadsUI({data} : Props) {
         </Tr>
         </Center>
         <Center>
-            {dataRating4}
+            {dataYellow}
           </Center>
 
         </VStack>
@@ -366,8 +687,8 @@ export default function SquadsUI({data} : Props) {
 
   })
 
-  const forwardData3 = dataRating?.map((player,index) => {
-    const dataRating4  = convertedIndex ?  convertNested(player,convertedIndex): null
+  const forwardDataYellow3 = dataYellow?.map((player,index) => {
+    const dataYellow  = convertedIndex2 ?  convertNested(player,convertedIndex2): null
     if(player.position === "F" && fwCheck < 1  && fwCheck > -1){
       fwCheck++;
       return (
@@ -378,7 +699,7 @@ export default function SquadsUI({data} : Props) {
         </Tr>
         </Center>
         <Center>
-            {dataRating4}
+            {dataYellow}
           </Center>
 
         </VStack>
@@ -392,8 +713,683 @@ export default function SquadsUI({data} : Props) {
 
   })
 
+
+
+
+
+
+
+
+  gkCheck= 0;
+   dfCheck= 0;
+   dfCheck1= 0;
+   dfCheck2= 0;
+   dfCheck3= 0;
+   mfCheck= 0;
+   mfCheck1= 0;
+   mfCheck2= 0;
+   fwCheck= 0;
+   fwCheck1= 0;
+   fwCheck2= 0;
+
+
   
 
+  
+
+  
+  const convertedIndex3 = "age";
+  const keeperDataAge = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+    if(player.position === "G" && gkCheck < 1){
+      gkCheck++;
+      return (
+        <VStack>
+          <Center>
+            <Tr key={index}>
+              <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+            </Tr>
+          </Center>
+          <Center>
+            {dataAge}
+          </Center>
+        </VStack>
+      )
+    }else{
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const defenceDataAge1 = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+
+   
+    if(player.position === "D" && dfCheck3 < 1 && dfCheck3 > -1){
+      dfCheck3++;
+      return (
+        <VStack>
+        <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+        </Center>
+          <Center>
+            {dataAge}
+          </Center>
+
+        </VStack>
+      )
+    }else{
+      if(player.position === "D"){
+        dfCheck3++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const defenceDataAge2 = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+
+    if(player.position === "D" && dfCheck2 < 2 && dfCheck2 > 0){
+      dfCheck2++;
+      return (
+        <VStack>
+
+        <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+        </Center>
+                  <Center>
+                  {dataAge}
+                </Center>
+      
+              </VStack>
+      )
+    }else{
+      if(player.position === "D"){
+        dfCheck2++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const defenceDataAge3 = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+
+    if(player.position === "D" && dfCheck1 < 3 && dfCheck1 > 1){
+      dfCheck1++;
+      return (
+        <VStack>
+
+        <Center>
+        <Tr key={index}>
+          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+        </Tr>
+        </Center>
+
+        <Center>
+          {dataAge}
+        </Center>
+
+        </VStack>
+      )
+    }else{
+      if(player.position === "D"){
+        dfCheck1++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const defenceDataAge4 = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+
+    if(player.position === "D" && dfCheck < 4 && dfCheck > 2){
+      dfCheck++;
+      return (
+
+        <VStack>
+
+        <Center>
+        <Tr key={index}>
+          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+        </Tr>
+        </Center>
+
+        <Center>
+        {dataAge}
+        </Center>
+
+        </VStack>
+      )
+    }else{
+      if(player.position === "D"){
+        dfCheck++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const midfieldDataAge = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+    if(player.position === "M" && mfCheck2 < 3  && mfCheck2 > 1){
+      mfCheck2++;
+      return (
+        <VStack>
+
+        <Center>
+        <Tr key={index}>
+          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+        </Tr>
+        </Center>
+        <Center>
+            {dataAge}
+          </Center>
+
+        </VStack>
+        
+      )
+    }else{
+      if(player.position === "M"){
+        mfCheck2++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const midfieldDataAge2 = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+    if(player.position === "M" && mfCheck1 < 2 && mfCheck1 > 0){
+      mfCheck1++;
+      return (
+        <VStack>
+        <Center>
+        <Tr key={index}>
+          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+        </Tr>
+        </Center>
+          <Center>
+            {dataAge}
+          </Center>
+
+        </VStack>
+      )
+    }else{
+      if(player.position === "M"){
+        mfCheck1++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const midfieldDataAge3 = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+    if(player.position === "M" && mfCheck < 1 && mfCheck > -1){
+      mfCheck++;
+      return (
+        <VStack>
+        <Center>
+        <Tr key={index}>
+          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+        </Tr>
+        </Center>
+
+        <Center>
+            {dataAge}
+          </Center>
+
+        
+        </VStack>
+      )
+    }else{
+      if(player.position === "M"){
+        mfCheck++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const forwardDataAge = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+    if(player.position === "F" && fwCheck2 < 3  && fwCheck2 > 1){
+      fwCheck2++;
+      return (
+        <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+
+          <Center>
+            {dataAge}
+          </Center>
+
+       
+        </VStack>
+      )
+    }else{
+      if(player.position === "F"){
+        fwCheck2++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const forwardDataAge2 = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+    if(player.position === "F" && fwCheck1 < 2  && fwCheck1 > 0){
+      fwCheck1++;
+      return (
+        <VStack>
+        <Center>
+        <Tr key={index}>
+          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+        </Tr>
+        </Center>
+        <Center>
+            {dataAge}
+          </Center>
+
+        </VStack>
+      )
+    }else{
+      if(player.position === "F"){
+        fwCheck1++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+  const forwardDataAge3 = dataAge?.map((player,index) => {
+    const dataAge  = convertedIndex3 ?  convertNested(player,convertedIndex3): null
+    if(player.position === "F" && fwCheck < 1  && fwCheck > -1){
+      fwCheck++;
+      return (
+        <VStack>
+        <Center>
+        <Tr key={index}>
+          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+        </Tr>
+        </Center>
+        <Center>
+            {dataAge}
+          </Center>
+
+        </VStack>
+      )
+    }else{
+      if(player.position === "F"){
+        fwCheck++;
+      }
+      return(<Tr></Tr>)
+    }
+
+  })
+
+
+
+
+   gkCheck= 0;
+   dfCheck= 0;
+   dfCheck1= 0;
+   dfCheck2= 0;
+   dfCheck3= 0;
+   mfCheck= 0;
+   mfCheck1= 0;
+   mfCheck2= 0;
+   fwCheck= 0;
+   fwCheck1= 0;
+   fwCheck2= 0;
+
+
+  
+
+  
+  
+    
+    const keeperDataYoung = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "G" && gkCheck < 1 && player.age < 24){
+        gkCheck++;
+        return (
+          <VStack>
+            <Center>
+              <Tr key={index}>
+                <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+              </Tr>
+            </Center>
+            <Center>
+              {dataRatingYoung}
+            </Center>
+          </VStack>
+        )
+      }else{
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const defenceDataYoung = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+
+    
+      if(player.position === "D" && dfCheck3 < 1 && dfCheck3 > -1 && player.age < 24){
+        dfCheck3++;
+        return (
+          <VStack>
+          <Center>
+            <Tr key={index}>
+              <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+            </Tr>
+          </Center>
+            <Center>
+              {dataRatingYoung}
+            </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "D" && player.age < 24){
+          dfCheck3++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const defenceDataYoung2 = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+
+      if(player.position === "D" && dfCheck2 < 2 && dfCheck2 > 0 && player.age < 24){
+        dfCheck2++;
+        return (
+          <VStack>
+
+          <Center>
+            <Tr key={index}>
+              <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+            </Tr>
+          </Center>
+                    <Center>
+                    {dataRatingYoung}
+                  </Center>
+        
+                </VStack>
+        )
+      }else{
+        if(player.position === "D" && player.age < 22){
+          dfCheck2++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const defenceDataYoung3 = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+
+      if(player.position === "D" && dfCheck1 < 3 && dfCheck1 > 1 && player.age < 24){
+        dfCheck1++;
+        return (
+          <VStack>
+
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+
+          <Center>
+            {dataRatingYoung}
+          </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "D" && player.age < 24){
+          dfCheck1++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const defenceDataYoung4 = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+
+      if(player.position === "D" && dfCheck < 4 && dfCheck > 2 && player.age < 24){
+        dfCheck++;
+        return (
+
+          <VStack>
+
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+
+          <Center>
+          {dataRatingYoung}
+          </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "D" && player.age < 24){
+          dfCheck++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const midfieldDataYoung = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "M" && mfCheck2 < 3  && mfCheck2 > 1 && player.age < 24){
+        mfCheck2++;
+        return (
+          <VStack>
+
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+          <Center>
+              {dataRatingYoung}
+            </Center>
+
+          </VStack>
+          
+        )
+      }else{
+        if(player.position === "M" && player.age < 24){
+          mfCheck2++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const midfieldDataYoung2 = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "M" && mfCheck1 < 2 && mfCheck1 > 0 && player.age < 24 ){
+        mfCheck1++;
+        return (
+          <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+            <Center>
+              {dataRatingYoung}
+            </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "M" && player.age < 24){
+          mfCheck1++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const midfieldDataYoung3 = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "M" && mfCheck < 1 && mfCheck > -1 && player.age < 24){
+        mfCheck++;
+        return (
+          <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+
+          <Center>
+              {dataRatingYoung}
+            </Center>
+
+          
+          </VStack>
+        )
+      }else{
+        if(player.position === "M" && player.age < 24){
+          mfCheck++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const forwardDataYoung = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "F" && fwCheck2 < 3  && fwCheck2 > 1 && player.age < 24){
+        fwCheck2++;
+        return (
+          <VStack>
+            <Center>
+            <Tr key={index}>
+              <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+            </Tr>
+            </Center>
+
+            <Center>
+              {dataRatingYoung}
+            </Center>
+
+        
+          </VStack>
+        )
+      }else{
+        if(player.position === "F" && player.age < 24){
+          fwCheck2++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const forwardDataYoung2 = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "F" && fwCheck1 < 2  && fwCheck1 > 0 && player.age < 24){
+        fwCheck1++;
+        return (
+          <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+          <Center>
+              {dataRatingYoung}
+            </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "F" && player.age < 24){
+          fwCheck1++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+    const forwardDataYoung3 = dataRating?.map((player,index) => {
+      const dataRatingYoung  = convertedIndex ?  convertNested(player,convertedIndex): null
+      if(player.position === "F" && fwCheck < 1  && fwCheck > -1 && player.age < 24){
+        fwCheck++;
+        return (
+          <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+          <Center>
+              {dataRatingYoung}
+            </Center>
+
+          </VStack>
+        )
+      }else{
+        if(player.position === "F" && player.age < 24){
+          fwCheck++;
+        }
+        return(<Tr></Tr>)
+      }
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  if(title==="rating"){
+
+  
 
   return (
     <Flex>
@@ -469,6 +1465,243 @@ export default function SquadsUI({data} : Props) {
       </HStack>
     </Flex>
   );
+
+  }else if(title==="aged"){
+
+  
+
+    return (
+      <Flex>
+        <HStack w='688px'>
+          {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
+        <Box backgroundImage='https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png' 
+          backgroundSize='688px'
+          backgroundRepeat="no-repeat"
+          h='946px' flex='1'> 
+          
+          {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
+          
+          <Center marginTop='50px' fontSize='20px'>
+            <Player position='F' myData={forwardDataAge}></Player>
+  
+  
+            
+          </Center>
+  
+          <Center marginTop='50px' fontSize='20px'>
+           
+            <Player position='F' myData={forwardDataAge2}></Player>
+  
+            
+            <VStack marginX='60px'>
+              <Player position='M' myData={midfieldDataAge3}></Player>
+            </VStack>
+  
+            <Player position='F' myData={forwardDataAge3}></Player>
+  
+            
+          </Center>
+  
+          <Center marginTop='105px' fontSize='20px'>
+            <VStack marginRight='30px'>
+              <Player position='M' myData={midfieldDataAge2}></Player>
+            </VStack>  
+  
+            <VStack marginLeft='30px'>
+              <Player position='M' myData={midfieldDataAge}></Player>
+            </VStack>
+  
+  
+          </Center>
+  
+          <Center marginTop='90px' fontSize='20px'>
+            <VStack>
+              <Player position='D' myData={defenceDataAge1}></Player>
+            </VStack>  
+  
+            <VStack marginX='10px'>
+              <Player position='D' myData={defenceDataAge2}></Player>
+            </VStack>
+  
+            <VStack marginX='10px'>
+              <Player position='D' myData={defenceDataAge3}></Player>
+            </VStack>  
+  
+            <VStack>
+              <Player position='D' myData={defenceDataAge4}></Player>
+            </VStack>
+  
+          </Center>
+  
+          <Center marginTop='50px' fontSize='20px'>
+            
+            <Player position='G' myData={keeperDataAge}></Player>
+          
+          </Center>
+  
+          {/* id = 0 buraya kadar oyuncu yerleri */ }
+        </Box>
+        </HStack>
+      </Flex>
+    );
+  
+    }else if(title==="young"){
+
+  
+
+      return (
+        <Flex>
+          <HStack w='688px'>
+            {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
+          <Box backgroundImage='https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png' 
+            backgroundSize='688px'
+            backgroundRepeat="no-repeat"
+            h='946px' flex='1'> 
+            
+            {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
+            
+            <Center marginTop='50px' fontSize='20px'>
+              <Player position='F' myData={forwardDataYoung}></Player>
+    
+    
+              
+            </Center>
+    
+            <Center marginTop='50px' fontSize='20px'>
+             
+              <Player position='F' myData={forwardDataYoung2}></Player>
+    
+              
+              <VStack marginX='60px'>
+                <Player position='M' myData={midfieldDataYoung3}></Player>
+              </VStack>
+    
+              <Player position='F' myData={forwardDataYoung3}></Player>
+    
+              
+            </Center>
+    
+            <Center marginTop='105px' fontSize='20px'>
+              <VStack marginRight='30px'>
+                <Player position='M' myData={midfieldDataYoung2}></Player>
+              </VStack>  
+    
+              <VStack marginLeft='30px'>
+                <Player position='M' myData={midfieldDataYoung}></Player>
+              </VStack>
+    
+    
+            </Center>
+    
+            <Center marginTop='90px' fontSize='20px'>
+              <VStack>
+                <Player position='D' myData={defenceDataYoung}></Player>
+              </VStack>  
+    
+              <VStack marginX='10px'>
+                <Player position='D' myData={defenceDataYoung2}></Player>
+              </VStack>
+    
+              <VStack marginX='10px'>
+                <Player position='D' myData={defenceDataYoung3}></Player>
+              </VStack>  
+    
+              <VStack>
+                <Player position='D' myData={defenceDataYoung4}></Player>
+              </VStack>
+    
+            </Center>
+    
+            <Center marginTop='50px' fontSize='20px'>
+              
+              <Player position='G' myData={keeperDataYoung}></Player>
+            
+            </Center>
+    
+            {/* id = 0 buraya kadar oyuncu yerleri */ }
+          </Box>
+          </HStack>
+        </Flex>
+      );
+    
+      }
+    
+    else{
+    return (
+      <Flex>
+        <HStack w='688px'>
+          {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
+        <Box backgroundImage='https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png' 
+          backgroundSize='688px'
+          backgroundRepeat="no-repeat"
+          h='946px' flex='1'> 
+          
+          {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
+          
+          <Center marginTop='50px' fontSize='20px'>
+            <Player position='F' myData={forwardDataYellow}></Player>
+  
+  
+            
+          </Center>
+  
+          <Center marginTop='50px' fontSize='20px'>
+           
+            <Player position='F' myData={forwardDataYellow2}></Player>
+  
+            
+            <VStack marginX='60px'>
+              <Player position='M' myData={midfieldDataYellow3}></Player>
+            </VStack>
+  
+            <Player position='F' myData={forwardDataYellow3}></Player>
+  
+            
+          </Center>
+  
+          <Center marginTop='105px' fontSize='20px'>
+            <VStack marginRight='30px'>
+              <Player position='M' myData={midfieldDataYellow2}></Player>
+            </VStack>  
+  
+            <VStack marginLeft='30px'>
+              <Player position='M' myData={midfieldDataYellow}></Player>
+            </VStack>
+  
+  
+          </Center>
+  
+          <Center marginTop='90px' fontSize='20px'>
+            <VStack>
+              <Player position='D' myData={defenceDataYellow1}></Player>
+            </VStack>  
+  
+            <VStack marginX='10px'>
+              <Player position='D' myData={defenceDataYellow2}></Player>
+            </VStack>
+  
+            <VStack marginX='10px'>
+              <Player position='D' myData={defenceDataYellow3}></Player>
+            </VStack>  
+  
+            <VStack>
+              <Player position='D' myData={defenceDataYellow4}></Player>
+            </VStack>
+  
+          </Center>
+  
+          <Center marginTop='50px' fontSize='20px'>
+            
+            <Player position='G' myData={keeperDataYellow}></Player>
+          
+          </Center>
+  
+          {/* id = 0 buraya kadar oyuncu yerleri */ }
+        </Box>
+        </HStack>
+      </Flex>
+    );
+  }
 
   function techStackButton(text: string) {
     return <Button rounded={"base"}>{text}</Button>;

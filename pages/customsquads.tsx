@@ -36,7 +36,8 @@ export default function Home({data} :InferGetStaticPropsType<typeof getStaticPro
 export type StatPlayers = Record<string, Object | number> &  {
   name : string;
   slug : string;
-  position: string
+  position: string;
+  age: number;
 }
 
 
@@ -78,7 +79,7 @@ const getQueryResults =  async (client : ApolloClient<NormalizedCacheObject>  ,r
 
   const query =  await Promise.all(rankings.map(async (ranking) => {
 
-    const queryConverted = gql`query {playersNestedSort(input : {limit:50,path:${quotedString(ranking)}}) { slug name position ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
+    const queryConverted = gql`query {playersNestedSort(input : {limit:200,path:${quotedString(ranking)}}) { slug name position age ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
     
     const data = await client.query<GraphQLProps<
       StatPlayers
@@ -106,7 +107,7 @@ export async function getStaticProps() {
   const client = await getClient()
   return {
     props: {
-      data : client ?  await getQueryResults(client,["statistics.rating", "statistics.cards.yellow_cards"]) : []
+      data : client ?  await getQueryResults(client,["statistics.rating", "statistics.cards.yellow_cards", "age"]) : []
 
     },
     revalidate: 6000,
