@@ -110,6 +110,6 @@ export async function getStaticProps() {
       data : client ?  await getQueryResults(client,["statistics.rating", "statistics.cards.yellow_cards", "age"]) : []
 
     },
-    revalidate: 6000,
+    revalidate: 1200,
   };
 }

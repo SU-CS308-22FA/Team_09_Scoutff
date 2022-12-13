@@ -28,10 +28,7 @@ import useDebounce from  "../../../hook/useDebounce";
 import SearchBar from "../../../pages/search";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
-  {
-    name: "Featured Player Profile",
-    path: "/player_profile",
-  },
+
   {
     name: "Squads",
     path: "/squadby",

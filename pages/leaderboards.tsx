@@ -10,6 +10,7 @@ import Player, { IPlayer } from "../models/Player";
 import { InferGetStaticPropsType } from "next";
 import LeaderboardUI from "../components/leaderboard/ui/LeaderboardUI";
 import { getClient } from "../lib/realm/login";
+import { useApp } from "../hook/useApp";
 
 // 2. Function to create GraphQL client
 
@@ -107,13 +108,16 @@ export default function Home({data} :InferGetStaticPropsType<typeof getStaticPro
 
 export async function getStaticProps() {
 
+
+
   const client = await getClient()
+
 
   return {
     props: {
       data : client ?  await getQueryResults(client,["statistics.rating","market_value","statistics.attacking.goals","statistics.passes.big_chance_created","statistics.passes.assists","statistics.cards.yellow_cards","statistics.defending.clean_sheets","statistics.defending.tackles_per_game","statistics.attacking.total_shots_per_game"]) : []
 
     },
-    revalidate: 6000,
+    revalidate: 1200,
   };
 }
