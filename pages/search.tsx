@@ -1,12 +1,13 @@
-import { Icon, Input, Flex, Text, Spinner, LinkBox, MenuList, Menu, LinkOverlay, Box, Avatar } from "@chakra-ui/react";
+import { Icon, Input, Flex, Text, Spinner, LinkBox, MenuList, Menu, LinkOverlay, Box, Avatar, InputGroup, InputLeftAddon, InputLeftElement, HStack } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useDebounce from  "../hook/useDebounce";
 import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, useApolloClient, useQuery } from "@apollo/client";
 
 import InterfacePlayer from "../models/Player";
 import { string } from "yup";
+import { SearchIcon } from "@chakra-ui/icons";
 interface PlayerInterface {
     name: string;
     slug: string;
@@ -29,6 +30,9 @@ const SearchBar = () => {
 
   
   const debouncedSearch = useDebounce(search, 500);
+
+  const [focusedSearch, setFocusedSearch] = useState(false);
+
 
   useEffect(() => {
     // search the api
@@ -64,22 +68,27 @@ const SearchBar = () => {
   }, [debouncedSearch]);
 
   return (
-  <div>
-    <div>
-    <Input placeholder="Search" 
+  <div >
+    <HStack>
+      <InputGroup>
+      <InputLeftElement children={<SearchIcon/>}  />
+      <Input placeholder="Search" onFocus={ () => setFocusedSearch(true)} onBlur={() => setFocusedSearch(false)}
     type= "search"
     colorScheme="teal" 
     onChange={(e) => setSearch(e.target.value)}
     />
+      </InputGroup>
+
   {loading && <Spinner />}
-  </div>
+  </HStack>
 
-  <div>
+  <div style={{position:"absolute"}}>
 
-  {players.map((player) => {
+  {focusedSearch &&  players.map((player) => {
     return (
       
       <LinkBox
+    
       backgroundColor="Background"
       width= "250px"
       maxHeight={70}
