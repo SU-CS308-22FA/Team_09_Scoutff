@@ -1,10 +1,13 @@
 import { ReactNode, useEffect, useState } from "react";
+import { GraphQLProvider } from "../../../provider/GraphQLProvider";
 import {
   Box,
   Flex,
+  Icon,
   Avatar,
   HStack,
   IconButton,
+  Input,
   Button,
   Menu,
   MenuButton,
@@ -21,6 +24,8 @@ import { signOut } from "next-auth/react";
 import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, useApolloClient, useQuery } from "@apollo/client";
 import { useApp } from "../../../hook/useApp";
 import * as Realm from "realm-web";
+import useDebounce from  "../../../hook/useDebounce";
+import SearchBar from "../../../pages/search";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
   {
@@ -135,8 +140,17 @@ export default function Navbar(props : any) {
                   {name}
                 </NavLink>
               ))}
+              
+            </HStack>
+            <HStack
+              as={"nav"}
+              spacing={4}
+              display={{ base: "none", md: "flex" }}
+            >
+            <SearchBar/>
             </HStack>
           <Flex alignItems={"center"}>
+            
           <HStack
               as={"nav"}
               spacing={4}
@@ -149,34 +163,6 @@ export default function Navbar(props : any) {
               ))}
             </HStack>
 
-            <Button
-              variant={"outline"}
-              colorScheme={"blue"}
-              size={"sm"}
-              mr={4}
-              onClick={() => {
-                client.query({
-                  query: convertToQuery("erhan"),
-          
-
-
-                }).then((result) => {
-                  console.log("result",result);
-                }).catch((error) => {
-                  console.log("error",error);
-                  
-
-
-
-                  
-
-
-                  
-                });
-
-              }}
-              //leftIcon={<AddIcon />}
-            />
 
             
             <Button
