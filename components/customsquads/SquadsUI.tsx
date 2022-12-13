@@ -34,7 +34,7 @@ function Player(str: { position: string | undefined, myData: JSX.Element[] | und
     <TableContainer w='160px'>
 
       <Table size="10px">
-        <Tbody fontSize="14px">
+        <Tbody fontSize="14.4px" fontFamily="sans-serif">
           {str.myData}
 
         </Tbody>
@@ -98,10 +98,16 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "G" && gkCheck < 1){
       gkCheck++;
       return (
-        <Tr key={index}>
-          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating1}</Td>
-        </Tr>
+        <VStack>
+          <Center>
+            <Tr key={index}>
+              <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+            </Tr>
+          </Center>
+          <Center>
+            {dataRating1}
+          </Center>
+        </VStack>
       )
     }else{
       return(<Tr></Tr>)
@@ -116,10 +122,17 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "D" && dfCheck3 < 1 && dfCheck3 > -1){
       dfCheck3++;
       return (
-        <Tr key={index}>
-          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating2}</Td>
-        </Tr>
+        <VStack>
+        <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+        </Center>
+          <Center>
+            {dataRating2}
+          </Center>
+
+        </VStack>
       )
     }else{
       if(player.position === "D"){
@@ -136,10 +149,18 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "D" && dfCheck2 < 2 && dfCheck2 > 0){
       dfCheck2++;
       return (
-        <Tr key={index}>
-          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating2}</Td>
-        </Tr>
+        <VStack>
+
+        <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+        </Center>
+                  <Center>
+                  {dataRating2}
+                </Center>
+      
+              </VStack>
       )
     }else{
       if(player.position === "D"){
@@ -156,10 +177,19 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "D" && dfCheck1 < 3 && dfCheck1 > 1){
       dfCheck1++;
       return (
+        <VStack>
+
+        <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating2}</Td>
         </Tr>
+        </Center>
+
+        <Center>
+          {dataRating2}
+        </Center>
+
+        </VStack>
       )
     }else{
       if(player.position === "D"){
@@ -176,10 +206,20 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "D" && dfCheck < 4 && dfCheck > 2){
       dfCheck++;
       return (
+
+        <VStack>
+
+        <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating2}</Td>
         </Tr>
+        </Center>
+
+        <Center>
+        {dataRating2}
+        </Center>
+
+        </VStack>
       )
     }else{
       if(player.position === "D"){
@@ -195,10 +235,19 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "M" && mfCheck2 < 3  && mfCheck2 > 1){
       mfCheck2++;
       return (
+        <VStack>
+
+        <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating3}</Td>
         </Tr>
+        </Center>
+        <Center>
+            {dataRating3}
+          </Center>
+
+        </VStack>
+        
       )
     }else{
       if(player.position === "M"){
@@ -214,10 +263,17 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "M" && mfCheck1 < 2 && mfCheck1 > 0){
       mfCheck1++;
       return (
+        <VStack>
+        <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating3}</Td>
         </Tr>
+        </Center>
+          <Center>
+            {dataRating3}
+          </Center>
+
+        </VStack>
       )
     }else{
       if(player.position === "M"){
@@ -233,10 +289,19 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "M" && mfCheck < 1 && mfCheck > -1){
       mfCheck++;
       return (
+        <VStack>
+        <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating3}</Td>
         </Tr>
+        </Center>
+
+        <Center>
+            {dataRating3}
+          </Center>
+
+        
+        </VStack>
       )
     }else{
       if(player.position === "M"){
@@ -252,10 +317,19 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "F" && fwCheck2 < 3  && fwCheck2 > 1){
       fwCheck2++;
       return (
-        <Tr key={index}>
-          <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating4}</Td>
-        </Tr>
+        <VStack>
+          <Center>
+          <Tr key={index}>
+            <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
+          </Tr>
+          </Center>
+
+          <Center>
+            {dataRating4}
+          </Center>
+
+       
+        </VStack>
       )
     }else{
       if(player.position === "F"){
@@ -271,10 +345,17 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "F" && fwCheck1 < 2  && fwCheck1 > 0){
       fwCheck1++;
       return (
+        <VStack>
+        <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating4}</Td>
         </Tr>
+        </Center>
+        <Center>
+            {dataRating4}
+          </Center>
+
+        </VStack>
       )
     }else{
       if(player.position === "F"){
@@ -290,10 +371,17 @@ export default function SquadsUI({data} : Props) {
     if(player.position === "F" && fwCheck < 1  && fwCheck > -1){
       fwCheck++;
       return (
+        <VStack>
+        <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-          <Td>{dataRating4}</Td>
         </Tr>
+        </Center>
+        <Center>
+            {dataRating4}
+          </Center>
+
+        </VStack>
       )
     }else{
       if(player.position === "F"){
@@ -310,6 +398,7 @@ export default function SquadsUI({data} : Props) {
   return (
     <Flex>
       <HStack w='688px'>
+        {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
       <Box backgroundImage='https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png' 
         backgroundSize='688px'
         backgroundRepeat="no-repeat"
@@ -317,14 +406,14 @@ export default function SquadsUI({data} : Props) {
         
         {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
         
-        <Center marginTop='80px' fontSize='20px'>
+        <Center marginTop='50px' fontSize='20px'>
           <Player position='F' myData={forwardData}></Player>
 
 
           
         </Center>
 
-        <Center marginTop='60px' fontSize='20px'>
+        <Center marginTop='50px' fontSize='20px'>
          
           <Player position='F' myData={forwardData2}></Player>
 
@@ -350,7 +439,7 @@ export default function SquadsUI({data} : Props) {
 
         </Center>
 
-        <Center marginTop='100px' fontSize='20px'>
+        <Center marginTop='90px' fontSize='20px'>
           <VStack>
             <Player position='D' myData={defenceData}></Player>
           </VStack>  
@@ -369,7 +458,7 @@ export default function SquadsUI({data} : Props) {
 
         </Center>
 
-        <Center marginTop='90px' fontSize='20px'>
+        <Center marginTop='50px' fontSize='20px'>
           
           <Player position='G' myData={keeperData}></Player>
         
