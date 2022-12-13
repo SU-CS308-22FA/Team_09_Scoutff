@@ -9,23 +9,25 @@ import {onError} from "@apollo/client/link/error";
 const anonymousUser = Realm.Credentials.anonymous();
 
 
+export const  isExpired = (token ?: string | null) => {
+
+  if (!token) return true;
+
+  Buffer.from(token.split(".")[1], "base64");
+  
+
+  const payload = JSON.parse(Buffer.from(token.split(".")[1], "base64").toString("binary"));
+  const now = new Date().getTime() / 1000;
+  return payload.exp < now;
+
+}
+
+
 export function GraphQLProvider({ children } : {children : ReactNode}) {
     const app = useApp();
 
     const [client, setClient] = useState<ApolloClient<NormalizedCacheObject> | null>(null);
 
-    const  isExpired = useCallback((token ?: string | null) => {
-
-        if (!token) return true;
-
-        Buffer.from(token.split(".")[1], "base64");
-        
-
-        const payload = JSON.parse(Buffer.from(token.split(".")[1], "base64").toString("binary"));
-        const now = new Date().getTime() / 1000;
-        return payload.exp < now;
-   
-    }, []);
 
 
 
