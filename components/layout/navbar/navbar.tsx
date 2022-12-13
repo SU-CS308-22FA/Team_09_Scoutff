@@ -20,12 +20,13 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, useApolloClient, useQuery } from "@apollo/client";
 import { useApp } from "../../../hook/useApp";
 import * as Realm from "realm-web";
 import useDebounce from  "../../../hook/useDebounce";
 import SearchBar from "../../../pages/search";
+import { getToken } from "next-auth/jwt";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
 
@@ -106,7 +107,23 @@ export default function Navbar(props : any) {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const session = getSession();
+
+
   const app = useApp();
+
+  useEffect(() => {
+    async function checkLoggedIn() {
+      const session = await getSession();
+      setLoggedIn(!!session);
+    }
+    checkLoggedIn();
+
+    
+  }, []);
+  
 
 
 
@@ -243,13 +260,12 @@ export default function Navbar(props : any) {
                     spacing={4}
                     display={{ base: "none", md: "flex" }}
                   >
-                    {dropdownLink3.map(({ name, path }) => (
-                      <NavLink   key={path} path={path}>
+                      <NavLink  path={loggedIn ? "/auth/signin" : "/api/auth/signout"}>
                         <div>
-                          {name}
+                          {loggedIn ? "Log Out" : "Log In"}
                         </div>
                       </NavLink>
-                    ))}
+                    
                   </HStack>
                 </MenuItem>
               </MenuList>
