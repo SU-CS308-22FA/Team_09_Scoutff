@@ -131,7 +131,7 @@ export const authOptions :  NextAuthOptions = {
 
           const user = await User.findOne({ email: credentials.email }).lean();
 
-          console.log(process.env.EMAIL_SERVER_PASSWORD,process.env.EMAIL_SERVER_USER,process.env.EMAIL_SERVER_PORT,process.env.EMAIL_SERVER_HOST)
+
 
           if (!user) throw new Error('No user with that exists')
 
@@ -157,6 +157,7 @@ export const authOptions :  NextAuthOptions = {
 
 
           const isValid = await bcrypt.compare(credentials.password, user.password);
+
 
           if (!isValid) throw new Error('Invalid password or email')
           
