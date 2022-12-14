@@ -71,7 +71,7 @@ const dropdownLink3 = [
 ];
 const buttonLink = [
   {
-    name:"Favorite Players" ,
+    name:"Favourite Players 🌟" ,
     path: "/favorites",
     
   },

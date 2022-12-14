@@ -199,11 +199,12 @@ export default function Home({csrfToken,favourites} : InferGetServerSidePropsTyp
        <Box 
         bg={"gray.100"}
         color={useColorModeValue('gray.700', 'gray.200')}>
-         <Box h='23px'> 
-          <Center>
+         <Box h='230px'> 
+          
+         </Box>
+         <Center>
             <text> © 2022 Scoutff</text> 
           </Center>
-         </Box>
         </Box>
         
       </Box>

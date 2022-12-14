@@ -91,7 +91,7 @@ const SearchBar = () => {
             <LinkBox key={player.slug}
           
             backgroundColor="Background"
-            width= "250px"
+            width= "230px"
             maxHeight={70}
             z-index= "30"
                   rounded="lg"
