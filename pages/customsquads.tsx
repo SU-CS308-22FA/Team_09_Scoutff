@@ -38,6 +38,8 @@ export type StatPlayers = Record<string, Object | number> &  {
   slug : string;
   position: string;
   age: number;
+  has_photo: boolean;
+  photo: string;
 }
 
 
@@ -79,7 +81,7 @@ const getQueryResults =  async (client : ApolloClient<NormalizedCacheObject>  ,r
 
   const query =  await Promise.all(rankings.map(async (ranking) => {
 
-    const queryConverted = gql`query {playersNestedSort(input : {limit:200,path:${quotedString(ranking)}}) { slug name position age ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
+    const queryConverted = gql`query {playersNestedSort(input : {limit:200,path:${quotedString(ranking)}}) { slug name position age has_photo photo ${dotSeperatedStringToNestedGraphqlSelection(ranking)}}}`;
     
     const data = await client.query<GraphQLProps<
       StatPlayers

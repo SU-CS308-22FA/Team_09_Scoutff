@@ -27,14 +27,13 @@ function Player(str: { position: string | undefined, myData: JSX.Element[] | und
   
   
   return(<VStack>
-    <Text fontSize='30px'>👕</Text>
 
     {/* <Input placeholder={str.position} _placeholder={{ opacity: 1, color: 'blue.700' }} size='sm' w='114px' /> */}
 
-    <TableContainer w='160px'>
+    <TableContainer w='170px'>
 
       <Table size="10px">
-        <Tbody fontSize="14.3px" fontFamily="sans-serif">
+        <Tbody fontSize="14px" fontFamily="sans-serif" fontWeight={"bold"}>
           {str.myData}
 
         </Tbody>
@@ -102,6 +101,9 @@ export default function SquadsUI({data, title} : Props) {
         return (
           <VStack>
             <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
+            <Center>
               <Tr key={index}>
                 <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
               </Tr>
@@ -125,6 +127,9 @@ export default function SquadsUI({data, title} : Props) {
         dfCheck3++;
         return (
           <VStack>
+            <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
             <Tr key={index}>
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -152,7 +157,9 @@ export default function SquadsUI({data, title} : Props) {
         dfCheck2++;
         return (
           <VStack>
-
+            <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
             <Tr key={index}>
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -180,7 +187,9 @@ export default function SquadsUI({data, title} : Props) {
         dfCheck1++;
         return (
           <VStack>
-
+            <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -210,7 +219,9 @@ export default function SquadsUI({data, title} : Props) {
         return (
 
           <VStack>
-
+            <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -238,7 +249,9 @@ export default function SquadsUI({data, title} : Props) {
         mfCheck2++;
         return (
           <VStack>
-
+            <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -266,6 +279,9 @@ export default function SquadsUI({data, title} : Props) {
         mfCheck1++;
         return (
           <VStack>
+                        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -292,6 +308,9 @@ export default function SquadsUI({data, title} : Props) {
         mfCheck++;
         return (
           <VStack>
+                        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -321,6 +340,9 @@ export default function SquadsUI({data, title} : Props) {
         return (
           <VStack>
             <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>            
+            <Center>
             <Tr key={index}>
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
             </Tr>
@@ -348,6 +370,9 @@ export default function SquadsUI({data, title} : Props) {
         fwCheck1++;
         return (
           <VStack>
+                        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -374,6 +399,9 @@ export default function SquadsUI({data, title} : Props) {
         fwCheck++;
         return (
           <VStack>
+                        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -420,6 +448,9 @@ export default function SquadsUI({data, title} : Props) {
       gkCheck++;
       return (
         <VStack>
+                      <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
           <Center>
             <Tr key={index}>
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -444,6 +475,9 @@ export default function SquadsUI({data, title} : Props) {
       dfCheck3++;
       return (
         <VStack>
+            <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
         <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -471,7 +505,9 @@ export default function SquadsUI({data, title} : Props) {
       dfCheck2++;
       return (
         <VStack>
-
+            <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+            </Center>
         <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -499,6 +535,9 @@ export default function SquadsUI({data, title} : Props) {
       dfCheck1++;
       return (
         <VStack>
+          <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+          </Center>
 
         <Center>
         <Tr key={index}>
@@ -529,7 +568,9 @@ export default function SquadsUI({data, title} : Props) {
       return (
 
         <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -557,7 +598,9 @@ export default function SquadsUI({data, title} : Props) {
       mfCheck2++;
       return (
         <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -586,6 +629,9 @@ export default function SquadsUI({data, title} : Props) {
       return (
         <VStack>
         <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>          
+        <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
@@ -611,6 +657,9 @@ export default function SquadsUI({data, title} : Props) {
       mfCheck++;
       return (
         <VStack>
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>          
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -639,6 +688,9 @@ export default function SquadsUI({data, title} : Props) {
       fwCheck2++;
       return (
         <VStack>
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>          
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -668,6 +720,9 @@ export default function SquadsUI({data, title} : Props) {
       return (
         <VStack>
         <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>          
+        <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
         </Tr>
@@ -693,6 +748,9 @@ export default function SquadsUI({data, title} : Props) {
       fwCheck++;
       return (
         <VStack>
+                  <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -745,6 +803,9 @@ export default function SquadsUI({data, title} : Props) {
       gkCheck++;
       return (
         <VStack>
+                  <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
             <Tr key={index}>
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -769,6 +830,9 @@ export default function SquadsUI({data, title} : Props) {
       dfCheck3++;
       return (
         <VStack>
+                  <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -796,7 +860,9 @@ export default function SquadsUI({data, title} : Props) {
       dfCheck2++;
       return (
         <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -824,7 +890,9 @@ export default function SquadsUI({data, title} : Props) {
       dfCheck1++;
       return (
         <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -854,7 +922,9 @@ export default function SquadsUI({data, title} : Props) {
       return (
 
         <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -882,7 +952,9 @@ export default function SquadsUI({data, title} : Props) {
       mfCheck2++;
       return (
         <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -910,6 +982,9 @@ export default function SquadsUI({data, title} : Props) {
       mfCheck1++;
       return (
         <VStack>
+                  <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -936,6 +1011,9 @@ export default function SquadsUI({data, title} : Props) {
       mfCheck++;
       return (
         <VStack>
+                  <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -964,6 +1042,9 @@ export default function SquadsUI({data, title} : Props) {
       fwCheck2++;
       return (
         <VStack>
+                  <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -992,6 +1073,9 @@ export default function SquadsUI({data, title} : Props) {
       fwCheck1++;
       return (
         <VStack>
+                  <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1018,6 +1102,9 @@ export default function SquadsUI({data, title} : Props) {
       fwCheck++;
       return (
         <VStack>
+                  <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
         <Center>
         <Tr key={index}>
           <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1065,6 +1152,9 @@ export default function SquadsUI({data, title} : Props) {
         gkCheck++;
         return (
           <VStack>
+                    <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
             <Center>
               <Tr key={index}>
                 <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1089,6 +1179,9 @@ export default function SquadsUI({data, title} : Props) {
         dfCheck3++;
         return (
           <VStack>
+                    <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
             <Tr key={index}>
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1116,7 +1209,9 @@ export default function SquadsUI({data, title} : Props) {
         dfCheck2++;
         return (
           <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
             <Tr key={index}>
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1144,7 +1239,9 @@ export default function SquadsUI({data, title} : Props) {
         dfCheck1++;
         return (
           <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1174,7 +1271,9 @@ export default function SquadsUI({data, title} : Props) {
         return (
 
           <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1202,7 +1301,9 @@ export default function SquadsUI({data, title} : Props) {
         mfCheck2++;
         return (
           <VStack>
-
+        <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1230,6 +1331,9 @@ export default function SquadsUI({data, title} : Props) {
         mfCheck1++;
         return (
           <VStack>
+                    <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1256,6 +1360,9 @@ export default function SquadsUI({data, title} : Props) {
         mfCheck++;
         return (
           <VStack>
+                    <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1284,6 +1391,9 @@ export default function SquadsUI({data, title} : Props) {
         fwCheck2++;
         return (
           <VStack>
+                    <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
             <Center>
             <Tr key={index}>
               <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1312,6 +1422,9 @@ export default function SquadsUI({data, title} : Props) {
         fwCheck1++;
         return (
           <VStack>
+                    <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1338,6 +1451,9 @@ export default function SquadsUI({data, title} : Props) {
         fwCheck++;
         return (
           <VStack>
+                    <Center>
+            <Image src={player.has_photo ? player.photo : "http://cdn.onlinewebfonts.com/svg/img_76927.png"} borderRadius='full' boxSize='50px'/>
+        </Center>
           <Center>
           <Tr key={index}>
             <Td><Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
@@ -1395,21 +1511,24 @@ export default function SquadsUI({data, title} : Props) {
     <Flex>
       <HStack w='688px'>
         {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
-      <Box backgroundImage='https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png' 
-        backgroundSize='688px'
+      <Box backgroundImage='https://pbs.twimg.com/media/DG9CaHdXYAEmLw5.jpg' 
+ 
+        backgroundSize='1288px'
         backgroundRepeat="no-repeat"
-        h='946px' flex='1'> 
+        backgroundPosition= "top"
+
+        h='746px' flex='1'> 
         
         {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
         
-        <Center marginTop='50px' fontSize='20px'>
+        <Center marginTop='5px' fontSize='20px'>
           <Player position='F' myData={forwardData}></Player>
 
 
           
         </Center>
 
-        <Center marginTop='50px' fontSize='20px'>
+        <Center  fontSize='20px'>
          
           <Player position='F' myData={forwardData2}></Player>
 
@@ -1423,7 +1542,7 @@ export default function SquadsUI({data, title} : Props) {
           
         </Center>
 
-        <Center marginTop='105px' fontSize='20px'>
+        <Center  fontSize='20px'>
           <VStack marginRight='30px'>
             <Player position='M' myData={midfieldData2}></Player>
           </VStack>  
@@ -1435,7 +1554,7 @@ export default function SquadsUI({data, title} : Props) {
 
         </Center>
 
-        <Center marginTop='90px' fontSize='20px'>
+        <Center marginTop='18px' fontSize='20px'>
           <VStack>
             <Player position='D' myData={defenceData}></Player>
           </VStack>  
@@ -1454,7 +1573,7 @@ export default function SquadsUI({data, title} : Props) {
 
         </Center>
 
-        <Center marginTop='50px' fontSize='20px'>
+        <Center fontSize='20px'>
           
           <Player position='G' myData={keeperData}></Player>
         
@@ -1474,21 +1593,21 @@ export default function SquadsUI({data, title} : Props) {
       <Flex>
         <HStack w='688px'>
           {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
-        <Box backgroundImage='https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png' 
-          backgroundSize='688px'
+        <Box backgroundImage='https://pbs.twimg.com/media/DG9CaHdXYAEmLw5.jpg' 
+          backgroundSize='1288px'
+          backgroundPosition= "top"
           backgroundRepeat="no-repeat"
-          h='946px' flex='1'> 
+          h='746px' flex='1'> 
           
           {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
           
-          <Center marginTop='50px' fontSize='20px'>
+          <Center marginTop='5px' fontSize='20px'>
             <Player position='F' myData={forwardDataAge}></Player>
   
   
-            
           </Center>
   
-          <Center marginTop='50px' fontSize='20px'>
+          <Center fontSize='20px'>
            
             <Player position='F' myData={forwardDataAge2}></Player>
   
@@ -1502,7 +1621,7 @@ export default function SquadsUI({data, title} : Props) {
             
           </Center>
   
-          <Center marginTop='105px' fontSize='20px'>
+          <Center fontSize='20px'>
             <VStack marginRight='30px'>
               <Player position='M' myData={midfieldDataAge2}></Player>
             </VStack>  
@@ -1514,7 +1633,7 @@ export default function SquadsUI({data, title} : Props) {
   
           </Center>
   
-          <Center marginTop='90px' fontSize='20px'>
+          <Center marginTop='18px' fontSize='20px'>
             <VStack>
               <Player position='D' myData={defenceDataAge1}></Player>
             </VStack>  
@@ -1533,7 +1652,7 @@ export default function SquadsUI({data, title} : Props) {
   
           </Center>
   
-          <Center marginTop='50px' fontSize='20px'>
+          <Center fontSize='20px'>
             
             <Player position='G' myData={keeperDataAge}></Player>
           
@@ -1553,21 +1672,23 @@ export default function SquadsUI({data, title} : Props) {
         <Flex>
           <HStack w='688px'>
             {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
-          <Box backgroundImage='https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png' 
-            backgroundSize='688px'
+            <Box backgroundImage='https://pbs.twimg.com/media/DG9CaHdXYAEmLw5.jpg'  
+            backgroundSize='1288px'
             backgroundRepeat="no-repeat"
-            h='946px' flex='1'> 
+          backgroundPosition= "top"
+
+            h='746px' flex='1'> 
             
             {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
             
-            <Center marginTop='50px' fontSize='20px'>
+            <Center marginTop='5px' fontSize='20px'>
               <Player position='F' myData={forwardDataYoung}></Player>
     
     
               
             </Center>
     
-            <Center marginTop='50px' fontSize='20px'>
+            <Center fontSize='20px'>
              
               <Player position='F' myData={forwardDataYoung2}></Player>
     
@@ -1581,7 +1702,7 @@ export default function SquadsUI({data, title} : Props) {
               
             </Center>
     
-            <Center marginTop='105px' fontSize='20px'>
+            <Center fontSize='20px'>
               <VStack marginRight='30px'>
                 <Player position='M' myData={midfieldDataYoung2}></Player>
               </VStack>  
@@ -1593,7 +1714,7 @@ export default function SquadsUI({data, title} : Props) {
     
             </Center>
     
-            <Center marginTop='90px' fontSize='20px'>
+            <Center  marginTop='18px' fontSize='20px'>
               <VStack>
                 <Player position='D' myData={defenceDataYoung}></Player>
               </VStack>  
@@ -1612,7 +1733,7 @@ export default function SquadsUI({data, title} : Props) {
     
             </Center>
     
-            <Center marginTop='50px' fontSize='20px'>
+            <Center fontSize='20px'>
               
               <Player position='G' myData={keeperDataYoung}></Player>
             
@@ -1631,21 +1752,23 @@ export default function SquadsUI({data, title} : Props) {
       <Flex>
         <HStack w='688px'>
           {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
-        <Box backgroundImage='https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png' 
-          backgroundSize='688px'
+        <Box backgroundImage='https://pbs.twimg.com/media/DG9CaHdXYAEmLw5.jpg' 
+          backgroundSize='1288px'
           backgroundRepeat="no-repeat"
-          h='946px' flex='1'> 
+          backgroundPosition= "top"
+
+          h='746px' flex='1'> 
           
           {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
           
-          <Center marginTop='50px' fontSize='20px'>
+          <Center marginTop='5px' fontSize='20px'>
             <Player position='F' myData={forwardDataYellow}></Player>
   
   
             
           </Center>
   
-          <Center marginTop='50px' fontSize='20px'>
+          <Center fontSize='20px'>
            
             <Player position='F' myData={forwardDataYellow2}></Player>
   
@@ -1659,7 +1782,7 @@ export default function SquadsUI({data, title} : Props) {
             
           </Center>
   
-          <Center marginTop='105px' fontSize='20px'>
+          <Center fontSize='20px'>
             <VStack marginRight='30px'>
               <Player position='M' myData={midfieldDataYellow2}></Player>
             </VStack>  
@@ -1671,7 +1794,7 @@ export default function SquadsUI({data, title} : Props) {
   
           </Center>
   
-          <Center marginTop='90px' fontSize='20px'>
+          <Center marginTop='18px' fontSize='20px'>
             <VStack>
               <Player position='D' myData={defenceDataYellow1}></Player>
             </VStack>  
@@ -1690,7 +1813,7 @@ export default function SquadsUI({data, title} : Props) {
   
           </Center>
   
-          <Center marginTop='50px' fontSize='20px'>
+          <Center fontSize='20px'>
             
             <Player position='G' myData={keeperDataYellow}></Player>
           

@@ -9,9 +9,6 @@ type Props = {
 }
 
 
-
-
-
 const SquadsCompIndex = ({data} : Props) => {
   return (
     <div>
@@ -21,12 +18,18 @@ const SquadsCompIndex = ({data} : Props) => {
               <VStack marginRight='40px'>
                 <Text fontSize='20px'>Team of the season</Text>
                 <SquadsUI data={data} title="rating"></SquadsUI>  
-                <Button>Like</Button>
+                <HStack borderRadius="20px" backgroundColor="blue.200" w="100px">
+                  <Button color="black" backgroundColor="blue.200" rounded="20px">Like</Button>
+                  <Text>0</Text>
+                </HStack>
               </VStack>
               <VStack >
                 <Text fontSize='20px'>Youngsters of the season (U21)</Text>
-                <SquadsUI data={data} title="young"></SquadsUI>  
-                <Button>Like</Button>
+                <SquadsUI data={data} title="young"></SquadsUI> 
+                <HStack borderRadius="20px" backgroundColor="blue.200" w="100px">
+                  <Button color="black" backgroundColor="blue.200" rounded="20px">Like</Button>
+                  <Text>0</Text>
+                </HStack>
               </VStack>
 
             </HStack>
@@ -35,12 +38,18 @@ const SquadsCompIndex = ({data} : Props) => {
               <VStack marginRight='40px'>
                 <Text fontSize='20px'>Oldest squad</Text>
                 <SquadsUI data={data} title="aged"></SquadsUI>  
-                <Button>Like</Button>
+                <HStack borderRadius="20px" backgroundColor="blue.200" w="100px">
+                  <Button color="black" backgroundColor="blue.200" rounded="20px">Like</Button>
+                  <Text>0</Text>
+                </HStack>
               </VStack>
               <VStack >
                 <Text fontSize='20px'>Most yellow cards</Text>
                 <SquadsUI data={data} title="yellow" ></SquadsUI>  
-                <Button>Like</Button>
+                <HStack borderRadius="20px" backgroundColor="blue.200" w="100px">
+                  <Button color="black" backgroundColor="blue.200" rounded="20px">Like</Button>
+                  <Text>0</Text>
+                </HStack>
               </VStack>
 
             </HStack>
