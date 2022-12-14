@@ -1,5 +1,6 @@
 import { useSession, signIn, signOut, getCsrfToken, getSession } from "next-auth/react"
-import { Button } from "@chakra-ui/react";
+import { Button, Flex, Heading,  Stack,  Text,  useBreakpointValue,  useColorModeValue, Wrap, Center,Table, Thead,Tbody,Tfoot, Tr, Th, Td,Container,TableCaption,TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure,
+ } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";
@@ -17,21 +18,12 @@ import invariant from "tiny-invariant";
 
 export default function Home({csrfToken,favourites} : InferGetServerSidePropsType<typeof getServerSideProps>) {
 
-
-
-  const addFavorite = async () => {
-
-    const deneem = await axios.post("/api/user/favourites/63550795730a7fc502be606f", {
-      csrfToken: csrfToken,
-    })
-
-
-
-
   
 
 
-  }
+  const {isOpen, onClose, onOpen} = useDisclosure();
+
+  const favourites_10 = favourites?.filter(first10);
 
   return (
     <div>
@@ -41,28 +33,214 @@ export default function Home({csrfToken,favourites} : InferGetServerSidePropsTyp
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        {favourites && favourites.length  ? 
-
-        <ul>
-          {favourites.map((fav,index) => (
-            <li key={fav + index.toString()}>{fav}</li>
+      
+      <Box bg = 'gray.100'>
+        <Box bg='gray.100' h='20px'></Box>
+        <HStack>
+        <Flex marginTop={50} marginBottom='50px' marginLeft='350px' marginRight='350px' >
+          
+        <Box borderWidth={2} borderColor="white" bg="white" borderRadius={'2xl'}>
+       
+          <main>
+          <TableContainer>
+          <Table color='black'  colorScheme='gray'>
+          <TableCaption>
+          <Center>
+            {favourites_10 && favourites_10.length ?
+            <>
+            <VStack>
+            <Box h='7px' w='200px' bg='white'> </Box>
+                      <Button marginX='5px' onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>     
+                      </VStack>       
+            </>
+            : <div>There are no favourites</div>}
+     
             
-          ))}
-        </ul>
-    
 
-          : 
-        <div>There are no favourites</div>}
+          <Modal isOpen={isOpen}  onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>
+                <ModalCloseButton />
+              </ModalHeader>
+              <ModalBody>
+              <TableContainer>
+                  <Table variant='simple'>
+        
+                    <Thead>
+                      <Tr>
+                        
+                        <Heading  size={'md'} textAlign={'center'} >Your Favourites</Heading>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                    {favourites && favourites.length  ? 
+            
+                      <ul>
+                      {favourites.map((fav,index) => (
+                        
+                        <li key={fav + index.toString()}>
+                          <Center paddingTop={3} paddingBottom={2}>
+                          {fav}<Button size={'2xs'} bg='white' textColor={"white"} >. .</Button><Button  variant="ghost" borderRadius={'full'}  size={'xs'} fontWeight={'bold'} fontSize={10}  colorScheme={"red"}>X</Button>
+                            </Center><Center><Divider width={40} ></Divider></Center>
+                          </li>))} 
+                      </ul>
+                  
+                          : 
+                      <div>There are no favourites</div>}
 
-        <Button onClick={addFavorite} width="500px">
-          Add Arda Güler to your favorites
-        </Button>
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+              </ModalBody>
+            </ModalContent>
+            </Modal>        
+         </Center>
+          </TableCaption>
+            <Thead>
+              <Tr>
+              <Heading paddingTop={5} size={'md'} textAlign={'center'} >Your Favourites ⭐</Heading>
+              </Tr>
+            </Thead>
+            <Tbody>
+            
+            {favourites_10 && favourites_10.length  ? 
+            
+            <ul>
+            {favourites_10.map((fav,index) => (
+              
+              <li key={fav + index.toString()} >
+                
+                <Center paddingTop={3} paddingBottom={2}>
+                  
+                {fav}<Button  variant="ghost" borderRadius={'full'}  size={'xs'} fontWeight={'bold'} fontSize={10}  colorScheme={"red"}>X</Button>
+                  
+                  </Center><Center><Divider width={40} ></Divider></Center>
+                </li>))} 
+              
+            </ul>
+        
+                : 
+            <div>There are no favourites</div>}
+            
 
-      </main>
+          
+            </Tbody>
+            
+          </Table>
+        </TableContainer>
+                
+
+          </main>
+          
+          
+        </Box>
+        </Flex> 
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <Flex marginTop={50} marginBottom='50px' marginLeft='350px' marginRight='350px' >
+          <Box borderWidth={2} borderColor="white" bg="white" borderRadius={'2xl'}>
+           <Heading paddingTop={5} size={'md'} textAlign={'center'} >Popular Players 📈</Heading>
+             <VStack> 
+                <HStack spacing={20}>
+                  <VStack spacing={1} paddingTop={5} >
+                   <Circle size='40px' bg='black' color='white'></Circle>
+                    <Heading paddingTop={5} size={'sm'} >Arda Güler</Heading>
+                      <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteArdaGuler(csrfToken)} size="md" bg = 'green.400' variant={"solid"}>
+                      Add ✔
+                      </Button>
+                  </VStack>
+                  <VStack spacing={1} paddingTop={5} >
+                   <Circle size='40px' bg='black' color='white'></Circle>
+                    <Heading paddingTop={5} size={'sm'} >Dries Mertens</Heading>
+                     <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteDriesMertens(csrfToken)}size="md" bg = 'green.400' variant={"solid"}>
+                      Add ✔ 
+                     </Button>
+                  </VStack>
+                </HStack>
+                <HStack spacing={20}>
+                 <VStack spacing={1}  paddingBottom={5}>
+                  <Circle size='40px' bg='black' color='white'></Circle>
+                   <Heading paddingTop={5} size={'sm'} >Mauro Icardi</Heading>
+                    <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteMauroIcardi(csrfToken)} size="md" bg = 'green.400' variant={"solid"} >
+                      Add ✔
+                    </Button>
+                 </VStack>
+                  <VStack spacing={1} paddingBottom={5}>
+                   <Circle size='40px' bg='black' color='white'></Circle>
+                    <Heading paddingTop={5} size={'sm'} >Kerem Aktürkoğlu</Heading>
+                     <Button  textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteKeremAkturkoglu(csrfToken)} size="md" bg = 'green.400' variant={"solid"}>
+                        Add ✔  
+                     </Button>
+                  </VStack>
+                  </HStack>
+              </VStack>
+            </Box>
+          </Flex>     
+        </HStack>
+
+
+
+
+
+          <Box 
+            bg={"gray.100"}
+            color={useColorModeValue('gray.700', 'gray.200')}>
+              <Box h='320px'> 
+              <Center  paddingTop={275}>
+               <text  > © 2022 Scoutff</text> 
+                </Center>
+              </Box>
+          </Box>
+      </Box>
     </div>
   );
 }
+
+function first10(element: any, index: number, array: any)
+{
+  return (index < 10);
+}
+
+
+const addFavoriteArdaGuler = async (csrfToken: string | undefined) => {
+  await axios.post("/api/user/favourites/638fd3b736819a5631e06f1d", {
+    csrfToken: csrfToken,
+  })
+}
+const addFavoriteDriesMertens = async (csrfToken: string | undefined) => {
+  await axios.post("/api/user/favourites/638fd3b736819a5631e06f8e", {
+    csrfToken: csrfToken,
+  })
+}
+const addFavoriteMauroIcardi = async (csrfToken: string | undefined) => {
+  await axios.post("/api/user/favourites/638fd3b736819a5631e06f90", {
+    csrfToken: csrfToken,
+  })
+}
+const addFavoriteKeremAkturkoglu = async (csrfToken: string | undefined) => {
+  await axios.post("/api/user/favourites/638fd3b736819a5631e06f51", {
+    csrfToken: csrfToken,
+  })
+}
+{/** const removeFavoriteArdaGuler = async (csrfToken: AxiosRequestConfig<any>) => {
+  await axios.delete("/api/user/favourites/638fd3b736819a5631e06f1d", {
+    csrfToken: csrfToken,
+  })
+}*/}
+
 
 
 export const getServerSideProps  = async (context : GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
@@ -74,10 +252,7 @@ export const getServerSideProps  = async (context : GetServerSidePropsContext<Pa
 
   const favourites = userId ? await getUserFavourites({userId}) : null
 
-
-
-
-
+  
   return {
     props: { 
       favourites,
@@ -85,4 +260,3 @@ export const getServerSideProps  = async (context : GetServerSidePropsContext<Pa
      },
   }
 }
-

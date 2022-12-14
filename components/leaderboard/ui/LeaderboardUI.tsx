@@ -1,23 +1,4 @@
-import {
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Stack,
-  Text,
-  useBreakpointValue,
-  useColorModeValue,
-  Wrap, 
-  Center,Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  Container,
-  TableCaption,
-  TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure,
+import { Button, Flex, Heading, Image, Stack, Text, useBreakpointValue, useColorModeValue,Wrap,  Center,Table, Thead, Tbody,Tfoot, Tr, Th, Td,Container,TableCaption,TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
 import router, { useRouter } from "next/router";
