@@ -35,10 +35,6 @@ export const getServerSideProps  = async (context : GetServerSidePropsContext<Pa
 
 
 
-
-
-
-
   return {
     props: { 
       csrfToken

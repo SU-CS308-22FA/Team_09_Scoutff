@@ -1,10 +1,13 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { GraphQLProvider } from "../../../provider/GraphQLProvider";
 import {
   Box,
   Flex,
+  Icon,
   Avatar,
   HStack,
   IconButton,
+  Input,
   Button,
   Menu,
   MenuButton,
@@ -17,13 +20,16 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
+import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, useApolloClient, useQuery } from "@apollo/client";
+import { useApp } from "../../../hook/useApp";
+import * as Realm from "realm-web";
+import useDebounce from  "../../../hook/useDebounce";
+import SearchBar from "../../../pages/search";
+import { getToken } from "next-auth/jwt";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
-  {
-    name: "Register",
-    path: "/auth/register",
-  },
+
   {
     name: "Squads",
     path: "/squadby",
@@ -70,7 +76,18 @@ const buttonLink = [
     
   },
 ];
+
+
+
+
+
 const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
+
+  
+
+
+  
+
   <Box
     px={2}
     py={1}
@@ -84,8 +101,27 @@ const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
   </Box>
 );
 
-export default function Navbar() {
+export default function Navbar(props : any) {
+  const client = useApolloClient();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+
+  const session = useSession();
+
+
+
+
+
+
+  const app = useApp();
+
+
+
+
+  
+
+
 
   return (
     <>
@@ -98,6 +134,8 @@ export default function Navbar() {
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
+
+          
           <HStack
               as={"nav"}
               spacing={4}
@@ -108,8 +146,17 @@ export default function Navbar() {
                   {name}
                 </NavLink>
               ))}
+              
+            </HStack>
+            <HStack
+              as={"nav"}
+              spacing={4}
+              display={{ base: "none", md: "flex" }}
+            >
+            <SearchBar/>
             </HStack>
           <Flex alignItems={"center"}>
+            
           <HStack
               as={"nav"}
               spacing={4}
@@ -121,6 +168,7 @@ export default function Navbar() {
                 </NavLink>
               ))}
             </HStack>
+
 
             
             <Button
@@ -204,13 +252,12 @@ export default function Navbar() {
                     spacing={4}
                     display={{ base: "none", md: "flex" }}
                   >
-                    {dropdownLink3.map(({ name, path }) => (
-                      <NavLink   key={path} path={path}>
+                      <NavLink  path={session?.data ?  "/auth/signin" : "/api/auth/signout"}>
                         <div>
-                          {name}
+                          {session?.data  ? "Log Out" : "Log In"}
                         </div>
                       </NavLink>
-                    ))}
+                    
                   </HStack>
                 </MenuItem>
               </MenuList>
