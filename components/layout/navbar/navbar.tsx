@@ -138,10 +138,12 @@ export default function Navbar(props : any) {
           
           <HStack
               as={"nav"}
+              paddingLeft= {"50px"}
+              fontWeight={"bold"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {LogoLink.map(({ name, path }) => (
+              {LogoLink.map(({ name, path }) => ( 
                 <NavLink key={path} path={path}>
                   {name}
                 </NavLink>

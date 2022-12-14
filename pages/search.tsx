@@ -99,7 +99,7 @@ const SearchBar = () => {
                     color: "gray",
                     transform: 'scale(1.05)',
                     transition: 'all 0.5s ease',
-                    bg: 'rgba(0,0,0,0.1)',
+                    bg: 'rgba(211,211,211,1)',
                   }}
                   as="article" borderWidth='1px' >
                
@@ -112,11 +112,11 @@ const SearchBar = () => {
                 />
               
               <Flex direction="column" ml={4}>
-                <LinkOverlay href={`/player_profile/${player.slug}`} fontSize={"sm"}>
+                <LinkOverlay href={`/player_profile/${player.slug}`} fontSize={"sm"} color="black.500">
                   {player.name}
                 </LinkOverlay>
       
-                <Text fontSize={"x-small"}
+                <Text fontSize={"x-small"} color={"gray.800"}
                 >{player.team.name}</Text>
               </Flex>
             </Flex>
