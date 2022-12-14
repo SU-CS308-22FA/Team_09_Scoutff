@@ -1,5 +1,5 @@
 import { useSession, signIn, signOut, getCsrfToken, getSession } from "next-auth/react"
-import { Button, Flex, Heading,  Stack,  Text,  useBreakpointValue,  useColorModeValue, Wrap, Center,Table, Thead,Tbody,Tfoot, Tr, Th, Td,Container,TableCaption,TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure,
+import { Button, Flex, Heading,  Stack,  Text,  useBreakpointValue,  useColorModeValue, Wrap, Center,Table, Thead,Tbody,Tfoot, Tr, Th, Td,Container,TableCaption,TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure, SimpleGrid,
  } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
@@ -18,42 +18,35 @@ import invariant from "tiny-invariant";
 
 export default function Home({csrfToken,favourites} : InferGetServerSidePropsType<typeof getServerSideProps>) {
 
-  
-
-
   const {isOpen, onClose, onOpen} = useDisclosure();
 
   const favourites_10 = favourites?.filter(first10);
 
   return (
-    <div>
-      <Head>
-        <title>Favorite Players | Scoutff</title>
-        <meta name="description" content="Scoutff 2022." />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      
-      <Box bg = 'gray.100'>
-        <Box bg='gray.100' h='20px'></Box>
-        <HStack>
-        <Flex marginTop={50} marginBottom='50px' marginLeft='350px' marginRight='350px' >
-          
-        <Box borderWidth={2} borderColor="white" bg="white" borderRadius={'2xl'}>
-       
+  <div>
+   <Head>
+    <title>Favorite Players | Scoutff</title>
+     <meta name="description" content="Scoutff 2022." />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
+     <Box bg = 'gray.100'>
+      <Box bg='gray.100' h='20px'></Box>
+       <HStack>
+        <Flex marginTop={50} marginBottom='50px' marginLeft='350px' marginRight='350px' >    
+         <Box borderWidth={2} borderColor="white" bg="white" borderRadius={'2xl'}>
           <main>
-          <TableContainer>
-          <Table color='black'  colorScheme='gray'>
-          <TableCaption>
-          <Center>
-            {favourites_10 && favourites_10.length ?
-            <>
-            <VStack>
-            <Box h='7px' w='200px' bg='white'> </Box>
-                      <Button marginX='5px' onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>     
-                      </VStack>       
-            </>
-            : <div>There are no favourites</div>}
+           <TableContainer>
+            <Table color='black'  colorScheme='gray'>
+             <TableCaption>
+              <Center>
+               {favourites_10 && favourites_10.length ?
+                <>
+                <VStack>
+                <Box h='7px' w='200px' bg='white'> </Box>
+                          <Button marginX='5px' onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>     
+                          </VStack>       
+                </>
+                : <div>There are no favourites</div>  }
      
             
 
@@ -150,61 +143,71 @@ export default function Home({csrfToken,favourites} : InferGetServerSidePropsTyp
 
 
 
-        <Flex marginTop={50} marginBottom='50px' marginLeft='350px' marginRight='350px' >
+        <Flex marginTop={50} marginBottom='50px'>
           <Box borderWidth={2} borderColor="white" bg="white" borderRadius={'2xl'}>
            <Heading paddingTop={5} size={'md'} textAlign={'center'} >Popular Players 📈</Heading>
-             <VStack> 
-                <HStack spacing={20}>
-                  <VStack spacing={1} paddingTop={5} >
-                   <Circle size='40px' bg='black' color='white'></Circle>
-                    <Heading paddingTop={5} size={'sm'} >Arda Güler</Heading>
-                      <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteArdaGuler(csrfToken)} size="md" bg = 'green.400' variant={"solid"}>
-                      Add ✔
-                      </Button>
+             
+            <Flex  marginRight={5} marginLeft={5}  marginBottom={5} marginTop={5}  gridGap={50} >
+              <VStack  >
+                <VStack marginBottom={10} >
+                  <Box  >
+                  <Center> <Circle size='40px' bg='black' color='white'></Circle> </Center>
+                  <Center> <Heading size={'sm'} >Arda Güler</Heading></Center>
+                  <Center>   <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteArdaGuler(csrfToken)} size="md" bg = 'green.400' variant={"solid"}>
+                      Add ➕
+                      </Button></Center>
+                  </Box>
                   </VStack>
-                  <VStack spacing={1} paddingTop={5} >
-                   <Circle size='40px' bg='black' color='white'></Circle>
-                    <Heading paddingTop={5} size={'sm'} >Dries Mertens</Heading>
-                     <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteDriesMertens(csrfToken)}size="md" bg = 'green.400' variant={"solid"}>
-                      Add ✔ 
-                     </Button>
+                  
+                  <VStack >
+                  <Box >
+                  <Center> <Circle size='40px' bg='black' color='white'></Circle> </Center>
+                  <Center>  <Heading size={'sm'} >Dries Mertens</Heading> </Center>
+                  <Center>  <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteDriesMertens(csrfToken)}size="md" bg = 'green.400' variant={"solid"}>
+                     Add ➕
+                     </Button> </Center>
+                  </Box>
                   </VStack>
-                </HStack>
-                <HStack spacing={20}>
-                 <VStack spacing={1}  paddingBottom={5}>
-                  <Circle size='40px' bg='black' color='white'></Circle>
-                   <Heading paddingTop={5} size={'sm'} >Mauro Icardi</Heading>
-                    <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteMauroIcardi(csrfToken)} size="md" bg = 'green.400' variant={"solid"} >
-                      Add ✔
-                    </Button>
-                 </VStack>
-                  <VStack spacing={1} paddingBottom={5}>
-                   <Circle size='40px' bg='black' color='white'></Circle>
-                    <Heading paddingTop={5} size={'sm'} >Kerem Aktürkoğlu</Heading>
-                     <Button  textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteKeremAkturkoglu(csrfToken)} size="md" bg = 'green.400' variant={"solid"}>
-                        Add ✔  
-                     </Button>
-                  </VStack>
-                  </HStack>
               </VStack>
+              <VStack  >
+                <VStack  marginBottom={10} >
+                <Box>
+                <Center> <Circle size='40px' bg='black' color='white'></Circle> </Center>
+                <Center>   <Heading size={'sm'} >Mauro Icardi</Heading> </Center>
+                <Center>   <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteMauroIcardi(csrfToken)} size="md" bg = 'green.400' variant={"solid"} >
+                    Add ➕
+                    </Button> </Center>
+                 </Box>
+                 </VStack>
+                
+                 <VStack>
+                 <Box >
+                 <Center>   <Circle size='40px' bg='black' color='white'></Circle> </Center>
+                 <Center>    <Heading  size={'sm'} >Kerem Aktürkoğlu</Heading> </Center>
+                 <Center>     <Button  textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteKeremAkturkoglu(csrfToken)} size="md" bg = 'green.400' variant={"solid"}>
+                     Add ➕
+                     </Button> </Center>
+                  </Box>
+                  </VStack>
+
+                </VStack>  
+              </Flex>
+                 
             </Box>
           </Flex>     
-        </HStack>
-
-
-
-
-
-          <Box 
-            bg={"gray.100"}
-            color={useColorModeValue('gray.700', 'gray.200')}>
-              <Box h='320px'> 
-              <Center  paddingTop={275}>
-               <text  > © 2022 Scoutff</text> 
-                </Center>
-              </Box>
-          </Box>
+          </HStack>
+       <Box 
+        bg={"gray.100"}
+        color={useColorModeValue('gray.700', 'gray.200')}>
+         <Box h='23px'> 
+          <Center>
+            <text> © 2022 Scoutff</text> 
+          </Center>
+         </Box>
+        </Box>
+        
       </Box>
+    
     </div>
   );
 }
