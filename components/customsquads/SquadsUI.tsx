@@ -109,7 +109,7 @@ export default function SquadsUI({data, title} : Props) {
               </Tr>
             </Center>
             <Center>
-              {dataRating}
+              {Number(dataRating).toFixed(2)}
             </Center>
           </VStack>
         )
@@ -136,7 +136,7 @@ export default function SquadsUI({data, title} : Props) {
             </Tr>
           </Center>
             <Center>
-              {dataRating}
+              {Number(dataRating).toFixed(2)}
             </Center>
 
           </VStack>
@@ -166,7 +166,7 @@ export default function SquadsUI({data, title} : Props) {
             </Tr>
           </Center>
                     <Center>
-                    {dataRating}
+                    {Number(dataRating).toFixed(2)}
                   </Center>
         
                 </VStack>
@@ -197,7 +197,7 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
 
           <Center>
-            {dataRating}
+            {Number(dataRating).toFixed(2)}
           </Center>
 
           </VStack>
@@ -229,7 +229,7 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
 
           <Center>
-          {dataRating}
+          {Number(dataRating).toFixed(2)}
           </Center>
 
           </VStack>
@@ -258,7 +258,7 @@ export default function SquadsUI({data, title} : Props) {
           </Tr>
           </Center>
           <Center>
-              {dataRating}
+              {Number(dataRating).toFixed(2)}
             </Center>
 
           </VStack>
@@ -288,7 +288,7 @@ export default function SquadsUI({data, title} : Props) {
           </Tr>
           </Center>
             <Center>
-              {dataRating}
+              {Number(dataRating).toFixed(2)}
             </Center>
 
           </VStack>
@@ -318,7 +318,7 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
 
           <Center>
-              {dataRating}
+              {Number(dataRating).toFixed(2)}
             </Center>
 
           
@@ -349,7 +349,7 @@ export default function SquadsUI({data, title} : Props) {
             </Center>
 
             <Center>
-              {dataRating}
+              {Number(dataRating).toFixed(2)}
             </Center>
 
         
@@ -379,7 +379,7 @@ export default function SquadsUI({data, title} : Props) {
           </Tr>
           </Center>
           <Center>
-              {dataRating}
+              {Number(dataRating).toFixed(2)}
             </Center>
 
           </VStack>
@@ -408,7 +408,7 @@ export default function SquadsUI({data, title} : Props) {
           </Tr>
           </Center>
           <Center>
-              {dataRating}
+              {Number(dataRating).toFixed(2)}
             </Center>
 
           </VStack>
@@ -1161,7 +1161,7 @@ export default function SquadsUI({data, title} : Props) {
               </Tr>
             </Center>
             <Center>
-              {dataRatingYoung}
+              {Number(dataRatingYoung).toFixed(2)}
             </Center>
           </VStack>
         )
@@ -1188,7 +1188,7 @@ export default function SquadsUI({data, title} : Props) {
             </Tr>
           </Center>
             <Center>
-              {dataRatingYoung}
+              {Number(dataRatingYoung).toFixed(2)}
             </Center>
 
           </VStack>
@@ -1218,7 +1218,7 @@ export default function SquadsUI({data, title} : Props) {
             </Tr>
           </Center>
                     <Center>
-                    {dataRatingYoung}
+                    {Number(dataRatingYoung).toFixed(2)}
                   </Center>
         
                 </VStack>
@@ -1249,7 +1249,7 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
 
           <Center>
-            {dataRatingYoung}
+            {Number(dataRatingYoung).toFixed(2)}
           </Center>
 
           </VStack>
@@ -1281,7 +1281,7 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
 
           <Center>
-          {dataRatingYoung}
+          {Number(dataRatingYoung).toFixed(2)}
           </Center>
 
           </VStack>
@@ -1310,7 +1310,7 @@ export default function SquadsUI({data, title} : Props) {
           </Tr>
           </Center>
           <Center>
-              {dataRatingYoung}
+              {Number(dataRatingYoung).toFixed(2)}
             </Center>
 
           </VStack>
@@ -1340,7 +1340,7 @@ export default function SquadsUI({data, title} : Props) {
           </Tr>
           </Center>
             <Center>
-              {dataRatingYoung}
+              {Number(dataRatingYoung).toFixed(2)}
             </Center>
 
           </VStack>
@@ -1370,7 +1370,7 @@ export default function SquadsUI({data, title} : Props) {
           </Center>
 
           <Center>
-              {dataRatingYoung}
+              {Number(dataRatingYoung).toFixed(2)}
             </Center>
 
           
@@ -1401,7 +1401,7 @@ export default function SquadsUI({data, title} : Props) {
             </Center>
 
             <Center>
-              {dataRatingYoung}
+              {Number(dataRatingYoung).toFixed(2)}
             </Center>
 
         
@@ -1431,7 +1431,7 @@ export default function SquadsUI({data, title} : Props) {
           </Tr>
           </Center>
           <Center>
-              {dataRatingYoung}
+              {Number(dataRatingYoung).toFixed(2)}
             </Center>
 
           </VStack>
@@ -1460,7 +1460,7 @@ export default function SquadsUI({data, title} : Props) {
           </Tr>
           </Center>
           <Center>
-              {dataRatingYoung}
+              {Number(dataRatingYoung).toFixed(2)}
             </Center>
 
           </VStack>
