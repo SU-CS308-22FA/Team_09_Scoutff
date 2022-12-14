@@ -72,9 +72,9 @@ export default function Home({csrfToken,favourites} : InferGetServerSidePropsTyp
                       <ul>
                       {favourites.map((fav,index) => (
                         
-                        <li key={fav + index.toString()}>
+                        <li key={fav.name + index.toString()}>
                           <Center paddingTop={3} paddingBottom={2}>
-                          {fav}<Button size={'2xs'} bg='white' textColor={"white"} >. .</Button><Button  variant="ghost" borderRadius={'full'}  size={'xs'} fontWeight={'bold'} fontSize={10}  colorScheme={"red"}>X</Button>
+                          {fav.name}<Button onClick={() => removeFavorite(fav.id, csrfToken)} variant="ghost" borderRadius={'full'}  size={'xs'} fontWeight={'bold'} fontSize={10}  colorScheme={"red"}>X</Button>
                             </Center><Center><Divider width={40} ></Divider></Center>
                           </li>))} 
                       </ul>
@@ -102,11 +102,11 @@ export default function Home({csrfToken,favourites} : InferGetServerSidePropsTyp
             <ul>
             {favourites_10.map((fav,index) => (
               
-              <li key={fav + index.toString()} >
+              <li key={fav.name + index.toString()} >
                 
                 <Center paddingTop={3} paddingBottom={2}>
                   
-                {fav}<Button  variant="ghost" borderRadius={'full'}  size={'xs'} fontWeight={'bold'} fontSize={10}  colorScheme={"red"}>X</Button>
+                {fav.name}<Button onClick={() => removeFavorite(fav.id, csrfToken)}  variant="ghost" borderRadius={'full'}  size={'xs'} fontWeight={'bold'} fontSize={10}  colorScheme={"red"}>X</Button>
                   
                   </Center><Center><Divider width={40} ></Divider></Center>
                 </li>))} 
@@ -130,18 +130,6 @@ export default function Home({csrfToken,favourites} : InferGetServerSidePropsTyp
         </Box>
         </Flex> 
         
-
-
-
-
-
-
-
-
-
-
-
-
 
         <Flex marginTop={50} marginBottom='50px'>
           <Box borderWidth={2} borderColor="white" bg="white" borderRadius={'2xl'}>
@@ -238,6 +226,13 @@ const addFavoriteKeremAkturkoglu = async (csrfToken: string | undefined) => {
   await axios.post("/api/user/favourites/638fd3b736819a5631e06f51", {
     csrfToken: csrfToken,
   })
+}
+
+const removeFavorite= async (id: string | undefined, csrfToken: string | undefined) => {
+  await axios.delete(`/api/user/favourites/${id}`, {
+    data :{csrfToken: csrfToken,}
+  }
+  )
 }
 {/** const removeFavoriteArdaGuler = async (csrfToken: AxiosRequestConfig<any>) => {
   await axios.delete("/api/user/favourites/638fd3b736819a5631e06f1d", {

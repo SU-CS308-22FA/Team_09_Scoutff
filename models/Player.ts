@@ -9,6 +9,7 @@ export interface IPlayer {
     flag: string;
     likedBy : Array<IUser>;
     market_value: string;
+    _id: Schema.Types.ObjectId;
 }
 
 

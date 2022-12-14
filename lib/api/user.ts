@@ -83,19 +83,26 @@ export async function addFavourite({userId,playerId} : IAddFavPlayer): Promise<b
 
   }
 
-
+type Pname_id ={
+    name : String,
+    id : number;
+}
 
 export async function getUserFavourites({userId} : {userId: string}) {
 
     await mongooseConnection();
 
     const user = await User.findById(userId)
-                        .populate("likedPlayers","name -_id")
+                        .populate("likedPlayers","name")
                         .select("likedPlayers -_id")
 
                         user?.likedPlayers
     
-    const likedPlayers : Array<String> = (user?.likedPlayers ?? []).map((player)  => player.name);
+    const likedPlayers = (user?.likedPlayers ?? []).map((player)  =>
+      {
+        return {name : player.name, id : player._id.toString() }
+     } 
+     );
 
                         
 
