@@ -22,14 +22,11 @@ import {
   } from "@chakra-ui/react";
 import axios from "axios";
 import { stat } from "fs";
-import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from "next";
+import { GetServerSideProps, GetServerSidePropsContext, GetStaticPaths, GetStaticProps, InferGetServerSidePropsType, PreviewData } from "next";
 import { getCsrfToken } from "next-auth/react";
-import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
-import React from "react";
-import * as Realm from "realm-web";
+
+import React, { useEffect } from "react";
 import { PlayerInterface, PlayerWithStatisticsInterface } from "../../interfaces/PlayerInterface";
-import { SportAPIInterface } from "../../interfaces/SportAPIınterface";
 import { TeamInterface } from "../../interfaces/TeamInterface";
 import { getClient } from "../../lib/realm/login";
 
@@ -37,6 +34,10 @@ import { getClient } from "../../lib/realm/login";
 
   type GraphQLProps<T> = {
     player : T;
+  }
+
+  type GraphQLPlayerAllProps<T> = {
+    players : T;
   }
 
 
@@ -60,6 +61,9 @@ const convertToQuery = (slug : string) => {
       photo
       has_photo
       position_name
+      preferred_foot
+      weight
+      height
 
       team {
         name
@@ -102,15 +106,30 @@ type PlayerProps = {
   rating?: number
   age?: number
   _id: string
-  csrfToken: string
   team?: TeamInterface
+  weight?:number
+  height?:number
+  preferred_foot?:number
+
 
 }
 
 
 
 
-const PlayerPage= ({shirt_number, name, image, position, goals, assists, appearances, rating, age,_id,csrfToken, team} : PlayerProps) => {
+const PlayerPage= ({shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : PlayerProps &  {csrfToken : string}) => {
+
+  const [csrfToken, setCsrfToken] = React.useState<string | undefined>(undefined);
+
+  console.log(csrfToken, "csrfToken")
+  
+
+  useEffect(() => {
+    getCsrfToken().then((token) => {
+      setCsrfToken(token);
+    });
+  }, []);
+
   return (
     <Flex
       minH={'100vh'}
@@ -121,20 +140,20 @@ const PlayerPage= ({shirt_number, name, image, position, goals, assists, appeara
       <Flex justifyContent="center" alignItems="center" mb="6">
         <HStack>
           <SimpleGrid columns={3} alignItems="center">
-        <Image src={image} borderRadius='full' boxSize='200px'/>
+        <Image alt={"player"} src={image} borderRadius='full' boxSize='200px'/>
 
         <VStack>
         <Heading size="md" fontWeight="bold" ml="4" color={"gray.800"}>
           {shirt_number} {name}
         </Heading>
         <Text fontSize="sm">{position} / {age}</Text>
-        <Button colorScheme="twitter" mt="4" onClick={() => addFavorite(_id,csrfToken)}>
+        <Button colorScheme="twitter" mt="4" onClick={() => addFavorite(_id,csrfToken ?? "")}>
         Add to favorites 🌟
       </Button>
         </VStack>
 
         <VStack>
-          <Image src={team?.logo} borderRadius='full' boxSize='100px'/>
+          <Image alt={"logo"} src={team?.logo} borderRadius='full' boxSize='100px'/>
           <Text fontSize="sm">{team?.name}</Text>
         </VStack>
         </SimpleGrid>
@@ -205,7 +224,9 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
   export default Player;
   
 
-  export const getServerSideProps = async (context : GetServerSidePropsContext<ParsedUrlQuery,PreviewData>) => {
+  export const getStaticProps : GetStaticProps = async (context) => {
+
+    const slug = context.params?.slug;
 
 
   
@@ -218,8 +239,6 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
 
     const client = await getClient();
 
-    //get slug from url
-    const slug = context.query.slug
 
 
     if (!slug) {
@@ -227,9 +246,6 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
         notFound: true,
       };
     }
-
-    const csrfToken = await getCsrfToken(context)
-
 
 
 
@@ -242,20 +258,11 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
 
 
 
-
-    
-    
-
-
-
-    
-
-
     return {
       props: {
         data : data.player,
-        csrfToken
       },
+      revalidate: 1200,
     }
     
   
@@ -265,3 +272,42 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
   
 
   }
+
+  export const getStaticPaths: GetStaticPaths = async () => {
+
+    const client = await getClient();
+
+    
+    if (client) {
+
+      const paths = await client.query<GraphQLPlayerAllProps<Array<PlayerInterface>>>({
+        query: gql`
+        query {
+          players(limit : 1000) {
+            slug
+          }
+        }
+        `,
+      })
+
+
+
+      return {
+        paths: paths.data.players.map((player) => ({
+          params: { slug: player.slug },
+        })),
+        fallback: false,
+      };
+
+    }
+    else {
+      return {
+        paths: [],
+        fallback: true,
+
+      }
+    }
+    
+
+
+  };

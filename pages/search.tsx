@@ -65,13 +65,15 @@ const SearchBar = () => {
     }
 
     if (debouncedSearch) fetchData();
-  }, [debouncedSearch]);
+  }, [debouncedSearch,client]);
 
   return (
-  <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),0)}>
+  <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
     <HStack zIndex={200}  >
       <InputGroup>
-      <InputLeftElement children={<SearchIcon/>}  />
+      <InputLeftElement>
+      <SearchIcon/>
+      </InputLeftElement>
       <Input placeholder="Search"
     type= "search"
     colorScheme="teal" 
@@ -91,7 +93,7 @@ const SearchBar = () => {
             <LinkBox key={player.slug}
           
             backgroundColor="Background"
-            width= "230px"
+            width= "250px"
             maxHeight={70}
             z-index= "30"
                   rounded="lg"
@@ -99,7 +101,7 @@ const SearchBar = () => {
                     color: "gray",
                     transform: 'scale(1.05)',
                     transition: 'all 0.5s ease',
-                    bg: 'rgba(211,211,211,1)',
+                    bg: 'rgba(0,0,0,0.1)',
                   }}
                   as="article" borderWidth='1px' >
                
@@ -112,11 +114,11 @@ const SearchBar = () => {
                 />
               
               <Flex direction="column" ml={4}>
-                <LinkOverlay href={`/player_profile/${player.slug}`} fontSize={"sm"} color="black.500">
+                <LinkOverlay href={`/player_profile/${player.slug}`} fontSize={"sm"}>
                   {player.name}
                 </LinkOverlay>
       
-                <Text fontSize={"x-small"} color={"gray.800"}
+                <Text fontSize={"x-small"}
                 >{player.team.name}</Text>
               </Flex>
             </Flex>

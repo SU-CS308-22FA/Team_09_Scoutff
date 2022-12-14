@@ -2,7 +2,7 @@ import { TeamInterface } from "./TeamInterface";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 export interface PlayerInterface {
-    _id: string;
+    _id : string;
     id: number;
     slug : string;
     name: string;
@@ -16,24 +16,25 @@ export interface PlayerInterface {
     weight?: number;
     date_birth_at ?: Date;
     shirt_number?: string;
-    preffered_foot?: string;
+    preferred_foot?: string;
     nationality_code?: string;
     flag?: string;
     market_currency?: string;
     market_value?: number;
     contract_until?: Date;
-    height_meter ?: number;
-    team ?: TeamInterface;
+    height ?: number;
+    team : TeamInterface
+    
 
 }
 
 
 export interface PlayerOriginInterface  extends Modify<PlayerInterface, {
-    height_meter ?: string;
-    market_value ?: string;
-    weight ?: string;
-    age ?: string;
-    rating ?: string;
+    height ?: number;
+    market_value ?: number;
+    weight ?: number;
+    age ?: number;
+    rating ?: number;
 }> {
 }
 
@@ -223,7 +224,15 @@ export interface ConvertedCards extends Modify<Cards, {
     red_cards ?: number;
 }> {}
 
-type Detail = [Matches,Attacking,Passes,Defending,Other,Cards]
+export type Detail = {
+    matches : Matches;
+    attacking : Attacking;
+    goalkeeping : Goalkeeping;
+    passes : Passes;
+    defending : Defending;
+    other : Other;
+    cards : Cards;
+}
 
 export interface StatisticsOriginInterface {
     rating?: number;
@@ -232,6 +241,50 @@ export interface StatisticsOriginInterface {
 }
 
 
+export interface Goalkeeping {
+    goals_conceded_per_game ?: string;
+    penalties_saved ?: string;
+    saves_per_game ?: string;
+    succ_runs_out_per_game ?: string;
+    more ?: GoalkeepingMoreOriginInterface;
+}
+
+export interface GoalkeepingConvertInterface {
+    goals_conceded_per_game ?: number;
+    penalties_saved_successful ?: number;
+    penalties_saved_tried ?: number;
+    saves_per_game ?: number;
+    saves_per_game_percentage ?: number;
+    succ_runs_out_per_game ?: number;
+    succ_runs_out_per_game_percentage ?: number;
+    more ?: GoalkeepingMoreConvertInterface;
+}
+    
+
+export interface GoalkeepingMoreOriginInterface {
+    goals_conceded ?: string;
+    goals_conceded_inside_box ?: string;
+    goals_conceded_outside_box ?: string;
+    total_saves ?: string;
+    saves_from_inside_box ?: string;
+    saves_from_outside_box ?: string;
+    saves_caught ?: string;
+    saves_parried ?: string;
+
+}
+
+
+export interface GoalkeepingMoreConvertInterface {
+    goals_conceded ?: number;
+    goals_conceded_inside_box ?: number;
+    goals_conceded_outside_box ?: number;
+    total_saves ?: number;
+    saves_from_inside_box ?: number;
+    saves_from_outside_box ?: number;
+    saves_caught ?: number;
+    saves_parried ?: number;
+    
+}
 
     
 
@@ -247,5 +300,6 @@ export interface StatisticsInterface {
     defending?: ConvertedDefending;
     other?: ConvertedOther;
     cards?: ConvertedCards;
+    goalkeeping ?:  GoalkeepingConvertInterface;
 }
 

@@ -76,7 +76,7 @@ const ExpertPage= ({name, image, ranking, age, _id, csrfToken} : ExpertProps) =>
       <Flex justifyContent="center" alignItems="center" mb="6">
         <HStack>
           <SimpleGrid columns={3} alignItems="center">
-        <Image src={"image"} borderRadius='full' boxSize='200px'/>
+        <Image alt={"expertImage"} src={"image"} borderRadius='full' boxSize='200px'/>
 
         <VStack>
         <Heading size="md" fontWeight="bold" ml="4" color={"gray.800"}>
@@ -102,7 +102,7 @@ const ExpertPage= ({name, image, ranking, age, _id, csrfToken} : ExpertProps) =>
           <Tr>
             <Th fontWeight="bold" textAlign="center">Item/Feature</Th>
             {["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"].map(header => (
-              <Th fontWeight="bold" textAlign="center">
+              <Th key={header} fontWeight="bold" textAlign="center">
                 {header}
               </Th>
             ))}
@@ -110,11 +110,11 @@ const ExpertPage= ({name, image, ranking, age, _id, csrfToken} : ExpertProps) =>
         </Thead>
         {/* Use a loop to create the rows for each item or feature */}
         {["Like Count"].map(item => (
-          <Tr>
+          <Tr key={item}>
             <Td fontWeight="bold" textAlign="center">{item}</Td>
             {/* Use a loop to create the cells for each criterion */}
             {Array.from({ length: 5 }, (_, i) => (
-              <Td textAlign="center">
+              <Td key={i} textAlign="center">
                 {/* Add the value for the criterion here */
                 20
                 }</Td>

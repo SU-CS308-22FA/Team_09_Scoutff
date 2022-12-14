@@ -125,7 +125,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
 
             <Stack pt={3}>
                 <Text align={'center'}>
-                  Don't have an account? <Link href='./register' color={'blue.400'}>Sign Up </Link>
+                 {`Don't have an account?`} <Link href='./register' color={'blue.400'}>Sign Up </Link>
                 </Text>
 
                 <Text align={'center'}>
