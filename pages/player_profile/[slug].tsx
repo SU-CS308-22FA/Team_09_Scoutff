@@ -1,4 +1,5 @@
 import { ApolloClient, gql, HttpLink, InMemoryCache } from "@apollo/client";
+// import ReactCountryFlag from "react-country-flag"
 import {
     Box,
     Center,
@@ -113,6 +114,7 @@ type PlayerProps = {
   rating?: number
   age?: number
   _id: string
+  // likedBy?: Array<number>
   flag?: string
   nationality_code?: string
   preferred_foot?: string
@@ -146,7 +148,7 @@ const PlayerPage= ({market_value, nationality_code, flag, height, weight, prefer
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
-    <Box p="4" w="700px" mx="auto" textAlign="center" rounded="md" boxShadow="md" bgColor="ghostwhite">
+    <Box p="4" w="850px" mx="auto" textAlign="center" rounded="md" boxShadow="md" bgColor="ghostwhite">
       <Flex justifyContent="center" alignItems="center" mb="6">
         <HStack>
           <SimpleGrid columns={3} alignItems="center">
@@ -196,8 +198,18 @@ const PlayerPage= ({market_value, nationality_code, flag, height, weight, prefer
     <Text fontWeight="bold" textAlign="center">Height</Text>
     <Text textAlign="center">{height}</Text>
   </Box>
-  </VStack>
 
+  </VStack>
+  <VStack>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Country</Text>
+    <Text textAlign="center">{nationality_code}</Text>
+  </Box>
+  <Box p="4">
+    <Text fontWeight="bold" textAlign="center">Liked By</Text>
+    <Text textAlign="center">0</Text>
+  </Box>
+  </VStack>
   </HStack>
   </Flex>
     <Spacer width={"80px"}>
@@ -272,6 +284,7 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
         height={ data?.height ? data.height.toFixed(2) : 'N/A' }
         preferred_foot={data?.preferred_foot}
         shirt_number = {`#${data.shirt_number}`}
+        // likedBy = {data?.likedBy.length}
         csrfToken = {csrfToken}
       />
     );
