@@ -27,7 +27,7 @@ export default function Home({data} :InferGetStaticPropsType<typeof getStaticPro
 
       <main>
         <SquadsCompIndex data={data}/>
-      </main>
+      </main> 
     </div>
   );
 }
