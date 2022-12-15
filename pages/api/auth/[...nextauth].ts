@@ -16,6 +16,11 @@ import { sign } from "crypto";
 import { signIn } from "next-auth/react";
 
 
+import {v2} from "cloudinary"
+
+
+
+
 
 export const authOptions :  NextAuthOptions = {
   adapter: MongooseAdapter({client: clientPromise(), options: {databaseName: "login"}}),
@@ -221,18 +226,18 @@ export const authOptions :  NextAuthOptions = {
       CredentialsProvider({
         id :"update-account",
         name: 'Update Account',
+        
   
         
 
         credentials: {
           name: { label: "Name", type: "text", placeholder: "" },
           password: {  label: "Password", type: "password" },
-          image : {label : "Image", type : "input"}
+          image : {label:"Image", type:"file"},
         },
         
         async authorize(credentials,req) {
           await clientPromise()
-
 
 
 
@@ -244,12 +249,10 @@ export const authOptions :  NextAuthOptions = {
           //Get only not empty values from credentials
           //Ignore other credentials
           const {name,password,image} = credentials
+          
+          const update = {name,  password,image}
 
           
-          const update = {name,  password}
-
-
-
 
 
 
@@ -265,6 +268,10 @@ export const authOptions :  NextAuthOptions = {
               delete update[typedKey]
           }
         }
+
+
+
+
 
 
 
@@ -301,6 +308,31 @@ export const authOptions :  NextAuthOptions = {
 
           if (!token) throw new Error("Token is not valid")
           if (!token?.email) throw new Error("Token is not valid")
+
+
+          if (update.image) {
+            //upload base64 image to cloudinary
+            const fileName = `${token.email}.jpg`
+            const {secure_url} = await v2.uploader.upload(update.image, {
+              folder: "next-auth",
+              resource_type: "auto",
+              public_id : fileName,
+              unique_filename: true,
+              overwrite: true,
+              allowed_formats: ["jpg","png","jpeg"],
+              transformation: {
+                width: 500,
+                height: 500,
+                crop: "fill"
+              }
+            })
+
+            update.image = secure_url
+  
+          
+            
+  
+          }
          
 
 
