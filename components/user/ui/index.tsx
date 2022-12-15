@@ -29,6 +29,14 @@ import { GetServerSideProps } from "next/types"
 import React, { useEffect, useState } from "react"
 import invariant from "tiny-invariant"
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone"
+
+import {BiUpload} from "react-icons/bi"
+
+import {AiOutlineClose} from "react-icons/ai"
+
+import { BiPhotoAlbum } from "react-icons/bi";
+
 
 const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
   const reader = new FileReader();
@@ -56,7 +64,7 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
     lastName: string;
     password: string;
     confirmPassword: string;
-    image : FileList
+    image : Array<File>
   };
   
 
@@ -67,6 +75,8 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
     const router = useRouter()
 
     const names = name.split(" ")
+
+    const [image,setImage] = useState<Array<File> | undefined>(undefined)
 
 
     
@@ -128,13 +138,14 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
 
   
 
-    
-    const item = data?.image?.item(0)
+    const img = image?.at(0)
 
 
 
 
-    const image =   item ?  await toBase64(item) : undefined
+
+
+    const imageConst =   img ?  await toBase64(img) : undefined
 
     
 
@@ -146,7 +157,7 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
     if (data && (data.password === data.confirmPassword)) {
 
 
-        await signIn("update-account", { ...data ,image : image ?? undefined, name : (newNames === name) ? "" : newNames,redirect: false })
+        await signIn("update-account", { ...data ,image : imageConst ?? undefined, name : (newNames === name) ? "" : newNames,redirect: false })
 
         toast({
           title: "Updated",
@@ -223,10 +234,42 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>
-            <FormControl>
-              <FormLabel>Profile Picture</FormLabel>
-              <Input type={"file"}  {...register("image")  }/>
-            </FormControl>
+            <Dropzone 
+                  onDrop={(files) => setImage(files)}
+                  onReject={(files) => console.log('rejected files', files)}
+                  maxSize={3 * 1024 ** 2}
+                  accept={IMAGE_MIME_TYPE}
+                  multiple={false}>
+
+
+                    
+
+              <Center>
+                <HStack spacing={5}>
+                  <Dropzone.Accept>
+                    <BiUpload/>
+                    
+                  </Dropzone.Accept>
+
+                  <Dropzone.Reject>
+                    <AiOutlineClose/>
+                  </Dropzone.Reject>
+
+                  <Dropzone.Idle>
+                    <BiPhotoAlbum/>
+                  </Dropzone.Idle>
+
+                  <Text>
+                    {image ? image.at(0)?.name : "Drop your image here"}
+
+                  </Text>
+
+                </HStack>
+
+
+              </Center>
+            </Dropzone>
+    
           </GridItem>
           <GridItem colSpan={2}>
           </GridItem>
@@ -252,7 +295,6 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
 
 
                 
-                console.log("Successfully Deleted");
               }}
               buttonText="Delete Account"
               isDanger={true}
