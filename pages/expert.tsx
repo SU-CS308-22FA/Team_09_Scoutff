@@ -33,6 +33,12 @@ import { SportAPIInterface } from "../interfaces/SportAPIınterface";
 import { TeamInterface } from "../interfaces/TeamInterface";
 import { getClient } from "../lib/realm/login";
 
+/**
+ * Return data for each query with the 
+ * corresponding types using graphql.
+ * @param id the unique number which will identify expert
+ * @returns the graphql query data result
+ */
 const convertToQuery = (id : number) => {
 
     return  gql`
