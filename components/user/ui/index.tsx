@@ -33,7 +33,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
   const reader = new FileReader();
   reader.readAsDataURL(file);
-  reader.onload = () => resolve((reader.result as string).split(",")[1]);
+  reader.onload = () => resolve((reader.result as string));
   reader.onerror = error => reject(error);
 });
 

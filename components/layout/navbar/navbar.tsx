@@ -202,7 +202,7 @@ export default function Navbar(props : any) {
                 <Avatar
                   size={"sm"}
                   src={
-                    "https://bit.ly/sage-adebayo"
+                    session?.data?.user?.image ??  "https://bit.ly/sage-adebayo"
                   }
                 />
               </MenuButton>

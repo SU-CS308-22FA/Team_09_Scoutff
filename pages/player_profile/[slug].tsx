@@ -129,7 +129,7 @@ type PlayerProps = {
 
 
 
-const PlayerPage= ({market_value, nationality_code, flag, height, weight, preferred_foot, shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : PlayerProps &  {csrfToken : string}) => {
+const PlayerPage= ({market_value, nationality_code, flag, height, weight, preferred_foot, shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : Omit<PlayerProps,"market_value"> &  {csrfToken : string, market_value: string}) => {
 
   const [csrfToken, setCsrfToken] = React.useState<string | undefined>(undefined);
 
