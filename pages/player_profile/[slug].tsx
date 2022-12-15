@@ -146,7 +146,7 @@ const PlayerPage= ({market_value, nationality_code, flag, height, weight, prefer
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
-    <Box p="4" w="700px" mx="auto" textAlign="center" rounded="md" boxShadow="md">
+    <Box p="4" w="700px" mx="auto" textAlign="center" rounded="md" boxShadow="md" bgColor="ghostwhite">
       <Flex justifyContent="center" alignItems="center" mb="6">
         <HStack>
           <SimpleGrid columns={3} alignItems="center">
@@ -175,7 +175,7 @@ const PlayerPage= ({market_value, nationality_code, flag, height, weight, prefer
 
       <Flex justifyContent="center" alignItems="center" mb="6">
 
-<HStack p="4" w="full" mx="auto" rounded="md" boxShadow="md" alignItems={"center"}>
+<HStack p="4" w="full" mx="auto" boxShadow="md" alignItems={"center"} >
     <VStack>
   <Box p="4">
     <Text fontWeight="bold" textAlign="center">Value</Text>
@@ -204,7 +204,7 @@ const PlayerPage= ({market_value, nationality_code, flag, height, weight, prefer
     </Spacer>
     <Flex justifyContent="center" alignItems="center" mb="6">
 
-<HStack p="4" w="full" mx="auto" rounded="md" boxShadow="md" alignItems={"center"}>
+<HStack p="4" w="full" mx="auto"  boxShadow="md" alignItems={"center"}>
     <VStack>
   <Box p="4">
     <Text fontWeight="bold" textAlign="center">Goals</Text>

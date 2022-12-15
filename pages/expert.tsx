@@ -72,18 +72,18 @@ const ExpertPage= ({name, image, ranking, age, _id, csrfToken} : ExpertProps) =>
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
-    <Box p="4" w="800px" mx="auto" textAlign="center" rounded="md" boxShadow="md">
+    <Box p="4" w="800px" mx="auto" textAlign="center" rounded="md" boxShadow="md" bgColor={"ghostwhite"}>
       <Flex justifyContent="center" alignItems="center" mb="6">
         <HStack>
           <SimpleGrid columns={3} alignItems="center">
-        <Image alt={"expertImage"} src={"image"} borderRadius='full' boxSize='200px'/>
+        <Image alt={"expertImage"} src={"https://www.macfit.com.tr/wp-content/uploads/2022/09/PHOTO-2021-12-16-17-56-13.png"} borderRadius='full' boxSize='200px'/>
 
         <VStack>
         <Heading size="md" fontWeight="bold" ml="4" color={"gray.800"}>
-        {"#ranking"} {"name"}
+        {"#1"} {"Erman Yaşar"}
         </Heading>
-        <Text fontSize="md" color={"purple.500"}>{"Expert"} </Text>
-        <Text fontSize="sm">{"age"} </Text>
+        <Text fontSize="md" color={"blackAlpha.600"}>{"Commentator"} </Text>
+        <Text fontSize="sm">{"42 / Istanbul"} </Text>
 
         </VStack>
 
