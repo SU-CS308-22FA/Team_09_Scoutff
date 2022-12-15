@@ -30,6 +30,14 @@ import React, { useEffect, useState } from "react"
 import invariant from "tiny-invariant"
 import { SubmitHandler, useForm } from "react-hook-form";
 
+const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => resolve((reader.result as string).split(",")[1]);
+  reader.onerror = error => reject(error);
+});
+
+
   interface Props {
     csrfToken: string,
     name: string,
@@ -48,6 +56,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
     lastName: string;
     password: string;
     confirmPassword: string;
+    image : FileList
   };
   
 
@@ -109,15 +118,23 @@ import { SubmitHandler, useForm } from "react-hook-form";
     })
 
 
+    
  
     //Join first and last name if any of 
 
     const newNames = [data.firstName,data.lastName].map((name,index) => name === "" ? (names.at(index) ?? "") : name ).join(" ")
 
-    console.log(newNames)
 
 
   
+
+    
+    const item = data?.image?.item(0)
+
+
+
+
+    const image =   item ?  await toBase64(item) : undefined
 
     
 
@@ -126,14 +143,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 
 
-
-
-
-
-
     if (data && (data.password === data.confirmPassword)) {
 
-        await signIn("update-account", { ...data , name : (newNames === name) ? "" : newNames,redirect: false })
+
+        await signIn("update-account", { ...data ,image : image ?? undefined, name : (newNames === name) ? "" : newNames,redirect: false })
 
         toast({
           title: "Updated",
@@ -207,6 +220,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
               })}/>
 
         
+            </FormControl>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <FormControl>
+              <FormLabel>Profile Picture</FormLabel>
+              <Input type={"file"}  {...register("image")  }/>
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>

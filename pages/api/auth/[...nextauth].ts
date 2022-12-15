@@ -227,10 +227,12 @@ export const authOptions :  NextAuthOptions = {
         credentials: {
           name: { label: "Name", type: "text", placeholder: "" },
           password: {  label: "Password", type: "password" },
+          image : {label : "Image", type : "input"}
         },
         
         async authorize(credentials,req) {
           await clientPromise()
+
 
 
 
@@ -241,9 +243,13 @@ export const authOptions :  NextAuthOptions = {
 
           //Get only not empty values from credentials
           //Ignore other credentials
-          const {name,password} = credentials
+          const {name,password,image} = credentials
+
           
           const update = {name,  password}
+
+
+
 
 
 
