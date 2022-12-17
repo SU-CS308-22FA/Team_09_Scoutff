@@ -274,7 +274,7 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
         goals= {data?.statistics?.attacking?.goals}
         assists= {data?.statistics?.passes?.assists}
         appearances= {data?.statistics?.matches?.matches_total}
-        rating= {data?.statistics?.rating}
+        rating= {data?.statistics?.rating?.toFixed(2)}
         age= {data?.age}
         team={data?.team}
         flag={data?.flag}

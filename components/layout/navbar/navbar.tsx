@@ -18,7 +18,7 @@ import {
   useColorModeValue,
   Stack,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon, AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { getSession, signOut, useSession } from "next-auth/react";
 import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, useApolloClient, useQuery } from "@apollo/client";
@@ -31,17 +31,10 @@ import { getToken } from "next-auth/jwt";
 const Links = [
 
   {
-    name: "Squads",
-    path: "/squadby",
-  },
-  {
     name: "Leaderboards",
     path: "/leaderboards",
   },
-  {
-    name: "",
-    path: "/with-mongo-db",
-  },
+  
 ];
 const LogoLink = [
   {
@@ -67,6 +60,18 @@ const dropdownLink3 = [
     name:"Log Out" ,
     path: "/auth/signin",
     
+  },
+];
+const dropdownLink4 = [
+  {
+    name:"Expert Squads" ,
+    path: "/squads",
+  },
+];
+const dropdownLink5 = [
+  {
+    name:"Scoutff Squads" ,
+    path: "/customsquads",
   },
 ];
 const buttonLink = [
@@ -171,7 +176,43 @@ export default function Navbar(props : any) {
               ))}
             </HStack>
 
-
+            <Menu>
+  {({ isOpen }) => (
+    <>
+      <MenuButton isActive={isOpen} as={Button} rightIcon={<ChevronDownIcon />}>
+        {isOpen ? 'Squads' : 'Squads'}
+      </MenuButton>
+      <MenuList>
+      {dropdownLink4.map(({ name, path }) => (
+                      <NavLink key={path} path={path}>
+                            <MenuItem >
+                          <HStack
+                          as={"nav"}
+                          spacing={4}
+                          display={{ base: "none", md: "flex" }}
+                          >
+                          </HStack>
+                          {name}
+                        </MenuItem>
+                      </NavLink>
+                    ))}
+        {dropdownLink5.map(({ name, path }) => (
+                      <NavLink key={path} path={path}>
+                            <MenuItem >
+                          <HStack
+                          as={"nav"}
+                          spacing={4}
+                          display={{ base: "none", md: "flex" }}
+                          >
+                          </HStack>
+                          {name}
+                        </MenuItem>
+                      </NavLink>
+                    ))}
+      </MenuList>
+    </>
+  )}
+</Menu>
             
             <Button
               variant={"outline"}
