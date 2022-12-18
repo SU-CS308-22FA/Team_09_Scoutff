@@ -183,6 +183,7 @@ export async function getThisWeekPlayerData(matches : Awaited<ReturnType<typeof 
             goals : 0,
             minutes_played : 0,
             rating : 0,
+            matches_played:0,
             name : player.player?.name,
             position_name : player.player?.position_name,
             photo : player.player?.photo,
@@ -193,6 +194,7 @@ export async function getThisWeekPlayerData(matches : Awaited<ReturnType<typeof 
         }
 
 
+        const rating = player.player_statistics.rating 
 
         playerMatchStatistics.set(convertedId,{
             ...currentStatistics,
@@ -201,15 +203,18 @@ export async function getThisWeekPlayerData(matches : Awaited<ReturnType<typeof 
                 goal_assist : (currentStatistics?.goal_assist ?? 0) + (player.player_statistics.goal_assist ?? 0),
                 goals : (currentStatistics?.goals ?? 0) + (player.player_statistics.goals ?? 0),
                 minutes_played : (currentStatistics?.minutes_played ?? 0) + (player.player_statistics.minutes_played ?? 0),
-                rating : (currentStatistics?.rating ?? 0) + (player.player_statistics.rating ?? 0),
+                rating : (currentStatistics?.rating ?? 0) + (rating ?? 0),
+                matches_played : currentStatistics.matches_played  + (rating ? 1 : 0),
 
         })
+
+    
     })
 
             
         
         
-    })
+    });
 
     return  playerMatchStatistics;
 

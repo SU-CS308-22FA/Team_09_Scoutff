@@ -30,6 +30,7 @@ export interface MatchInterface {
     position_name ?: string;
     team_name ?: string;
     photo ?: string;
+    matches_played : number;
     
 }
  

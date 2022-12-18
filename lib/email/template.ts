@@ -23,9 +23,17 @@ const rankPlayer = (index: number) => {
     
 }
 
+const handleRating = (player : PlayerMatchStatisticsInterface | undefined) => {
+
+    if(!player?.rating) return "N/A";
+
+    return (player.rating / player.matches_played).toFixed(2);
+
+}
+
 const generateNonTopThree = (players : (PlayerMatchStatisticsInterface | undefined)[]) => {
     const list =  players.map((player,index) => 
-       `<li style="Margin-top: 16px;Margin-bottom: 0;Margin-left: 0;">${index + 4}-${player?.name} (${player?.rating ? player.rating.toFixed(2) : "N/A"})</li>` 
+       `<li style="Margin-top: 16px;Margin-bottom: 0;Margin-left: 0;">${index + 4}-${player?.name} (${handleRating(player)})</li>` 
 
     ).join("");
 
@@ -79,7 +87,7 @@ const generateTopThreeTemplate =  (topThree : (PlayerMatchStatisticsInterface | 
               
                 <div style="Margin-left: 20px;Margin-right: 20px;">
           <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
-            <p style="Margin-top: 0;Margin-bottom: 0;">Rating: ${player.rating ? player.rating.toFixed(2) : "N/A"}</p><p style="Margin-top: 20px;Margin-bottom: 0;">Goals: ${player.goals ?? "N/A"}</p><p style="Margin-top: 20px;Margin-bottom: 0;">Assists: ${player.goal_assist ?? "N/A"}</p><p style="Margin-top: 20px;Margin-bottom: 0;">Minutes Played: ${player.minutes_played ?? "N/A"}</p><p style="Margin-top: 20px;Margin-bottom: 0;">Team: ${player.team_name ?? "N/A"}</p><p style="Margin-top: 20px;Margin-bottom: 20px;">Position: ${player.position_name ?? "N/A"}</p>
+            <p style="Margin-top: 0;Margin-bottom: 0;">Rating: ${handleRating(player)}</p><p style="Margin-top: 20px;Margin-bottom: 0;">Goals: ${player.goals ?? "N/A"}</p><p style="Margin-top: 20px;Margin-bottom: 0;">Assists: ${player.goal_assist ?? "N/A"}</p><p style="Margin-top: 20px;Margin-bottom: 0;">Minutes Played: ${player.minutes_played ?? "N/A"}</p><p style="Margin-top: 20px;Margin-bottom: 0;">Team: ${player.team_name ?? "N/A"}</p><p style="Margin-top: 20px;Margin-bottom: 20px;">Position: ${player.position_name ?? "N/A"}</p>
           </div>
         </div>
               
