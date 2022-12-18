@@ -288,7 +288,7 @@ export async  function generateWeeklyReports() {
     await Promise.all(Array.from(userEmailMap.entries()).map(async ([email,template]) => {
         const info = await transporter.sendMail({
             from : '"Scoutff Football" <bisiler@scoutff.com>',
-            to : email + "bisi",
+            to : email,
             subject : "Weekly Report",
             html : template
             
@@ -304,15 +304,7 @@ export async  function generateWeeklyReports() {
 
 }
 
-generateWeeklyReports().then(() => {
-    console.log("Finished")
-    process.exit(0);
-}
-).catch((err) => {
-    console.log(err);
-    process.exit(1);
-}
-)
+
 
 
 
