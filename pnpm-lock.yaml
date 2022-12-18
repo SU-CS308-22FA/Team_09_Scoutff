@@ -11,8 +11,10 @@ specifiers:
   '@next-auth/mongodb-adapter': ^1.1.1
   '@types/bcrypt': ^5.0.0
   '@types/node': 18.11.6
+  '@types/nodemailer': ^6.4.7
   '@types/react': ^18.0.25
   '@types/react-dom': ^18.0.8
+  '@upstash/qstash': ^0.3.2
   autoprefixer: ^10.4.13
   axios: ^1.1.3
   bcrypt: ^5.1.0
@@ -24,6 +26,7 @@ specifiers:
   formik: ^2.2.9
   framer-motion: ^7.6.6
   graphql: ^16.6.0
+  limiter: ^2.1.0
   mongoose: ^6.7.0
   next: 12.2.5
   next-auth: ^4.15.0
@@ -50,6 +53,7 @@ dependencies:
   '@emotion/styled': 11.10.5_hmjty4frusbltjhl3xd7udcm2y
   '@mantine/dropzone': 5.9.4_akxvflpdc4qclfp7ngtfppkada
   '@next-auth/mongodb-adapter': 1.1.1_c2hs3f6tdo2m2hud5hzs3zngde
+  '@upstash/qstash': 0.3.2
   axios: 1.1.3
   bcrypt: 5.1.0
   bootstrap: 5.2.2_@popperjs+core@2.11.6
@@ -58,6 +62,7 @@ dependencies:
   formik: 2.2.9_react@18.2.0
   framer-motion: 7.6.6_biqbaboplfbrettd7655fr4n2y
   graphql: 16.6.0
+  limiter: 2.1.0
   mongoose: 6.7.0
   next: 12.2.5_mqvh5p7ejg4taogoj6tpk3gd5a
   next-auth: 4.15.0_3gqfya7tahwv2qj3nlhdbw4tga
@@ -75,6 +80,7 @@ dependencies:
 devDependencies:
   '@types/bcrypt': 5.0.0
   '@types/node': 18.11.6
+  '@types/nodemailer': 6.4.7
   '@types/react': 18.0.25
   '@types/react-dom': 18.0.8
   autoprefixer: 10.4.13_postcss@8.4.19
@@ -2137,6 +2143,10 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /@deno/shim-crypto/0.3.1:
+    resolution: {integrity: sha512-ed4pNnfur6UbASEgF34gVxR9p7Mc3qF+Ygbmjiil8ws5IhNFhPDFy5vE5hQAUA9JmVsSxXPcVLM5Rf8LOZqQ5Q==}
+    dev: false
+
   /@emotion/babel-plugin/11.10.5_@babel+core@7.20.2:
     resolution: {integrity: sha512-xE7/hyLHJac7D2Ve9dKroBBZqBT7WuPQmWcq7HSGb84sUuP4mlOWoB8dvVfD9yk5DHkU1m6RW7xSoDtnQHNQeA==}
     peerDependencies:
@@ -2878,6 +2888,12 @@ packages:
   /@types/node/18.11.6:
     resolution: {integrity: sha512-j3CEDa2vd96K0AXF8Wur7UucACvnjkk8hYyQAHhUNciabZLDl9nfAEVUSwmh245OOZV15bRA3Y590Gi5jUcDJg==}
 
+  /@types/nodemailer/6.4.7:
+    resolution: {integrity: sha512-f5qCBGAn/f0qtRcd4SEn88c8Fp3Swct1731X4ryPKqS61/A3LmmzN8zaEz7hneJvpjFbUUgY7lru/B/7ODTazg==}
+    dependencies:
+      '@types/node': 18.11.6
+    dev: true
+
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: false
@@ -2985,6 +3001,12 @@ packages:
       '@typescript-eslint/types': 5.41.0
       eslint-visitor-keys: 3.3.0
     dev: true
+
+  /@upstash/qstash/0.3.2:
+    resolution: {integrity: sha512-R5mKygCpGFwihsST18I/if3TxYkgumKKs6cfB7JAc1FGBDLSxSycAX5HTWcuFjhL/HFO+hRkI7U9f6BHHrUkWA==}
+    dependencies:
+      '@deno/shim-crypto': 0.3.1
+    dev: false
 
   /@vue/compiler-core/3.2.45:
     resolution: {integrity: sha512-rcMj7H+PYe5wBV3iYeUgbCglC+pbpN8hBLTJvRiK2eKQiWqu+fG9F+8sW99JdL4LQi7Re178UOxn09puSXvn4A==}
@@ -5100,6 +5122,10 @@ packages:
       object.assign: 4.1.4
     dev: true
 
+  /just-performance/4.3.0:
+    resolution: {integrity: sha512-L7RjvtJsL0QO8xFs5wEoDDzzJwoiowRw6Rn/GnvldlchS2JQr9wFYPiwZcDfrbbujEKqKN0tvENdbjXdYhDp5Q==}
+    dev: false
+
   /kareem/2.4.1:
     resolution: {integrity: sha512-aJ9opVoXroQUPfovYP5kaj2lM7Jn02Gw13bL0lg9v0V7SaUc0qavPs0Eue7d2DcC3NjqI6QAUElXNsuZSeM+EA==}
     dev: false
@@ -5149,6 +5175,12 @@ packages:
     resolution: {integrity: sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg==}
     engines: {node: '>=10'}
     dev: true
+
+  /limiter/2.1.0:
+    resolution: {integrity: sha512-361TYz6iay6n+9KvUUImqdLuFigK+K79qrUtBsXhJTLdH4rIt/r1y8r1iozwh8KbZNpujbFTSh74mJ7bwbAMOw==}
+    dependencies:
+      just-performance: 4.3.0
+    dev: false
 
   /lines-and-columns/1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}

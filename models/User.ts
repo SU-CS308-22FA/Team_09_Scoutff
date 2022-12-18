@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IPlayer } from "./Player";
+import { PlayerInterface } from "../interfaces/PlayerInterface";
 
 export interface IUser {
     name: string;
@@ -8,7 +8,7 @@ export interface IUser {
     password: string;
     role: string;
     emailVerified: Date | null;
-    likedPlayers: Array<IPlayer>;
+    likedPlayers: Array<PlayerInterface>;
 
 }
 

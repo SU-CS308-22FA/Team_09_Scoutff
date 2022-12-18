@@ -24,7 +24,7 @@ export interface PlayerInterface {
     contract_until?: Date;
     height ?: number;
     team : TeamInterface
-    // likedBy?: Array<number>;
+    
 
 }
 
@@ -302,4 +302,6 @@ export interface StatisticsInterface {
     cards?: ConvertedCards;
     goalkeeping ?:  GoalkeepingConvertInterface;
 }
+
+
 
