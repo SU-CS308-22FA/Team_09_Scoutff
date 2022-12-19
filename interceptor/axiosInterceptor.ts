@@ -14,6 +14,7 @@ const controller = new AbortController();
 
 
 
+
 const rateLimiter = new RateLimiter({tokensPerInterval : maxRequestPerSecond, interval : "second"});
 
 
@@ -60,18 +61,22 @@ sportAPI.interceptors.request.use((config :AxiosRequestConfig) => {
 sportAPI.interceptors.response.use((response : AxiosResponse)  => {
     return response;
 }, (error : AxiosError) => {
-    console.log(error?.response?.status,"error");
+    console.log(error?.response?.data,"error");
     if (error?.response?.status === 429) {
 
 
 
+
         //get headers from error.request
+
+        console.log(error?.config?.data,"error config data");
 
 
 
         const headers = error?.config?.headers;
 
         const headerKey = headers?.["X-RapidAPI-Key"];
+
 
         if (headerKey) {
             api_keys = api_keys?.filter((key) => key !== headerKey);

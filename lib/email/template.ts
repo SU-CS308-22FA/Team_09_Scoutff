@@ -25,7 +25,7 @@ const rankPlayer = (index: number) => {
 
 const handleRating = (player : PlayerMatchStatisticsInterface | undefined) => {
 
-    if(!player?.rating) return "N/A";
+    if(!player?.rating || !player.matches_played) return "N/A";
 
     return (player.rating / player.matches_played).toFixed(2);
 

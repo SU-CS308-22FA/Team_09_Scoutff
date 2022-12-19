@@ -2,7 +2,6 @@ import User from "../../models/User";
 import Player from "../../models/Player";
 import mongooseConnection from "../mongoose"
 
-import { IPlayer } from "../../models/Player";
 
 interface IAddFavPlayer {
     userId: string;

@@ -7,7 +7,7 @@ import User, { IUser } from "../../models/User";
 import nodemailer from "nodemailer";
 import mongooseConnection from "../mongoose";
 import { exit } from "process";
-import { createTemplate } from "./template.js";
+import { createTemplate } from "./template";
 
 
 
