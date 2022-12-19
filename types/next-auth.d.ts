@@ -12,7 +12,10 @@ declare module "next-auth" {
     role: string  
     emailVerified : Date | null
   }
-
+  interface Session {
+    user: User
+    original : string
+  }
 
 }
 

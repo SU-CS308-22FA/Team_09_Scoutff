@@ -1,3 +1,5 @@
+import { useChakra } from "@chakra-ui/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { ReactNode } from "react";
 import { GraphQLProvider } from "../../provider/GraphQLProvider";
@@ -9,14 +11,36 @@ interface ILayoutProps {
 
 const Layout = ({ children }: ILayoutProps) => {
   const router = useRouter();
+
+
+  const session = useSession();
+
+
+  const chakra = useChakra();
+
+
+
+  if (session.status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+
+
+
+
+
+
   return (
     <GraphQLProvider>
-      <>
-        {/* Exclude urls starting with /auth */}
-        {!router.pathname.startsWith("/auth") && <Navbar />}
-        {children}
-      </>
-    </GraphQLProvider>
+    <>
+      {/* Exclude urls starting with /auth */}
+      {!router.pathname.startsWith("/auth") && <Navbar />}
+      {children}
+    </>
+  </GraphQLProvider>
+    
+
+  
 
   );
 };

@@ -65,7 +65,6 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
     return (
  <div>
    
-<Layout>
   
 
 <Flex
@@ -140,7 +139,7 @@ export default function SignIn(/*{ csrfToken }: InferGetServerSidePropsType<type
       </Stack>
     </Flex>
 
-</Layout>
+
       </div>
     )
 
