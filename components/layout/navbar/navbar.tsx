@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState } from "react";
-import { GraphQLProvider } from "../../../provider/GraphQLProvider";
 import {
   Box,
   Flex,
@@ -113,6 +112,7 @@ export default function Navbar(props : any) {
 
 
   const session = useSession();
+
 
 
 
@@ -288,18 +288,26 @@ export default function Navbar(props : any) {
 
                      
                       <MenuDivider />
-                      <MenuItem  onClick={() => signOut({callbackUrl: "/auth/signin"})}
+                      <MenuItem  onClick={async () => {
+                        await client.cache.reset()
+                        await app?.currentUser?.logOut()
+
+                        localStorage.clear()
+                        
+                        await signOut({callbackUrl: "/auth/signin"})
+
+
+                      }
+                      }
                       textColor={"red"}
                       ><HStack
                     as={"nav"}
                     spacing={4}
                     display={{ base: "none", md: "flex" }}
                   >
-                      <NavLink  path={session?.data ?  "/auth/signin" : "/api/auth/signout"}>
                         <div>
                           {session?.data  ? "Log Out" : "Log In"}
                         </div>
-                      </NavLink>
                     
                   </HStack>
                 </MenuItem>

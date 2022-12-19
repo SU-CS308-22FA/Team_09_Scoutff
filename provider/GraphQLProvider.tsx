@@ -151,19 +151,6 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
         
             const currentUser = app.currentUser;
 
-            console.log(currentUser)
-
-          
-
-            const jwtLogin = currentUser?.providerType === "custom-token";
-
-            const sessionAuthenticated = session?.status === "authenticated";
-
-
-
-            if (currentUser && (jwtLogin !== sessionAuthenticated)) {
-                await app.removeUser(currentUser);
-            }
 
 
 
@@ -175,7 +162,10 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
 
 
-            
+
+
+
+            console.log(currentUser?.accessToken)
 
             
 
