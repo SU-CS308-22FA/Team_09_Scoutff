@@ -12,8 +12,10 @@ import GoogleProvider from "next-auth/providers/google"
 import { decode, getToken } from "next-auth/jwt";
 
 import { userToAdapterUser } from "../../../adapters/MongooseAdapter";
-import { sign } from "crypto";
-import { signIn } from "next-auth/react";
+
+import jwt from "jsonwebtoken"
+
+
 
 
 import {v2} from "cloudinary"
@@ -49,7 +51,41 @@ export const authOptions :  NextAuthOptions = {
         token.email = user.email
         token.role = user.role
       }
+
+
+      
+
       return token
+      
+    },
+    async session({session, token}) {
+
+
+   
+
+     
+      if (!session.original || token.email !== session.user.email ) {
+
+
+        
+
+        session.original = jwt.sign({email : token.email,sub : token.sub,aud : "football-uhuan"}, process.env.NEXTAUTH_SECRET!, {expiresIn: "30d"})
+
+
+
+
+        
+
+        
+
+      }
+
+
+
+      return session
+
+
+
     },
 
     
@@ -63,6 +99,7 @@ export const authOptions :  NextAuthOptions = {
       const userNotExist = `${baseUrl}/error?error=UserNotExist`
 
       const verificationRequest = email?.verificationRequest
+      
 
 
       if (verificationRequest) 

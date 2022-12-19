@@ -1,12 +1,15 @@
 import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache, NormalizedCacheObject,fromPromise } from "@apollo/client";
 import { useApp } from "../hook/useApp";
-import {ReactNode, useCallback, useEffect, useState} from "react";
+import {ReactNode, useCallback, useEffect, useMemo, useState} from "react";
 import * as Realm from "realm-web";
 import { Buffer } from 'buffer';
 import {onError} from "@apollo/client/link/error";
+import { useSession } from "next-auth/react";
 
 
 const anonymousUser = Realm.Credentials.anonymous();
+
+
 
 
 export const  isExpired = (token ?: string | null) => {
@@ -24,10 +27,24 @@ export const  isExpired = (token ?: string | null) => {
 
 
 export function GraphQLProvider({ children } : {children : ReactNode}) {
-    const app = useApp();
 
-    const [client, setClient] = useState<ApolloClient<NormalizedCacheObject> | null>(null);
 
+
+
+
+
+
+
+
+
+  const app = useApp();
+
+  const session = useSession();
+
+
+
+
+  
 
 
 
@@ -39,6 +56,7 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
         
         if (networkError && 'statusCode' in networkError && networkError.statusCode === 401) {
+
 
 
             //checj if error is 401
@@ -78,7 +96,6 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
             }
           }
 
-          console.log("options", options)
     
           return fetch(uri, options);
         },
@@ -86,11 +103,27 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
 
 
+ const  client = useMemo(() => {
+  return new ApolloClient({
+    link: from([errorLink, httpLink]),
+    cache: new InMemoryCache(),
+})
+}, [app]);
+    
+
+        
+      
+
+
 
     async function refresh(currentUser : Realm.User | null ) {
         try {
+            const original = session?.data?.original;
 
-            if (!currentUser) return app!.logIn(anonymousUser);
+            console.log(original)
+
+
+            if (!currentUser) return app!.logIn(original ? Realm.Credentials.jwt(original) : anonymousUser);
             await currentUser?.refreshAccessToken();
             
            
@@ -101,19 +134,61 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
     
 
+
     useEffect(() => {
-        if (app) {
+
+
+
+
+
+
+      if (app) {
+
+        
+
+
+      const userSetter = async  () => {
+        
             const currentUser = app.currentUser;
-            //check if users access token is expired
+
+            console.log(currentUser)
+
+          
+
+            const jwtLogin = currentUser?.providerType === "custom-token";
+
+            const sessionAuthenticated = session?.status === "authenticated";
+
+
+
+            if (currentUser && (jwtLogin !== sessionAuthenticated)) {
+                await app.removeUser(currentUser);
+            }
+
+
+
+
+
+
+
+
+
+
+
+            
+
+            
+
+
 
     
 
             if (isExpired(currentUser?.accessToken) ) {  
                 //if refresh token exists, log in with refresh token
                
-                refresh(currentUser)
+                await refresh(currentUser)
 
-            } 
+            }  
 
         
 
@@ -121,27 +196,24 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
       
             
 
-            if (!client) {
-                setClient(new ApolloClient({
-                    link: from([errorLink, httpLink]),
-                    cache: new InMemoryCache(),
-                }));
-            }
-
 
 
      
 
-        }
+        
+      }
+      userSetter()
 
+  }
       
-    }, [app, app?.currentUser]);
+    }, [session.data?.original]);
 
 
 
 
 
-    if (!client) return null;
+
+
 
 
 

@@ -10,7 +10,13 @@ import Layout from "../components/layout/Layout";
 // `useSession()` anywhere in your application to access the `session` object.
 export default function MyApp({ Component, pageProps: { session, ...pageProps} }: AppProps) {
 
+  
+
   // Reset the user access token in cookies on a regular interval
+
+  //wait for session and pageprops to load
+
+
 
 
 
