@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState } from "react";
-import { GraphQLProvider } from "../../../provider/GraphQLProvider";
 import {
   Box,
   Flex,
@@ -18,7 +17,7 @@ import {
   useColorModeValue,
   Stack,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon, AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { getSession, signOut, useSession } from "next-auth/react";
 import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, useApolloClient, useQuery } from "@apollo/client";
@@ -31,17 +30,10 @@ import { getToken } from "next-auth/jwt";
 const Links = [
 
   {
-    name: "Squads",
-    path: "/squadby",
-  },
-  {
     name: "Leaderboards",
     path: "/leaderboards",
   },
-  {
-    name: "",
-    path: "/with-mongo-db",
-  },
+  
 ];
 const LogoLink = [
   {
@@ -69,9 +61,21 @@ const dropdownLink3 = [
     
   },
 ];
+const dropdownLink4 = [
+  {
+    name:"Expert Squads" ,
+    path: "/squads",
+  },
+];
+const dropdownLink5 = [
+  {
+    name:"Scoutff Squads" ,
+    path: "/customsquads",
+  },
+];
 const buttonLink = [
   {
-    name:"Favorite Players" ,
+    name:"Favourite Players 🌟" ,
     path: "/favorites",
     
   },
@@ -114,6 +118,7 @@ export default function Navbar(props : any) {
 
 
 
+
   const app = useApp();
 
 
@@ -138,10 +143,12 @@ export default function Navbar(props : any) {
           
           <HStack
               as={"nav"}
+              paddingLeft= {"50px"}
+              fontWeight={"bold"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {LogoLink.map(({ name, path }) => (
+              {LogoLink.map(({ name, path }) => ( 
                 <NavLink key={path} path={path}>
                   {name}
                 </NavLink>
@@ -169,7 +176,43 @@ export default function Navbar(props : any) {
               ))}
             </HStack>
 
-
+            <Menu>
+  {({ isOpen }) => (
+    <>
+      <MenuButton isActive={isOpen} as={Button} rightIcon={<ChevronDownIcon />}>
+        {isOpen ? 'Squads' : 'Squads'}
+      </MenuButton>
+      <MenuList>
+      {dropdownLink4.map(({ name, path }) => (
+                      <NavLink key={path} path={path}>
+                            <MenuItem >
+                          <HStack
+                          as={"nav"}
+                          spacing={4}
+                          display={{ base: "none", md: "flex" }}
+                          >
+                          </HStack>
+                          {name}
+                        </MenuItem>
+                      </NavLink>
+                    ))}
+        {dropdownLink5.map(({ name, path }) => (
+                      <NavLink key={path} path={path}>
+                            <MenuItem >
+                          <HStack
+                          as={"nav"}
+                          spacing={4}
+                          display={{ base: "none", md: "flex" }}
+                          >
+                          </HStack>
+                          {name}
+                        </MenuItem>
+                      </NavLink>
+                    ))}
+      </MenuList>
+    </>
+  )}
+</Menu>
             
             <Button
               variant={"outline"}
@@ -200,7 +243,7 @@ export default function Navbar(props : any) {
                 <Avatar
                   size={"sm"}
                   src={
-                    "https://bit.ly/sage-adebayo"
+                    session?.data?.user?.image ??  "https://bit.ly/sage-adebayo"
                   }
                 />
               </MenuButton>
@@ -245,18 +288,26 @@ export default function Navbar(props : any) {
 
                      
                       <MenuDivider />
-                      <MenuItem  onClick={() => signOut({callbackUrl: "/auth/signin"})}
+                      <MenuItem  onClick={async () => {
+                        await client.cache.reset()
+                        await app?.currentUser?.logOut()
+
+                        localStorage.clear()
+                        
+                        await signOut({callbackUrl: "/auth/signin"})
+
+
+                      }
+                      }
                       textColor={"red"}
                       ><HStack
                     as={"nav"}
                     spacing={4}
                     display={{ base: "none", md: "flex" }}
                   >
-                      <NavLink  path={session?.data ?  "/auth/signin" : "/api/auth/signout"}>
                         <div>
                           {session?.data  ? "Log Out" : "Log In"}
                         </div>
-                      </NavLink>
                     
                   </HStack>
                 </MenuItem>
