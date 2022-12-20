@@ -36,7 +36,7 @@ export const getServerSideProps = async () => {
     console.log('connected to mongo')
 
     console.log('Fetching document')
-    const expertsquads = await ExpertSquad.find().sort({$natural: -1 }).limit(1)
+    const expertsquads = await ExpertSquad.find().sort({$natural: -1 })
     console.log('Fetched document')
 
     return{
@@ -45,7 +45,7 @@ export const getServerSideProps = async () => {
       }
     };
   }catch(error){
-    console.log("ERROR NOOOOOOOOOOOO");
+    console.log("ERROR HAPPENNED. WHY? WHO KNOWS MAN");
 
     return{notFound: true,}
   }

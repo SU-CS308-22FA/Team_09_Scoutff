@@ -27,9 +27,9 @@ function Player(str: { position: string | undefined; }){
   </VStack> )
 }
 
-export default function SquadsUI({data} :  any) {
-  
-  
+
+
+export default function SquadsUI({data, whichExpert} :  any) {  
   
   const [gkk, setValue1] = useState('');
   const [lbb, setValue2] = useState('');
@@ -42,13 +42,28 @@ export default function SquadsUI({data} :  any) {
   const [lww, setValue9] = useState('');
   const [rww, setValue10] = useState('');
   const [stt, setValue11] = useState('');
+  const [commenter, setValue12] = useState('');
+
 
 
   const toast = useToast()
 
 
-  const createExpertsquad = async () => {
-
+  const createExpertsquad = async (expertWhich: any) => {
+    console.log(expertWhich);
+    const namer : String = `` + expertWhich;
+    let realName;
+    if(namer === `expert1`){
+      realName = `Rıdvan Dilmen`
+    }else if(namer === `expert2`){
+      realName = `Sinan Engine`
+    }else if(namer === `expert3`){
+      realName = `Ali Ece`
+    }else if(namer === `expert4`){
+      realName = `Erman Toroğlu`
+    }else{
+      realName = `There is a problem`
+    }
     const res  = await fetch('/api/expertsquad', {
       method: 'POST',
 
@@ -57,8 +72,8 @@ export default function SquadsUI({data} :  any) {
       },
 
       body: JSON.stringify({
-        name: `Ridvan Dilmen`,
-        comment: `this is my comment`,
+        name: realName,
+        comment: commenter,
         gk: gkk,
         lb: lbb,
         lcb: lcbb,
@@ -70,7 +85,7 @@ export default function SquadsUI({data} :  any) {
         lw: lww,
         rw: rww,
         st: stt,
-
+        num: namer,
       }),
     
     });
@@ -88,10 +103,13 @@ export default function SquadsUI({data} :  any) {
     console.log(data);
   }
 
+  
+
 
   return (
     <Flex>
       <VStack>
+      <Input onChange={({target})=> setValue12(target?.value)} value={commenter} placeholder={data?.comment} _placeholder={{ opacity: 1, color: 'grey.700' }} size='lg' />
       <HStack w='688px'>
         {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
       <Box backgroundImage='https://pbs.twimg.com/media/DG9CaHdXYAEmLw5.jpg' 
@@ -107,7 +125,7 @@ export default function SquadsUI({data} :  any) {
         <Center marginTop='30px' fontSize='20px'>
           <VStack>
             <Text fontSize='30px'>👕</Text>
-            <Input onChange={({target})=> setValue11(target?.value)} value={stt} placeholder={data[0].st} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+            <Input onChange={({target})=> setValue11(target?.value)} value={stt} placeholder={data?.st} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
             
           </VStack> 
 
@@ -119,20 +137,20 @@ export default function SquadsUI({data} :  any) {
          
           <VStack>
             <Text fontSize='30px'>👕</Text>
-            <Input onChange={({target})=> setValue9(target?.value)} value={lww} placeholder={data[0].lw} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+            <Input onChange={({target})=> setValue9(target?.value)} value={lww} placeholder={data?.lw} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
           </VStack> 
 
           
           <VStack  marginX='100px'>
             <VStack>
               <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue8(target?.value)} value={camm} placeholder={data[0].cam} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              <Input onChange={({target})=> setValue8(target?.value)} value={camm} placeholder={data?.cam} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
             </VStack> 
           </VStack>
 
           <VStack>
             <Text fontSize='30px'>👕</Text>
-            <Input onChange={({target})=> setValue10(target?.value)} value={rww} placeholder={data[0].rw} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+            <Input onChange={({target})=> setValue10(target?.value)} value={rww} placeholder={data?.rw} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
           </VStack> 
 
           
@@ -142,14 +160,14 @@ export default function SquadsUI({data} :  any) {
           <VStack marginRight='50px'>
             <VStack>
               <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue6(target?.value)} value={lcmm} placeholder={data[0].lcm} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              <Input onChange={({target})=> setValue6(target?.value)} value={lcmm} placeholder={data?.lcm} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
             </VStack> 
           </VStack>  
 
           <VStack  marginLeft='50px'>
             <VStack>
               <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue7(target?.value)} value={rcmm} placeholder={data[0].rcm} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              <Input onChange={({target})=> setValue7(target?.value)} value={rcmm} placeholder={data?.rcm} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
             </VStack> 
           </VStack>
 
@@ -160,28 +178,28 @@ export default function SquadsUI({data} :  any) {
           <VStack >
             <VStack>
               <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue2(target?.value)} value={lbb} placeholder={data[0].lb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              <Input onChange={({target})=> setValue2(target?.value)} value={lbb} placeholder={data?.lb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
             </VStack> 
           </VStack>  
 
           <VStack  marginX='40px'>
             <VStack>
               <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue3(target?.value)} value={lcbb} placeholder={data[0].lcb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              <Input onChange={({target})=> setValue3(target?.value)} value={lcbb} placeholder={data?.lcb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
             </VStack> 
           </VStack>
 
           <VStack  marginX='40px'>
             <VStack>
               <Text fontSize='30px'>👕</Text>
-              <Input value={rcbb} onChange={({target})=> setValue4(target?.value)} placeholder={data[0].rcb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              <Input value={rcbb} onChange={({target})=> setValue4(target?.value)} placeholder={data?.rcb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
             </VStack> 
           </VStack>  
 
           <VStack >
             <VStack>
               <Text fontSize='30px'>👕</Text>
-              <Input value={rbb} onChange={({target})=> setValue5(target?.value)} placeholder={data[0].rb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              <Input value={rbb} onChange={({target})=> setValue5(target?.value)} placeholder={data?.rb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
             </VStack> 
           </VStack>
 
@@ -191,7 +209,7 @@ export default function SquadsUI({data} :  any) {
           
             <VStack>
               <Text fontSize='30px'>👕</Text>
-              <Input value={gkk} onChange={({target})=> setValue1(target?.value)} placeholder={data[0].gk} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              <Input value={gkk} onChange={({target})=> setValue1(target?.value)} placeholder={data?.gk} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
             </VStack> 
         
         </Center>
@@ -202,7 +220,7 @@ export default function SquadsUI({data} :  any) {
       </HStack>
 
       <HStack>
-        <Button onClick={createExpertsquad}>Save</Button>
+        <Button onClick={() => createExpertsquad(whichExpert)}>Save</Button>
         <Button>Like</Button>
       </HStack>
       </VStack>

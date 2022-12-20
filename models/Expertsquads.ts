@@ -19,7 +19,7 @@ const expertsquadSchema = new Schema({
     lw: String,
     rw: String,
     st: String,
-
+    num: String
 })
 
 const ExpertSquad = models.ExpertSquad || model('ExpertSquad', expertsquadSchema);

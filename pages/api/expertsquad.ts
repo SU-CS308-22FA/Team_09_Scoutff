@@ -17,7 +17,8 @@ export default async function addExpertSquad(req: NextApiRequest, res: NextApiRe
         cam,
         lw,
         rw,
-        st} = req.body;
+        st,
+        num} = req.body;
 
     
     console.log('connecting to mongo')
