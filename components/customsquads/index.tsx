@@ -96,7 +96,7 @@ const SquadsCompIndex = ({data} : Props) => {
                 </HStack>
               </VStack>
               <VStack >
-                <Text fontSize='20px'>Youngsters of the season (U21)</Text>
+                <Text fontSize='20px'>Youngsters of the season (U23)</Text>
                 <SquadsUI data={data} title="young"></SquadsUI> 
                 <HStack borderRadius="20px" backgroundColor="blue.200" w="60px">
                   <Button onClick={increaseLike2} color="black" backgroundColor="blue.200" rounded="20px">Like</Button>
