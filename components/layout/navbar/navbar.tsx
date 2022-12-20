@@ -290,7 +290,7 @@ export default function Navbar(props : any) {
                       <MenuDivider />
                       <MenuItem  onClick={async () => {
                         await client.cache.reset()
-                        await app?.currentUser?.logOut()
+                  
 
                         localStorage.clear()
                         
