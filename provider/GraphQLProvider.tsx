@@ -5,6 +5,7 @@ import * as Realm from "realm-web";
 import { Buffer } from 'buffer';
 import {onError} from "@apollo/client/link/error";
 import { useSession } from "next-auth/react";
+import { requiredChakraThemeKeys } from "@chakra-ui/react";
 
 
 const anonymousUser = Realm.Credentials.anonymous();
@@ -13,6 +14,8 @@ const anonymousUser = Realm.Credentials.anonymous();
 
 
 export const  isExpired = (token ?: string | null) => {
+
+  
 
   if (!token) return true;
 
@@ -119,11 +122,22 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
     async function refresh(currentUser : Realm.User | null ) {
         try {
             const original = session?.data?.original;
+            const mismatch = (original && (currentUser?.providerType !== "custom-token"))
 
-            console.log(original)
+            if (mismatch) {
+              await currentUser?.logOut();
+              localStorage.clear();
+            }
+
+           
+
+            
+
+            
 
 
-            if (!currentUser) return app!.logIn(original ? Realm.Credentials.jwt(original) : anonymousUser);
+
+            if (!currentUser || (mismatch)) return await app!.logIn(original ? Realm.Credentials.jwt(original) : anonymousUser);
             await currentUser?.refreshAccessToken();
             
            
@@ -142,6 +156,7 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
 
 
+
       if (app) {
 
         
@@ -151,6 +166,7 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
         
             const currentUser = app.currentUser;
 
+            const original = session?.data?.original;
 
 
 
@@ -165,7 +181,9 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
 
 
-            console.log(currentUser?.accessToken)
+
+
+
 
             
 
@@ -173,7 +191,7 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
     
 
-            if (isExpired(currentUser?.accessToken) ) {  
+            if ((original && (currentUser?.providerType !== "custom-token")) || isExpired(currentUser?.accessToken) ) {  
                 //if refresh token exists, log in with refresh token
                
                 await refresh(currentUser)
@@ -196,7 +214,7 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
   }
       
-    }, [session.data?.original]);
+    }, [app,session.data?.original]);
 
 
 
