@@ -116,7 +116,6 @@ type FormValues = {
     const [showPassword, setShowPassword] = useState(false);
   
     return (
-        <Layout>
       <Flex
         minH={'100vh'}
         align={'center'}
@@ -240,7 +239,6 @@ type FormValues = {
           </form>
         </Stack>
       </Flex>
-      </Layout>
     );
   }
 
