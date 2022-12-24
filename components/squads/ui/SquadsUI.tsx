@@ -71,47 +71,223 @@ export default function SquadsUI({data, whichExpert} :  any) {
 
 const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:5,path:"name",query:"${graphqlQuery}"}) { name slug photo team{name logo} }}`;
 const [players, setPlayer] = useState<PlayerInterface[]>([]);
-const [search, setSearch] = useState<string | null>(null);
 const [loading, setLoading] = useState(false);
 const client = useApolloClient();
 
-
-const debouncedSearch = useDebounce(search, 500);
-
-const [focusedSearch, setFocusedSearch] = useState(false);
-
+const [search1, setSearch1] = useState<string | null>(null);
+const debouncedSearch1 = useDebounce(search1, 500);
+const [focusedSearch1, setFocusedSearch1] = useState(false);
 
 useEffect(() => {
     // search the api
-
     async function fetchData() {
-      setLoading(true);
-      
+      setLoading(true);  
       setPlayer([]);
-
       const datas = await client.query({
-        query: convertToQuery(debouncedSearch),
-
-
-      })
-        
+        query: convertToQuery(debouncedSearch1),
+      }) 
       console.log(datas);
-
       setPlayer(datas.data.playerSearch);
       setLoading(false);
     }
-
-    if (debouncedSearch) fetchData();
-  }, [debouncedSearch,client]);
-
+    if (debouncedSearch1) fetchData();
+  }, [debouncedSearch1,client]);
 
 
+const [search2, setSearch2] = useState<string | null>(null);
+const debouncedSearch2 = useDebounce(search2, 500);
+const [focusedSearch2, setFocusedSearch2] = useState(false);
+
+useEffect(() => {
+    // search the api
+    async function fetchData() {
+      setLoading(true);  
+      setPlayer([]);
+      const datas = await client.query({
+        query: convertToQuery(debouncedSearch2),
+      }) 
+      console.log(datas);
+      setPlayer(datas.data.playerSearch);
+      setLoading(false);
+    }
+    if (debouncedSearch2) fetchData();
+  }, [debouncedSearch2,client]);
 
 
+  const [search3, setSearch3] = useState<string | null>(null);
+  const debouncedSearch3 = useDebounce(search3, 500);
+  const [focusedSearch3, setFocusedSearch3] = useState(false);
+  
+  useEffect(() => {
+      // search the api
+      async function fetchData() {
+        setLoading(true);  
+        setPlayer([]);
+        const datas = await client.query({
+          query: convertToQuery(debouncedSearch3),
+        }) 
+        console.log(datas);
+        setPlayer(datas.data.playerSearch);
+        setLoading(false);
+      }
+      if (debouncedSearch3) fetchData();
+    }, [debouncedSearch3,client]);
+
+    const [search4, setSearch4] = useState<string | null>(null);
+    const debouncedSearch4 = useDebounce(search4, 500);
+    const [focusedSearch4, setFocusedSearch4] = useState(false);
+    
+    useEffect(() => {
+        // search the api
+        async function fetchData() {
+          setLoading(true);  
+          setPlayer([]);
+          const datas = await client.query({
+            query: convertToQuery(debouncedSearch4),
+          }) 
+          console.log(datas);
+          setPlayer(datas.data.playerSearch);
+          setLoading(false);
+        }
+        if (debouncedSearch4) fetchData();
+      }, [debouncedSearch4,client]);
 
 
+      const [search5, setSearch5] = useState<string | null>(null);
+      const debouncedSearch5 = useDebounce(search5, 500);
+      const [focusedSearch5, setFocusedSearch5] = useState(false);
+      
+      useEffect(() => {
+          // search the api
+          async function fetchData() {
+            setLoading(true);  
+            setPlayer([]);
+            const datas = await client.query({
+              query: convertToQuery(debouncedSearch5),
+            }) 
+            console.log(datas);
+            setPlayer(datas.data.playerSearch);
+            setLoading(false);
+          }
+          if (debouncedSearch5) fetchData();
+        }, [debouncedSearch5,client]);
 
 
+        const [search6, setSearch6] = useState<string | null>(null);
+        const debouncedSearch6 = useDebounce(search6, 500);
+        const [focusedSearch6, setFocusedSearch6] = useState(false);
+        
+        useEffect(() => {
+            // search the api
+            async function fetchData() {
+              setLoading(true);  
+              setPlayer([]);
+              const datas = await client.query({
+                query: convertToQuery(debouncedSearch6),
+              }) 
+              console.log(datas);
+              setPlayer(datas.data.playerSearch);
+              setLoading(false);
+            }
+            if (debouncedSearch6) fetchData();
+          }, [debouncedSearch6,client]);
+
+          const [search7, setSearch7] = useState<string | null>(null);
+          const debouncedSearch7 = useDebounce(search7, 500);
+          const [focusedSearch7, setFocusedSearch7] = useState(false);
+          
+          useEffect(() => {
+              // search the api
+              async function fetchData() {
+                setLoading(true);  
+                setPlayer([]);
+                const datas = await client.query({
+                  query: convertToQuery(debouncedSearch7),
+                }) 
+                console.log(datas);
+                setPlayer(datas.data.playerSearch);
+                setLoading(false);
+              }
+              if (debouncedSearch7) fetchData();
+            }, [debouncedSearch7,client]);
+
+
+            const [search8, setSearch8] = useState<string | null>(null);
+            const debouncedSearch8 = useDebounce(search8, 500);
+            const [focusedSearch8, setFocusedSearch8] = useState(false);
+            
+            useEffect(() => {
+                // search the api
+                async function fetchData() {
+                  setLoading(true);  
+                  setPlayer([]);
+                  const datas = await client.query({
+                    query: convertToQuery(debouncedSearch8),
+                  }) 
+                  console.log(datas);
+                  setPlayer(datas.data.playerSearch);
+                  setLoading(false);
+                }
+                if (debouncedSearch8) fetchData();
+              }, [debouncedSearch8,client]);
+
+              const [search9, setSearch9] = useState<string | null>(null);
+              const debouncedSearch9 = useDebounce(search9, 500);
+              const [focusedSearch9, setFocusedSearch9] = useState(false);
+              
+              useEffect(() => {
+                  // search the api
+                  async function fetchData() {
+                    setLoading(true);  
+                    setPlayer([]);
+                    const datas = await client.query({
+                      query: convertToQuery(debouncedSearch9),
+                    }) 
+                    console.log(datas);
+                    setPlayer(datas.data.playerSearch);
+                    setLoading(false);
+                  }
+                  if (debouncedSearch9) fetchData();
+                }, [debouncedSearch9,client]);
+
+                const [search10, setSearch10] = useState<string | null>(null);
+                const debouncedSearch10 = useDebounce(search10, 500);
+                const [focusedSearch10, setFocusedSearch10] = useState(false);
+                
+                useEffect(() => {
+                    // search the api
+                    async function fetchData() {
+                      setLoading(true);  
+                      setPlayer([]);
+                      const datas = await client.query({
+                        query: convertToQuery(debouncedSearch10),
+                      }) 
+                      console.log(datas);
+                      setPlayer(datas.data.playerSearch);
+                      setLoading(false);
+                    }
+                    if (debouncedSearch10) fetchData();
+                  }, [debouncedSearch10,client]);                
+
+
+                  const [search11, setSearch11] = useState<string | null>(null);
+                  const debouncedSearch11 = useDebounce(search11, 500);
+                  const [focusedSearch11, setFocusedSearch11] = useState(false);
+                  
+                  useEffect(() => {
+                      // search the api
+                      async function fetchData() {
+                        setLoading(true);  
+                        setPlayer([]);
+                        const datas = await client.query({
+                          query: convertToQuery(debouncedSearch11),
+                        }) 
+                        console.log(datas);
+                        setPlayer(datas.data.playerSearch);
+                        setLoading(false);
+                      }
+                      if (debouncedSearch11) fetchData();
+                    }, [debouncedSearch11,client]);
 
 
 
@@ -300,16 +476,17 @@ useEffect(() => {
             <Image boxSize='40px' src={data?.stphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.stslug}`}>{data?.st}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch1(true)} onBlur={() => setTimeout(() => setFocusedSearch1(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch1(e.target.value)}
                 />
                   </InputGroup>
 
@@ -317,23 +494,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch1 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -346,7 +523,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setStName(player.name); setStPhoto(player.photo); setStSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setStName(player.name); setStPhoto(player.photo); setStSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -378,16 +555,17 @@ useEffect(() => {
           <Image boxSize='40px' src={data?.lwphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lwslug}`}>{data?.lw}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch2(true)} onBlur={() => setTimeout(() => setFocusedSearch2(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch2(e.target.value)}
                 />
                   </InputGroup>
 
@@ -395,23 +573,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch2 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -424,7 +602,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setLwName(player.name); setLwPhoto(player.photo); setLwSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setLwName(player.name); setLwPhoto(player.photo); setLwSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -452,16 +630,17 @@ useEffect(() => {
               <Image boxSize='40px' src={data?.camphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.camslug}`}>{data?.cam}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch3(true)} onBlur={() => setTimeout(() => setFocusedSearch3(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
-                type= "search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
+                
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch3(e.target.value)}
                 />
                   </InputGroup>
 
@@ -469,23 +648,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch3 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -498,7 +677,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setCamName(player.name); setCamPhoto(player.photo); setCamSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setCamName(player.name); setCamPhoto(player.photo); setCamSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -525,16 +704,17 @@ useEffect(() => {
             <Image boxSize='40px' src={data?.rwphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rwslug}`}>{data?.rw}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch4(true)} onBlur={() => setTimeout(() => setFocusedSearch4(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch4(e.target.value)}
                 />
                   </InputGroup>
 
@@ -542,23 +722,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch4 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -571,7 +751,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setRwName(player.name); setRwPhoto(player.photo); setRwSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setRwName(player.name); setRwPhoto(player.photo); setRwSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -601,16 +781,17 @@ useEffect(() => {
               <Image boxSize='40px' src={data?.lcmphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lcmslug}`}>{data?.lcm}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch5(true)} onBlur={() => setTimeout(() => setFocusedSearch5(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch5(e.target.value)}
                 />
                   </InputGroup>
 
@@ -618,23 +799,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch5 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -647,7 +828,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setLcmName(player.name); setLcmPhoto(player.photo); setLcmSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setLcmName(player.name); setLcmPhoto(player.photo); setLcmSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -675,16 +856,17 @@ useEffect(() => {
               <Image boxSize='40px' src={data?.rcmphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rcmslug}`}>{data?.rcm}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch6(true)} onBlur={() => setTimeout(() => setFocusedSearch6(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch6(e.target.value)}
                 />
                   </InputGroup>
 
@@ -692,23 +874,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch6 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -721,7 +903,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setRcmName(player.name); setRcmPhoto(player.photo); setRcmSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setRcmName(player.name); setRcmPhoto(player.photo); setRcmSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -771,16 +953,17 @@ useEffect(() => {
               <Image boxSize='40px' src={data?.lbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lbslug}`}>{data?.lb}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch7(true)} onBlur={() => setTimeout(() => setFocusedSearch7(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch7(e.target.value)}
                 />
                   </InputGroup>
 
@@ -788,23 +971,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch7 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -817,7 +1000,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setLbName(player.name); setLbPhoto(player.photo); setLbSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setLbName(player.name); setLbPhoto(player.photo); setLbSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -871,16 +1054,17 @@ useEffect(() => {
               <Image boxSize='40px' src={data?.lcbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lcbslug}`}>{data?.lcb}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch8(true)} onBlur={() => setTimeout(() => setFocusedSearch8(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch8(e.target.value)}
                 />
                   </InputGroup>
 
@@ -888,23 +1072,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch8 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -917,7 +1101,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setLcbName(player.name); setLcbPhoto(player.photo); setLcbSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setLcbName(player.name); setLcbPhoto(player.photo); setLcbSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -973,16 +1157,17 @@ useEffect(() => {
               <Image boxSize='40px' src={data?.rcbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rcbslug}`}>{data?.rcb}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch9(true)} onBlur={() => setTimeout(() => setFocusedSearch9(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch9(e.target.value)}
                 />
                   </InputGroup>
 
@@ -990,23 +1175,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch9 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -1019,7 +1204,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setRcbName(player.name); setRcbPhoto(player.photo); setRcbSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setRcbName(player.name); setRcbPhoto(player.photo); setRcbSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -1059,16 +1244,17 @@ useEffect(() => {
               <Image boxSize='40px' src={data?.rbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rbslug}`}>{data?.rb}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch10(true)} onBlur={() => setTimeout(() => setFocusedSearch10(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch10(e.target.value)}
                 />
                   </InputGroup>
 
@@ -1076,23 +1262,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch10 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -1105,7 +1291,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setRbName(player.name); setRbPhoto(player.photo); setRbSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setRbName(player.name); setRbPhoto(player.photo); setRbSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -1163,16 +1349,17 @@ useEffect(() => {
               <Image boxSize='40px' src={data?.gkphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
               <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.gkslug}`}>{data?.gk}</Link>
               
-              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+              <div onFocus={ () => setFocusedSearch11(true)} onBlur={() => setTimeout(() => setFocusedSearch11(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                  <Input placeholder="Search"
+                   <Input placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }} 
                 type= "search"
                 colorScheme="teal" 
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch11(e.target.value)}
                 />
                   </InputGroup>
 
@@ -1180,23 +1367,23 @@ useEffect(() => {
               </HStack>
 
 
-              {focusedSearch &&  
+              {focusedSearch11 &&  
               <div style={{position:"absolute"}}>
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox key={player.slug}
+                        <LinkBox  zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
                         maxHeight={70}
-                        z-index= "30"
+                        
                               rounded="lg"
                               _hover={{
                                 color: "gray",
                                 transform: 'scale(1.05)',
                                 transition: 'all 0.5s ease',
-                                bg: 'rgba(0,0,0,0.1)',
+                                bg: 'gray.200',
                               }}
                               as="article" borderWidth='1px' >
                           
@@ -1209,7 +1396,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button onClick={()=> {setGkName(player.name); setGkPhoto(player.photo); setGkSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setGkName(player.name); setGkPhoto(player.photo); setGkSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
