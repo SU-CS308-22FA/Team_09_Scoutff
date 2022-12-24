@@ -64,7 +64,7 @@ const dropdownLink3 = [
 const dropdownLink4 = [
   {
     name:"Expert Squads" ,
-    path: "/squads",
+    path: "/squadsView",
   },
 ];
 const dropdownLink5 = [

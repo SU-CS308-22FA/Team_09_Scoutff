@@ -8,16 +8,46 @@ export default async function addExpertSquad(req: NextApiRequest, res: NextApiRe
         name,
         comment,
         gk,
+        gkslug,
+        gkphoto,
         lb,
+        lbslug,
+        lbphoto,
         lcb,
+        lcbslug,
+        lcbphoto,
+
         rcb,
+        rcbslug,
+        rcbphoto,
+
         rb,
+        rbslug,
+        rbphoto,
+
         lcm,
+        lcmslug,
+        lcmphoto,
+
         rcm,
+        rcmslug,
+        rcmphoto,
+
         cam,
+        camslug,
+        camphoto,
+        
         lw,
+        lwslug,
+        lwphoto,
+
         rw,
+        rwslug,
+        rwphoto,
+
         st,
+        stslug,
+        stphoto,
         num} = req.body;
 
     

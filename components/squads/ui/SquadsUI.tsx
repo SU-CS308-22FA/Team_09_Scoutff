@@ -12,12 +12,22 @@ import {
   HStack,
   VStack,
   Input,
-  useToast
+  useToast,
+  Avatar,
+  InputGroup,
+  InputLeftElement,
+  LinkBox,
+  LinkOverlay,
+  Spinner,
+  Link
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ExpertSquad from "../../../models/Expertsquads";
 import dbConnect from "../../../lib/mongoose";
 import { InferGetServerSidePropsType } from "next";
+import { gql, useApolloClient } from "@apollo/client";
+import { SearchIcon } from "@chakra-ui/icons";
+import useDebounce from "../../../hook/useDebounce";
 
 function Player(str: { position: string | undefined; }){
   return(<VStack>
@@ -27,21 +37,150 @@ function Player(str: { position: string | undefined; }){
   </VStack> )
 }
 
+interface PlayerInterface {
+  name: string;
+  slug: string;
+  photo: string;
+  team:{
+      name: string;
+      logo: string;
+  };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 export default function SquadsUI({data, whichExpert} :  any) {  
+
+const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:5,path:"name",query:"${graphqlQuery}"}) { name slug photo team{name logo} }}`;
+const [players, setPlayer] = useState<PlayerInterface[]>([]);
+const [search, setSearch] = useState<string | null>(null);
+const [loading, setLoading] = useState(false);
+const client = useApolloClient();
+
+
+const debouncedSearch = useDebounce(search, 500);
+
+const [focusedSearch, setFocusedSearch] = useState(false);
+
+
+useEffect(() => {
+    // search the api
+
+    async function fetchData() {
+      setLoading(true);
+      
+      setPlayer([]);
+
+      const datas = await client.query({
+        query: convertToQuery(debouncedSearch),
+
+
+      })
+        
+      console.log(datas);
+
+      setPlayer(datas.data.playerSearch);
+      setLoading(false);
+    }
+
+    if (debouncedSearch) fetchData();
+  }, [debouncedSearch,client]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
-  const [gkk, setValue1] = useState('');
-  const [lbb, setValue2] = useState('');
-  const [lcbb, setValue3] = useState('');
-  const [rcbb, setValue4] = useState('');
-  const [rbb, setValue5] = useState('');
-  const [lcmm, setValue6] = useState('');
-  const [rcmm, setValue7] = useState('');
-  const [camm, setValue8] = useState('');
-  const [lww, setValue9] = useState('');
-  const [rww, setValue10] = useState('');
-  const [stt, setValue11] = useState('');
+  const [gkslug, setGkSlug] = useState('');
+  const [gkname, setGkName] = useState('');
+  const [gkphoto, setGkPhoto] = useState('');
+
+  const [lbslug, setLbSlug] = useState('');
+  const [lbname, setLbName] = useState('');
+  const [lbphoto, setLbPhoto] = useState('');
+
+  const [lcbslug, setLcbSlug] = useState('');
+  const [lcbname, setLcbName] = useState('');
+  const [lcbphoto, setLcbPhoto] = useState('');
+ 
+
+  const [rcbname, setRcbName] = useState('');
+  const [rcbslug, setRcbSlug] = useState('');
+  const [rcbphoto, setRcbPhoto] = useState('');
+
+  const [rbslug, setRbSlug] = useState('');
+  const [rbname, setRbName] = useState('');
+  const [rbphoto, setRbPhoto] = useState('');
+
+  const [lcmslug, setLcmSlug] = useState('');
+  const [lcmname, setLcmName] = useState('');
+  const [lcmphoto, setLcmPhoto] = useState('');
+
+  const [rcmslug, setRcmSlug] = useState('');
+  const [rcmname, setRcmName] = useState('');
+  const [rcmphoto, setRcmPhoto] = useState('');
+
+  const [camslug, setCamSlug] = useState('');
+  const [camname, setCamName] = useState('');
+  const [camphoto, setCamPhoto] = useState('');
+
+
+  const [lwslug, setLwSlug] = useState('');
+  const [lwname, setLwName] = useState('');
+  const [lwphoto, setLwPhoto] = useState('');
+
+  const [rwslug, setRwSlug] = useState('');
+  const [rwname, setRwName] = useState('');
+  const [rwphoto, setRwPhoto] = useState('');
+
+  const [stslug, setStSlug] = useState('');
+  const [stname, setStName] = useState('');
+  const [stphoto, setStPhoto] = useState('');
+
   const [commenter, setValue12] = useState('');
 
 
@@ -74,17 +213,50 @@ export default function SquadsUI({data, whichExpert} :  any) {
       body: JSON.stringify({
         name: realName,
         comment: commenter,
-        gk: gkk,
-        lb: lbb,
-        lcb: lcbb,
-        rcb: rcbb,
-        rb: rbb,
-        lcm: lcmm,
-        rcm: rcmm,
-        cam: camm,
-        lw: lww,
-        rw: rww,
-        st: stt,
+        gk: gkname,
+        gkslug: gkslug,
+        gkphoto: gkphoto,
+
+        lb: lbname,
+        lbslug: lbslug,
+        lbphoto: lbphoto,
+
+        lcb: lcbname,
+        lcbslug: lcbslug,
+        lcbphoto: lcbphoto,
+
+        rcb: rcbname,
+        rcbslug: rcbslug,
+        rcbphoto: rcbphoto,
+
+        rb: rbname,
+        rbslug: rbslug,
+        rbphoto: rbphoto,
+
+        lcm: lcmname,
+        lcmslug: lcmslug,
+        lcmphoto: lcmphoto,
+
+        rcm: rcmname,
+        rcmslug: rcmslug,
+        rcmphoto: rcmphoto,
+
+        cam: camname,
+        camslug: camslug,
+        camphoto: camphoto,
+        
+        lw: lwname,
+        lwslug: lwslug,
+        lwphoto: lwphoto,
+
+        rw: rwname,
+        rwslug: rwslug,
+        rwphoto: rwphoto,
+
+        st: stname,
+        stslug: stslug,
+        stphoto: stphoto,
+
         num: namer,
       }),
     
@@ -122,10 +294,77 @@ export default function SquadsUI({data, whichExpert} :  any) {
         
         {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
         
-        <Center marginTop='30px' fontSize='20px'>
+        <Center marginTop='10px' fontSize='20px'>
           <VStack>
-            <Text fontSize='30px'>👕</Text>
-            <Input onChange={({target})=> setValue11(target?.value)} value={stt} placeholder={data?.st} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+            
+            <Image boxSize='40px' src={data?.stphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.stslug}`}>{data?.st}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setStName(player.name); setStPhoto(player.photo); setStSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
             
           </VStack> 
 
@@ -133,83 +372,892 @@ export default function SquadsUI({data, whichExpert} :  any) {
           
         </Center>
 
-        <Center marginTop='15px' fontSize='20px'>
+        <Center marginTop='1px' fontSize='20px'>
          
           <VStack>
-            <Text fontSize='30px'>👕</Text>
-            <Input onChange={({target})=> setValue9(target?.value)} value={lww} placeholder={data?.lw} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+          <Image boxSize='40px' src={data?.lwphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lwslug}`}>{data?.lw}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setLwName(player.name); setLwPhoto(player.photo); setLwSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
           </VStack> 
 
           
           <VStack  marginX='100px'>
             <VStack>
-              <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue8(target?.value)} value={camm} placeholder={data?.cam} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              
+              <Image boxSize='40px' src={data?.camphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.camslug}`}>{data?.cam}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setCamName(player.name); setCamPhoto(player.photo); setCamSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
             </VStack> 
           </VStack>
 
           <VStack>
-            <Text fontSize='30px'>👕</Text>
-            <Input onChange={({target})=> setValue10(target?.value)} value={rww} placeholder={data?.rw} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+            
+            <Image boxSize='40px' src={data?.rwphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rwslug}`}>{data?.rw}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setRwName(player.name); setRwPhoto(player.photo); setRwSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
           </VStack> 
 
           
         </Center>
 
-        <Center marginTop='20px' fontSize='20px'>
+        <Center marginTop='1px' fontSize='20px'>
           <VStack marginRight='50px'>
             <VStack>
-              <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue6(target?.value)} value={lcmm} placeholder={data?.lcm} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              <Image boxSize='40px' src={data?.lcmphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lcmslug}`}>{data?.lcm}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setLcmName(player.name); setLcmPhoto(player.photo); setLcmSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
             </VStack> 
           </VStack>  
 
           <VStack  marginLeft='50px'>
             <VStack>
-              <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue7(target?.value)} value={rcmm} placeholder={data?.rcm} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              
+              <Image boxSize='40px' src={data?.rcmphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rcmslug}`}>{data?.rcm}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setRcmName(player.name); setRcmPhoto(player.photo); setRcmSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
             </VStack> 
           </VStack>
 
 
         </Center>
 
-        <Center marginTop='25px' fontSize='20px'>
+        <Center marginTop='1px' fontSize='20px'>
           <VStack >
             <VStack>
-              <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue2(target?.value)} value={lbb} placeholder={data?.lb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <Image boxSize='40px' src={data?.lbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lbslug}`}>{data?.lb}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setLbName(player.name); setLbPhoto(player.photo); setLbSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
+
+
+              
+
+
+
+
+
+
+
+
+
+
+
+
             </VStack> 
           </VStack>  
 
           <VStack  marginX='40px'>
             <VStack>
-              <Text fontSize='30px'>👕</Text>
-              <Input onChange={({target})=> setValue3(target?.value)} value={lcbb} placeholder={data?.lcb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              
+
+
+
+
+
+
+
+              
+              
+              
+              
+              <Image boxSize='40px' src={data?.lcbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lcbslug}`}>{data?.lcb}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setLcbName(player.name); setLcbPhoto(player.photo); setLcbSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </VStack> 
           </VStack>
 
           <VStack  marginX='40px'>
             <VStack>
-              <Text fontSize='30px'>👕</Text>
-              <Input value={rcbb} onChange={({target})=> setValue4(target?.value)} placeholder={data?.rcb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+
+
+
+
+
+
+
+
+              <Image boxSize='40px' src={data?.rcbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rcbslug}`}>{data?.rcb}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setRcbName(player.name); setRcbPhoto(player.photo); setRcbSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
+            
+            
+            
+            
+            
+            
+            
             </VStack> 
           </VStack>  
 
           <VStack >
             <VStack>
-              <Text fontSize='30px'>👕</Text>
-              <Input value={rbb} onChange={({target})=> setValue5(target?.value)} placeholder={data?.rb} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+              
+
+
+
+
+
+              <Image boxSize='40px' src={data?.rbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rbslug}`}>{data?.rb}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setRbName(player.name); setRbPhoto(player.photo); setRbSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
+            
+            
+            
+            
+            
+            
+            
             </VStack> 
           </VStack>
 
         </Center>
 
-        <Center marginTop='30px' fontSize='20px'>
+        <Center marginTop='1px' fontSize='20px'>
           
             <VStack>
-              <Text fontSize='30px'>👕</Text>
-              <Input value={gkk} onChange={({target})=> setValue1(target?.value)} placeholder={data?.gk} _placeholder={{ opacity: 1, color: 'white' }} size='sm' w='114px' />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <Image boxSize='40px' src={data?.gkphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.gkslug}`}>{data?.gk}</Link>
+              
+              <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+                <HStack zIndex={200}  >
+                  <InputGroup>
+                  <InputLeftElement>
+                  <SearchIcon/>
+                  </InputLeftElement>
+                  <Input placeholder="Search"
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                  </InputGroup>
+
+              {loading && <Spinner />}
+              </HStack>
+
+
+              {focusedSearch &&  
+              <div style={{position:"absolute"}}>
+                {players.map((player) => {
+                      return (
+                  
+                        <LinkBox key={player.slug}
+                      
+                        backgroundColor="Background"
+                        width= "250px"
+                        maxHeight={70}
+                        z-index= "30"
+                              rounded="lg"
+                              _hover={{
+                                color: "gray",
+                                transform: 'scale(1.05)',
+                                transition: 'all 0.5s ease',
+                                bg: 'rgba(0,0,0,0.1)',
+                              }}
+                              as="article" borderWidth='1px' >
+                          
+                        <Flex key={player.slug} p={4} >
+                          
+                            <Avatar
+                              src={player.photo}
+                              width="40px"
+                              height="40px"
+                            />
+                          
+                          <Flex direction="column" ml={4}>
+                            <Button onClick={()=> {setGkName(player.name); setGkPhoto(player.photo); setGkSlug(player.slug);}} size='sm'>
+                              {player.name}
+                            </Button>
+                  
+                            <Text fontSize={"x-small"}
+                            >{player.team.name}</Text>
+                          </Flex>
+                        </Flex>
+                        </LinkBox>
+                      );
+
+                })}
+              
+              </div>
+                
+
+              }
+              
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
             </VStack> 
         
         </Center>
@@ -221,16 +1269,13 @@ export default function SquadsUI({data, whichExpert} :  any) {
 
       <HStack>
         <Button onClick={() => createExpertsquad(whichExpert)}>Save</Button>
-        <Button>Like</Button>
       </HStack>
       </VStack>
     </Flex>
     
   );
 
-  function techStackButton(text: string) {
-    return <Button rounded={"base"}>{text}</Button>;
-  }
+
 }
 
 

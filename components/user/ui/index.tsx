@@ -19,7 +19,8 @@ import {
     useToast,
     Alert,
     AlertIcon,
-    AlertDescription
+    AlertDescription,
+    Link
   } from "@chakra-ui/react";
   import ConfirmButton from "./ConfirmButton";
   import { decode, getToken } from "next-auth/jwt"
@@ -359,6 +360,12 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
               <Select>
                 <option value="na">None</option>
               </Select>
+            </FormControl>
+            </GridItem>
+
+            <GridItem colSpan={2}>
+            <FormControl>
+              <Link href={`/squads`}>Create your weekly squad</Link>
             </FormControl>
             </GridItem>
             
