@@ -23,9 +23,8 @@ import {
   
   
   
-  export default function ShowcaseUI({data, whichExpert} :  any) {  
+  export default function ShowcaseUI({data}: any) {  
 
-  
     return (
       <Flex>
         <VStack>
@@ -40,7 +39,7 @@ import {
           h='746px' flex='1'> 
           
           {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
-          
+
           <Center marginTop='50px' fontSize='20px'>
             <VStack>
               <Image boxSize='40px' src={data?.stphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
@@ -132,7 +131,7 @@ import {
               </VStack> 
           
           </Center>
-  
+          
           {/* id = 0 buraya kadar oyuncu yerleri */ }
         </Box>
         
