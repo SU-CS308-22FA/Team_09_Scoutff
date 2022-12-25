@@ -1,4 +1,5 @@
 import { ApolloClient, gql, HttpLink, InMemoryCache } from "@apollo/client";
+import { AddIcon } from "@chakra-ui/icons";
 import {
     Box,
     Center,
@@ -19,19 +20,26 @@ import {
     Td,
     Tbody,
     Thead,
+    Container,
+    Select,
   } from "@chakra-ui/react";
 import axios from "axios";
 import { stat } from "fs";
+import { url } from "inspector";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from "next";
 import { getCsrfToken } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import React from "react";
+import React, { useState } from "react";
 import * as Realm from "realm-web";
+import { AnyObject } from "yup/lib/object";
+import ShowcaseUI from "../components/showcase/ShowcaseUI";
 import { PlayerInterface, PlayerWithStatisticsInterface } from "../interfaces/PlayerInterface";
 import { SportAPIInterface } from "../interfaces/SportAPIınterface";
 import { TeamInterface } from "../interfaces/TeamInterface";
+import dbConnect from "../lib/mongoose";
 import { getClient } from "../lib/realm/login";
+import ExpertSquad from "../models/Expertsquads";
 
 /**
  * Return data for each query with the 
@@ -71,69 +79,83 @@ type ExpertProps = {
     csrfToken: string
   }
 
-const ExpertPage= ({name, image, ranking, age, _id, csrfToken} : ExpertProps) => {
+  
+
+  
+const ExpertPage= ({name, image, ranking, age, _id, csrfToken, expertsquads} : ExpertProps |any) => {
+  
+  let dataMap = new Map();
+
+    for (let i = 0; i < expertsquads.length; i++) {
+        dataMap.set(expertsquads[i].num, expertsquads[i]);  
+        }
+
+    let myDataArray = [
+        dataMap.get('expert1'),
+        dataMap.get('expert2'),
+        dataMap.get('expert3'),
+        dataMap.get('expert4'),
+    ];
+
+    const [object, setObject] = useState(null);
+
+  function handleChange(event: { target: { value: string | number; }; }) {
+    setObject(expertsquads[event.target.value]);
+  }
+  
+
+
+  
   return (
-    <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
-    <Box p="4" w="800px" mx="auto" textAlign="center" rounded="md" boxShadow="md" bgColor={"ghostwhite"}>
-      <Flex justifyContent="center" alignItems="center" mb="6">
+    <Container maxW="container.xl" p={0}>
+    <Flex h="100vh" py={15}>
+      <><VStack w="half" h="full" p={10} spacing={10} alignItems="flex-start">
         <HStack>
-          <SimpleGrid columns={3} alignItems="center">
         <Image alt={"expertImage"} src={"https://www.macfit.com.tr/wp-content/uploads/2022/09/PHOTO-2021-12-16-17-56-13.png"} borderRadius='full' boxSize='200px'/>
 
-        <VStack>
+        
+        <VStack spacing={3} alignItems="center">
+          
         <Heading size="md" fontWeight="bold" ml="4" color={"gray.800"}>
-        {"#1"} {"Erman Yaşar"}
+        {"Erman Yaşar"}
         </Heading>
         <Text fontSize="md" color={"blackAlpha.600"}>{"Commentator"} </Text>
-        <Text fontSize="sm">{"42 / Istanbul"} </Text>
 
         </VStack>
-
-       
-        </SimpleGrid>
         </HStack>
-      </Flex>
+        <Button rightIcon={<AddIcon />} size="lg" w="sm" bg="wheat" color="whiteAlpha.900" type="button"
+                  loadingText="Creating">
+              Create a squad 
+            </Button>
+       
+      </VStack>
+      <VStack w="full" h="full" p={10} spacing={10}>
 
-      <HStack p="4" w="full" mx="auto" rounded="md" boxShadow="md">
-
-    <Box overflowX="scroll" overflowY="scroll">
-      <Flex>
-        <Table>
-        {/* Use a loop to create the table header */}
-        <Thead>
-          <Tr>
-            <Th fontWeight="bold" textAlign="center">Item/Feature</Th>
-            {["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"].map(header => (
-              <Th key={header} fontWeight="bold" textAlign="center">
-                {header}
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        {/* Use a loop to create the rows for each item or feature */}
-        {["Like Count"].map(item => (
-          <Tr key={item}>
-            <Td fontWeight="bold" textAlign="center">{item}</Td>
-            {/* Use a loop to create the cells for each criterion */}
-            {Array.from({ length: 5 }, (_, i) => (
-              <Td key={i} textAlign="center">
-                {/* Add the value for the criterion here */
-                20
-                }</Td>
-            ))}
-          </Tr>
-        ))}
-        </Table>
-      </Flex>
+        <Box
+        height={'1200px'}
+        alignItems={"flex-end"}
+        width={"800px"}
+        overflow={'hidden'}>
+   <Box>
+   <Select onChange={handleChange} 
+   variant="filled"
+   value={expertsquads.indexOf(object)} width={"200px"}>
+  {expertsquads.map((obj, index: number) => (
+    <option value={index} key={index}>{obj.name} </option>
+  ))}
+</Select>
+{object && (
+  <Box w={"fit-content"} alignItems={"center"}>
+    <Text>{object.comment}</Text>
+<ShowcaseUI data={myDataArray[0]}></ShowcaseUI>
+        </Box>
+      )}
     </Box>
-    
-    </HStack>
-      </Box>
-    </Flex>
+</Box>
+</VStack>
+          </>
+        </Flex>
+  </Container>
     
   );
 }
@@ -143,3 +165,24 @@ export default ExpertPage;
  
  
   
+export const getServerSideProps = async () => {
+  try {
+    console.log('connecting to mongo');
+    await dbConnect();
+    console.log('connected to mongo');
+
+    console.log('Fetching document');
+    const expertsquads = await ExpertSquad.find().sort({ $natural: -1 });
+    console.log('Fetched document');
+
+    return {
+      props: {
+        expertsquads: JSON.parse(JSON.stringify(expertsquads)),
+      },
+    };
+  } catch (error) {
+    console.log('ERROR HAPPENNED. WHY? WHO KNOWS MAN');
+
+    return { notFound: true };
+  }
+};

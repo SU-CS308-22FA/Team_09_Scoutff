@@ -167,7 +167,6 @@ export const getServerSideProps = async () => {
   
       console.log('Fetching document')
       const expertsquads = await ExpertSquad.find().sort({$natural: -1 })
-      console.log(expertsquads[3])
       console.log('Fetched document')
   
       return{

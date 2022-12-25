@@ -36,7 +36,7 @@ import {
           backgroundRepeat="no-repeat"
           backgroundPosition= "top"
   
-          h='746px' flex='1'> 
+          h='646px' flex='1'> 
           
           {/* id = 0 buradan asaya kadar oyuncu yerleri */ }
 
@@ -136,6 +136,7 @@ import {
         </Box>
         
         </HStack>
+        <Heading> {data.name} </Heading>
         <Text>Squad's Comment: {data?.comment}</Text>
 
         </VStack>
