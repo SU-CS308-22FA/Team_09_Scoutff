@@ -29,12 +29,15 @@ export async function addFavourite({userId,playerId} : IAddFavPlayer): Promise<b
                      }
                  }).then(player => player ? Promise.resolve() : Promise.reject("Player not found"))
          ])
+
+         console.log("here");
          await session.commitTransaction();
          session.endSession();
          return true;
  
      }
      catch (error) {
+
          await session.abortTransaction();
          session.endSession();
          return false;

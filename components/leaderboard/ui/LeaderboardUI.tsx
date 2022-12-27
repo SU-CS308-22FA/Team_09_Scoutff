@@ -123,7 +123,7 @@ function Leaderboard({data,name,LBplayers} :  LeaderboardProps) {
     return (
       <Tr key={index}>
         <Td>{index + 1} - <Link href={`/player_profile/${player.slug}`}>{player.name}</Link></Td>
-        <Td>{data}</Td>
+        <Td>{Number.isInteger(data) ? data : data?.toFixed(2)}</Td>
       </Tr>
     )
   })
