@@ -405,6 +405,11 @@ const PlayerSchema  = new Schema<PlayerWithStatisticsInterface> ({
         ref : 'Team',
         required : true
     },
+    likedBy : [{
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: []
+    }]
 
 
 

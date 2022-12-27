@@ -1,3 +1,4 @@
+import { IUser } from "../models/User";
 import { TeamInterface } from "./TeamInterface";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
@@ -23,8 +24,8 @@ export interface PlayerInterface {
     market_value?: number;
     contract_until?: Date;
     height ?: number;
-    team : TeamInterface
-    
+    team : TeamInterface;
+    likedBy : Array<IUser>;
 
 }
 

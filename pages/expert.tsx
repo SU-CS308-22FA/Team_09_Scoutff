@@ -95,6 +95,7 @@ const ExpertPage= ({name, image, ranking, age, _id, csrfToken, expertsquads} : E
         dataMap.get('expert2'),
         dataMap.get('expert3'),
         dataMap.get('expert4'),
+
     ];
 
     const [object, setObject] = useState(null);
@@ -147,7 +148,7 @@ const ExpertPage= ({name, image, ranking, age, _id, csrfToken, expertsquads} : E
 {object && (
   <Box w={"fit-content"} alignItems={"center"}>
     <Text>{object.comment}</Text>
-<ShowcaseUI data={myDataArray[0]}></ShowcaseUI>
+<ShowcaseUI data={myDataArray[expertsquads.indexOf(object)]}></ShowcaseUI>
         </Box>
       )}
     </Box>
