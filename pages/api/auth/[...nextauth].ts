@@ -69,7 +69,7 @@ export const authOptions :  NextAuthOptions = {
 
         
 
-        session.original = jwt.sign({email : token.email,sub : token.sub,aud : "football-uhuan"}, process.env.NEXTAUTH_SECRET!, {expiresIn: "30d"})
+        session.original = jwt.sign({email : token.email,role : token.role,sub : token.sub,aud : "football-uhuan"}, process.env.NEXTAUTH_SECRET!, {expiresIn: "30d"})
 
 
 

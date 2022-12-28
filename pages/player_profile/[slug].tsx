@@ -46,7 +46,10 @@ import { getClient } from "../../lib/realm/login";
 
 
   type GraphQLPlayerLikeCountProps = {
-    getLikedByCount : number;
+    getLikedByCount : {
+      count : number
+      likedBy : boolean
+    }
 
   }
 
@@ -111,7 +114,10 @@ const playerLikeQuery = (slug : string) => {
 
   return gql`
   query {
-  getLikedByCount(input : "${slug}") 
+  getLikedByCount(input : "${slug}") {
+    count
+    likedBy
+  }
 }
 `
 
@@ -146,7 +152,7 @@ type PlayerProps = {
 
 
 
-const PlayerPage= ({market_value, nationality_code, flag, height, weight, preferred_foot, likedBy,shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : Omit<PlayerProps,"market_value"> &  {csrfToken : string, market_value: string,likedBy:number}) => {
+const PlayerPage= ({market_value, userLikes,nationality_code, flag, height, weight, preferred_foot, likedBy,shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : Omit<PlayerProps,"market_value"> &  {csrfToken : string, market_value: string,likedBy:number,userLikes : boolean}) => {
 
   const [csrfToken, setCsrfToken] = React.useState<string | undefined>(undefined);
 
@@ -180,8 +186,8 @@ const PlayerPage= ({market_value, nationality_code, flag, height, weight, prefer
           {shirt_number} {name}
         </Heading>
         <Text fontSize="sm">{position} / {age}</Text>
-        <Button colorScheme="twitter" mt="4" onClick={() => addFavorite(_id,csrfToken ?? "")}>
-        Add to favorites 🌟
+        <Button colorScheme="twitter" mt="4" onClick={() => (addFavorite)(_id,csrfToken ?? "")}>
+          {userLikes ? "Favourited ✓" : "Add to favorites"}
       </Button>
         </VStack>
 
@@ -282,16 +288,27 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
 }
 
 
+const removeFavorite = async (id: string | undefined, csrfToken: string | undefined) => {
+  await axios.delete(`/api/user/favourites/${id}`, {
+    data: { csrfToken: csrfToken, }
+  }
+  )
+}
+
+
   function Player({data,csrfToken} : {data : PlayerWithStatisticsInterface  , csrfToken : string}) {
 
     const client = useApolloClient();
 
     const app = useApp();
 
+    console.log(app?.currentUser?.profile)
+
     const slug = data.slug;
 
 
     const [likedBy,setLikedBy] = useState(0);
+    const [userLikes,setUserLikes] = useState(false);
 
     useEffect(() => {
       const queryLiked = async () => {
@@ -299,7 +316,9 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
           const likedByCount = await client.query<GraphQLPlayerLikeCountProps>({
             query : playerLikeQuery(slug)
           })
-          setLikedBy(likedByCount.data.getLikedByCount);
+          console.log(likedByCount)
+          setLikedBy(likedByCount.data.getLikedByCount.count);
+          setUserLikes(likedByCount.data.getLikedByCount.likedBy);
 
         }
 
@@ -338,6 +357,7 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
         shirt_number = {`#${data.shirt_number}`}
         likedBy = {likedBy}
         csrfToken = {csrfToken}
+        userLikes = {userLikes}
       />
     );
   }
