@@ -1,4 +1,4 @@
-import { ApolloClient, gql, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, gql, HttpLink, InMemoryCache, useApolloClient } from "@apollo/client";
 // import ReactCountryFlag from "react-country-flag"
 import {
     Box,
@@ -28,7 +28,8 @@ import { stat } from "fs";
 import { GetServerSideProps, GetServerSidePropsContext, GetStaticPaths, GetStaticProps, InferGetServerSidePropsType, PreviewData } from "next";
 import { getCsrfToken } from "next-auth/react";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useApp } from "../../hook/useApp";
 import { PlayerInterface, PlayerWithStatisticsInterface } from "../../interfaces/PlayerInterface";
 import { TeamInterface } from "../../interfaces/TeamInterface";
 import { getClient } from "../../lib/realm/login";
@@ -43,6 +44,11 @@ import { getClient } from "../../lib/realm/login";
     players : T;
   }
 
+
+  type GraphQLPlayerLikeCountProps = {
+    getLikedByCount : number;
+
+  }
 
 
 
@@ -101,6 +107,17 @@ const convertToQuery = (slug : string) => {
 }
 
 
+const playerLikeQuery = (slug : string) => {
+
+  return gql`
+  query {
+  getLikedByCount(input : "${slug}") 
+}
+`
+
+
+}
+
 
 
 type PlayerProps = {
@@ -129,9 +146,10 @@ type PlayerProps = {
 
 
 
-const PlayerPage= ({market_value, nationality_code, flag, height, weight, preferred_foot, shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : Omit<PlayerProps,"market_value"> &  {csrfToken : string, market_value: string}) => {
+const PlayerPage= ({market_value, nationality_code, flag, height, weight, preferred_foot, likedBy,shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : Omit<PlayerProps,"market_value"> &  {csrfToken : string, market_value: string,likedBy:number}) => {
 
   const [csrfToken, setCsrfToken] = React.useState<string | undefined>(undefined);
+
 
   console.log(csrfToken, "csrfToken")
   
@@ -140,6 +158,9 @@ const PlayerPage= ({market_value, nationality_code, flag, height, weight, prefer
     getCsrfToken().then((token) => {
       setCsrfToken(token);
     });
+
+  
+
   }, []);
 
   return (
@@ -207,7 +228,7 @@ const PlayerPage= ({market_value, nationality_code, flag, height, weight, prefer
   </Box>
   <Box p="4">
     <Text fontWeight="bold" textAlign="center">Liked By</Text>
-    <Text textAlign="center">0</Text>
+    <Text textAlign="center">{likedBy}</Text>
   </Box>
   </VStack>
   </HStack>
@@ -263,6 +284,37 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
 
   function Player({data,csrfToken} : {data : PlayerWithStatisticsInterface  , csrfToken : string}) {
 
+    const client = useApolloClient();
+
+    const app = useApp();
+
+    const slug = data.slug;
+
+
+    const [likedBy,setLikedBy] = useState(0);
+
+    useEffect(() => {
+      const queryLiked = async () => {
+        if (client && app?.currentUser?.isLoggedIn) {
+          const likedByCount = await client.query<GraphQLPlayerLikeCountProps>({
+            query : playerLikeQuery(slug)
+          })
+          setLikedBy(likedByCount.data.getLikedByCount);
+
+        }
+
+      }
+      queryLiked();
+    },[client,app])
+
+
+
+    
+
+
+    
+
+
   
 
     return (
@@ -284,7 +336,7 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
         height={ data?.height ? data.height.toFixed(2) : 'N/A' }
         preferred_foot={data?.preferred_foot}
         shirt_number = {`#${data.shirt_number}`}
-        // likedBy = {data?.likedBy.length}
+        likedBy = {likedBy}
         csrfToken = {csrfToken}
       />
     );
@@ -297,16 +349,8 @@ const addFavorite = async (playerId : string,csrfToken : string) => {
 
     const slug = context.params?.slug;
 
-
-  
-  
-  
-
-  
-  
-  
-
     const client = await getClient();
+
 
 
 
