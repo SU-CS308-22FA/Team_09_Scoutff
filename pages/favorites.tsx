@@ -4,7 +4,7 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import HomeCompIndex from "../components/home/ui";
@@ -16,12 +16,80 @@ import { ParsedUrlQuery } from "querystring";
 import { getUserFavourites } from "../lib/api/user";
 import { getToken } from "next-auth/jwt";
 import invariant from "tiny-invariant";
+import { gql, useMutation } from "@apollo/client";
 
 export default function Home({ csrfToken, favourites }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const favourites_10 = favourites?.filter(first10);
+  const [filteredFavourites, setFilteredFavourites] = useState(favourites || []);
+
+  const favourites_10 = filteredFavourites?.filter(first10);
+
+  const REMOVE_FAVOURITE = gql`
+  mutation trial($playerId : ObjectId!)
+  {
+    removeFavourite(input : {playerId : $playerId})
+  }
+
+`;
+
+
+
+
+
+const PLAYER_LIKE_QUERY = gql`
+  query deneme($playerSlug : String!)
+  {
+    getLikedByCount(input : $playerSlug) {
+    count
+    likedBy
+    }
+  }
+
+`;
+
+
+const [remfav] = useMutation(REMOVE_FAVOURITE, {
+  refetchQueries: [
+    {
+      query : PLAYER_LIKE_QUERY,
+      variables: {
+        playerSlug: "slug"
+      }
+    }
+  
+  ],
+  variables: {
+    playerId: "id"
+  }
+
+
+
+})
+
+
+const removeFavorite = async (id: string,slug : string ) => {
+  await remfav({
+    variables: {
+      playerId: id,
+    },
+    refetchQueries: [
+      {
+        query : PLAYER_LIKE_QUERY,
+        variables: {
+          playerSlug: slug
+        }
+      }
+
+    ]
+  }).then((res) => {
+    setFilteredFavourites(filteredFavourites.filter((fav) => fav.id !== id));
+  })
+
+ 
+}
+  
 
   return (
     <div>
@@ -75,7 +143,10 @@ export default function Home({ csrfToken, favourites }: InferGetServerSidePropsT
 
                                           <li key={fav.name + index.toString()}>
                                             <Center paddingTop={3} paddingBottom={2}>
-                                              {fav.name}<Button onClick={() => removeFavorite(fav.id, csrfToken)} variant="ghost" borderRadius={'full'} size={'xs'} fontWeight={'bold'} fontSize={10} colorScheme={"red"}>X</Button>
+                                              <Link href={`/player_profile/${fav.slug}`}>
+                                              {fav.name}
+                                              </Link>
+                                              <Button onClick={() => removeFavorite(fav.id,fav.slug)} variant="ghost" borderRadius={'full'} size={'xs'} fontWeight={'bold'} fontSize={10} colorScheme={"red"}>X</Button>
                                             </Center><Center><Divider width={40} ></Divider></Center>
                                           </li>))}
                                       </ul>
@@ -107,7 +178,12 @@ export default function Home({ csrfToken, favourites }: InferGetServerSidePropsT
 
                               <Center paddingTop={3} paddingBottom={2}>
 
-                                {fav.name}<Button onClick={() => removeFavorite(fav.id, csrfToken)} variant="ghost" borderRadius={'full'} size={'xs'} fontWeight={'bold'} fontSize={10} colorScheme={"red"}>X</Button>
+                              <Link href={`/player_profile/${fav.slug}`}>
+                                              {fav.name}
+                              </Link>
+                                
+                                
+                                <Button onClick={() => removeFavorite(fav.id,fav.slug)} variant="ghost" borderRadius={'full'} size={'xs'} fontWeight={'bold'} fontSize={10} colorScheme={"red"}>X</Button>
 
                               </Center><Center><Divider width={40} ></Divider></Center>
                             </li>))}
@@ -228,17 +304,8 @@ const addFavoriteKeremAkturkoglu = async (csrfToken: string | undefined) => {
   })
 }
 
-const removeFavorite = async (id: string | undefined, csrfToken: string | undefined) => {
-  await axios.delete(`/api/user/favourites/${id}`, {
-    data: { csrfToken: csrfToken, }
-  }
-  )
-}
-{/** const removeFavoriteArdaGuler = async (csrfToken: AxiosRequestConfig<any>) => {
-  await axios.delete("/api/user/favourites/638fd3b736819a5631e06f1d", {
-    csrfToken: csrfToken,
-  })
-}*/}
+
+
 
 
 

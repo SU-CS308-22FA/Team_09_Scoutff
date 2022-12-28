@@ -110,7 +110,7 @@ const convertToQuery = (slug : string) => {
 }
 
 
-const playerLikeQuery = (slug : string) => {
+export const playerLikeQuery = (slug : string) => {
 
   return gql`
   query {
@@ -164,11 +164,7 @@ const PlayerPage= ({market_value,nationality_code,slug, flag, height, weight, pr
       }
     `;
 
-    const REMOVE_FAVOURITE = gql`
-      mutation {
-        removeFavourite(input: { playerId: "${_id}" }) 
-      }
-    `;
+
 
 
     const [addFav] = useMutation(ADD_FAVOURITE, {
@@ -181,12 +177,7 @@ const PlayerPage= ({market_value,nationality_code,slug, flag, height, weight, pr
     
   
 
-    const [removefav] = useMutation(REMOVE_FAVOURITE, {
-      refetchQueries: [
-        {query: playerLikeQuery(slug)}, // DocumentNode object parsed with gql
-        'getLikedByCount' // Query name
-      ],
-    });
+
     
   
   
@@ -239,14 +230,7 @@ const PlayerPage= ({market_value,nationality_code,slug, flag, height, weight, pr
 
   }
 
-  const removeFavourite = async () => {
-    await removefav().then((res) => {
-      setUserLikes(false);
-      setLikedBy(likedBy - 1);
-    }
-    )
-  }
-  
+
   
   
 
