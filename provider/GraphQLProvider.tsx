@@ -107,6 +107,7 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
 
  const  client = useMemo(() => {
+  console.log(app?.currentUser?.accessToken)
   return new ApolloClient({
     link: from([errorLink, httpLink]),
     cache: new InMemoryCache(),
@@ -215,7 +216,6 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
   }
       
     }, [app,session.data?.original]);
-
 
 
 

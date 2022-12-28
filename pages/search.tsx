@@ -8,6 +8,7 @@ import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject, useA
 import InterfacePlayer from "../models/Player";
 import { string } from "yup";
 import { SearchIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 interface PlayerInterface {
     name: string;
     slug: string;
@@ -114,9 +115,10 @@ const SearchBar = () => {
                 />
               
               <Flex direction="column" ml={4}>
-                <LinkOverlay href={`/player_profile/${player.slug}`} fontSize={"sm"}>
+
+                <Link href={`/player_profile/${player.slug}`}>
                   {player.name}
-                </LinkOverlay>
+                </Link>
       
                 <Text fontSize={"x-small"}
                 >{player.team.name}</Text>

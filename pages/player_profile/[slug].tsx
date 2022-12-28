@@ -1,4 +1,4 @@
-import { ApolloClient, gql, HttpLink, InMemoryCache, useApolloClient } from "@apollo/client";
+import { ApolloClient, gql, HttpLink, InMemoryCache, useApolloClient, useMutation } from "@apollo/client";
 // import ReactCountryFlag from "react-country-flag"
 import {
     Box,
@@ -126,6 +126,8 @@ const playerLikeQuery = (slug : string) => {
 
 
 
+
+
 type PlayerProps = {
   shirt_number?: string
   name?: string
@@ -137,7 +139,6 @@ type PlayerProps = {
   rating?: number
   age?: number
   _id: string
-  // likedBy?: Array<number>
   flag?: string
   nationality_code?: string
   preferred_foot?: string
@@ -145,6 +146,7 @@ type PlayerProps = {
   weight?:number | string
   height?:number | string
   team?: TeamInterface
+  slug : string
 
 
 }
@@ -152,12 +154,42 @@ type PlayerProps = {
 
 
 
-const PlayerPage= ({market_value, userLikes,nationality_code, flag, height, weight, preferred_foot, likedBy,shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : Omit<PlayerProps,"market_value"> &  {csrfToken : string, market_value: string,likedBy:number,userLikes : boolean}) => {
+const PlayerPage= ({market_value,nationality_code,slug, flag, height, weight, preferred_foot,shirt_number, name, image, position, goals, assists, appearances, rating, age,_id, team} : Omit<PlayerProps,"market_value"> &  {csrfToken : string, market_value: string}) => {
 
   const [csrfToken, setCsrfToken] = React.useState<string | undefined>(undefined);
 
+      const ADD_FAVOURITE = gql`
+      mutation {
+        addFavourite(input: { playerId: "${_id}" }) 
+      }
+    `;
 
-  console.log(csrfToken, "csrfToken")
+    const REMOVE_FAVOURITE = gql`
+      mutation {
+        removeFavourite(input: { playerId: "${_id}" }) 
+      }
+    `;
+
+
+    const [addFav] = useMutation(ADD_FAVOURITE, {
+      refetchQueries: [
+        {query: playerLikeQuery(slug)}, // DocumentNode object parsed with gql
+        'getLikedByCount' // Query name
+      ],
+
+    });
+    
+  
+
+    const [removefav] = useMutation(REMOVE_FAVOURITE, {
+      refetchQueries: [
+        {query: playerLikeQuery(slug)}, // DocumentNode object parsed with gql
+        'getLikedByCount' // Query name
+      ],
+    });
+    
+  
+  
   
 
   useEffect(() => {
@@ -165,9 +197,59 @@ const PlayerPage= ({market_value, userLikes,nationality_code, flag, height, weig
       setCsrfToken(token);
     });
 
+
   
 
   }, []);
+
+
+
+  const [likedBy,setLikedBy] = useState<number>(0);
+  const [userLikes,setUserLikes] = useState<boolean>(false);
+  const app = useApp();
+  const client = useApolloClient();
+
+
+  useEffect(() => {
+    
+    const queryLiked = async () => {
+      if (client && app?.currentUser?.isLoggedIn) {
+        const likedByCount = await client.query<GraphQLPlayerLikeCountProps>({
+          query : playerLikeQuery(slug)
+        })
+        setLikedBy(likedByCount.data.getLikedByCount.count);
+        setUserLikes(likedByCount.data.getLikedByCount.likedBy);
+
+      }
+
+    }
+    queryLiked();
+  },[client,app])
+
+
+  const addFavourite = async () => {
+
+    await addFav().then((res) => {
+      setUserLikes(true);
+      setLikedBy(likedBy + 1);
+    })
+
+
+
+
+  }
+
+  const removeFavourite = async () => {
+    await removefav().then((res) => {
+      setUserLikes(false);
+      setLikedBy(likedBy - 1);
+    }
+    )
+  }
+  
+  
+  
+
 
   return (
     <Flex
@@ -186,7 +268,7 @@ const PlayerPage= ({market_value, userLikes,nationality_code, flag, height, weig
           {shirt_number} {name}
         </Heading>
         <Text fontSize="sm">{position} / {age}</Text>
-        <Button colorScheme="twitter" mt="4" onClick={() => (addFavorite)(_id,csrfToken ?? "")}>
+        <Button colorScheme="twitter" mt="4" onClick={addFavourite} disabled={userLikes}>
           {userLikes ? "Favourited ✓" : "Add to favorites"}
       </Button>
         </VStack>
@@ -278,53 +360,18 @@ const PlayerPage= ({market_value, userLikes,nationality_code, flag, height, weig
   );
 }
 
-const addFavorite = async (playerId : string,csrfToken : string) => {
 
-
-   await axios.post(`/api/user/favourites/${playerId}`, {
-    csrfToken: csrfToken,
-  })
-
-}
-
-
-const removeFavorite = async (id: string | undefined, csrfToken: string | undefined) => {
-  await axios.delete(`/api/user/favourites/${id}`, {
-    data: { csrfToken: csrfToken, }
-  }
-  )
-}
 
 
   function Player({data,csrfToken} : {data : PlayerWithStatisticsInterface  , csrfToken : string}) {
 
-    const client = useApolloClient();
 
-    const app = useApp();
 
-    console.log(app?.currentUser?.profile)
 
     const slug = data.slug;
 
 
-    const [likedBy,setLikedBy] = useState(0);
-    const [userLikes,setUserLikes] = useState(false);
 
-    useEffect(() => {
-      const queryLiked = async () => {
-        if (client && app?.currentUser?.isLoggedIn) {
-          const likedByCount = await client.query<GraphQLPlayerLikeCountProps>({
-            query : playerLikeQuery(slug)
-          })
-          console.log(likedByCount)
-          setLikedBy(likedByCount.data.getLikedByCount.count);
-          setUserLikes(likedByCount.data.getLikedByCount.likedBy);
-
-        }
-
-      }
-      queryLiked();
-    },[client,app])
 
 
 
@@ -355,9 +402,8 @@ const removeFavorite = async (id: string | undefined, csrfToken: string | undefi
         height={ data?.height ? data.height.toFixed(2) : 'N/A' }
         preferred_foot={data?.preferred_foot}
         shirt_number = {`#${data.shirt_number}`}
-        likedBy = {likedBy}
         csrfToken = {csrfToken}
-        userLikes = {userLikes}
+        slug = {slug}
       />
     );
   }
