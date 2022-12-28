@@ -215,7 +215,7 @@ const PlayerPage= ({market_value,nationality_code,slug, flag, height, weight, pr
 
     }
     queryLiked();
-  },[client,app])
+  },[client,app,slug])
 
 
   const addFavourite = async () => {
