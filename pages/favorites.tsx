@@ -1,6 +1,6 @@
 import { useSession, signIn, signOut, getCsrfToken, getSession } from "next-auth/react"
 import {
-  Button, Flex, Heading, Stack, Text, useBreakpointValue, useColorModeValue, Wrap, Center, Table, Thead, Tbody, Tfoot, Tr, Th, Td, Container, TableCaption, TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure, SimpleGrid,
+  Button, Flex, Heading, Stack, Text, useBreakpointValue, useColorModeValue, Wrap, Center, Table, Thead, Tbody, Tfoot, Tr, Th, Td, Container, TableCaption, TableContainer, Square, Circle, Box, HStack, Grid, Spacer, Divider, VStack, ChakraProvider, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, FormHelperText, Input, useDisclosure, SimpleGrid, Avatar,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
@@ -17,6 +17,7 @@ import { getUserFavourites } from "../lib/api/user";
 import { getToken } from "next-auth/jwt";
 import invariant from "tiny-invariant";
 import { gql, useMutation } from "@apollo/client";
+import { AddIcon } from "@chakra-ui/icons";
 
 export default function Home({ csrfToken, favourites }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
@@ -115,7 +116,7 @@ const removeFavorite = async (id: string,slug : string ) => {
                               <Button marginX='5px' onClick={onOpen} background='black' textColor='white' borderRadius='xl' >See all ➤</Button>
                             </VStack>
                           </>
-                          : <div>There are no favourites</div>}
+                          : <div><Center>There are no favourites</Center></div>}
 
 
 
@@ -152,7 +153,7 @@ const removeFavorite = async (id: string,slug : string ) => {
                                       </ul>
 
                                       :
-                                      <div>There are no favourites</div>}
+                                      <div><Center>There are no favourites</Center></div>}
 
                                   </Tbody>
                                 </Table>
@@ -191,7 +192,7 @@ const removeFavorite = async (id: string,slug : string ) => {
                         </ul>
 
                         :
-                        <div>There are no favourites</div>}
+                        <div><Center>There are no favourites</Center></div>}
 
 
 
@@ -216,20 +217,20 @@ const removeFavorite = async (id: string,slug : string ) => {
                 <VStack  >
                   <VStack marginBottom={10} >
                     <Box  >
-                      <Center> <Circle size='40px' bg='black' color='white'></Circle> </Center>
+                      <Center> <Avatar size={"md"} src={"https://tipsscore.com/resb/player/arda-guler.png"}  /> </Center>
                       <Center> <Heading size={'sm'} >Arda Güler</Heading></Center>
-                      <Center>   <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteArdaGuler(csrfToken)} size="md" bg='green.400' variant={"solid"}>
-                        Add ➕
+                      <Center>   <Button rightIcon={<AddIcon />} textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteArdaGuler(csrfToken)} size="md" bg='green.400' variant={"solid"}>
+                        Add
                       </Button></Center>
                     </Box>
                   </VStack>
 
                   <VStack >
                     <Box >
-                      <Center> <Circle size='40px' bg='black' color='white'></Circle> </Center>
+                      <Center> <Avatar size={"md"} src={"https://tipsscore.com/resb/player/dries-mertens.png"}  /> </Center>
                       <Center>  <Heading size={'sm'} >Dries Mertens</Heading> </Center>
-                      <Center>  <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteDriesMertens(csrfToken)} size="md" bg='green.400' variant={"solid"}>
-                        Add ➕
+                      <Center>  <Button rightIcon={<AddIcon />} textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteDriesMertens(csrfToken)} size="md" bg='green.400' variant={"solid"}>
+                        Add
                       </Button> </Center>
                     </Box>
                   </VStack>
@@ -237,20 +238,20 @@ const removeFavorite = async (id: string,slug : string ) => {
                 <VStack  >
                   <VStack marginBottom={10} >
                     <Box>
-                      <Center> <Circle size='40px' bg='black' color='white'></Circle> </Center>
+                      <Center> <Avatar size={"md"} src={"https://tipsscore.com/resb/player/mauro-icardi.png"}  /> </Center>
                       <Center>   <Heading size={'sm'} >Mauro Icardi</Heading> </Center>
-                      <Center>   <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteMauroIcardi(csrfToken)} size="md" bg='green.400' variant={"solid"} >
-                        Add ➕
+                      <Center>   <Button rightIcon={<AddIcon />} textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteMauroIcardi(csrfToken)} size="md" bg='green.400' variant={"solid"} >
+                        Add
                       </Button> </Center>
                     </Box>
                   </VStack>
 
                   <VStack>
                     <Box >
-                      <Center>   <Circle size='40px' bg='black' color='white'></Circle> </Center>
+                      <Center>   <Avatar size={"md"} src={"https://tipsscore.com/resb/player/muhammed-kerem-akturkoglu.png"}  /> </Center>
                       <Center>    <Heading size={'sm'} >Kerem Aktürkoğlu</Heading> </Center>
-                      <Center>     <Button textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteKeremAkturkoglu(csrfToken)} size="md" bg='green.400' variant={"solid"}>
-                        Add ➕
+                      <Center>     <Button rightIcon={<AddIcon />} textColor={'white'} fontWeight={'bold'} onClick={() => addFavoriteKeremAkturkoglu(csrfToken)} size="md" bg='green.400' variant={"solid"}>
+                        Add
                       </Button> </Center>
                     </Box>
                   </VStack>
@@ -264,7 +265,7 @@ const removeFavorite = async (id: string,slug : string ) => {
         <Box
           bg={"gray.100"}
           color={useColorModeValue('gray.700', 'gray.200')}>
-          <Box h='230px'>
+          <Box h='300px'>
 
           </Box>
           <Center>
@@ -284,22 +285,22 @@ function first10(element: any, index: number, array: any) {
 
 
 const addFavoriteArdaGuler = async (csrfToken: string | undefined) => {
-  await axios.post("/api/user/favourites/638fd3b736819a5631e06f1d", {
+  await axios.post("/api/user/favourites/639f014e36819a563105b8db", {
     csrfToken: csrfToken,
   })
 }
 const addFavoriteDriesMertens = async (csrfToken: string | undefined) => {
-  await axios.post("/api/user/favourites/638fd3b736819a5631e06f8e", {
+  await axios.post("/api/user/favourites/639f014e36819a563105b952", {
     csrfToken: csrfToken,
   })
 }
 const addFavoriteMauroIcardi = async (csrfToken: string | undefined) => {
-  await axios.post("/api/user/favourites/638fd3b736819a5631e06f90", {
+  await axios.post("/api/user/favourites/639f014e36819a563105b953", {
     csrfToken: csrfToken,
   })
 }
 const addFavoriteKeremAkturkoglu = async (csrfToken: string | undefined) => {
-  await axios.post("/api/user/favourites/638fd3b736819a5631e06f51", {
+  await axios.post("/api/user/favourites/639f014e36819a563105b90e", {
     csrfToken: csrfToken,
   })
 }

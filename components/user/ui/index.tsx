@@ -20,7 +20,8 @@ import {
     Alert,
     AlertIcon,
     AlertDescription,
-    Link
+    Link,
+    Spacer
   } from "@chakra-ui/react";
   import ConfirmButton from "./ConfirmButton";
   import { decode, getToken } from "next-auth/jwt"
@@ -37,6 +38,7 @@ import {BiUpload} from "react-icons/bi"
 import {AiOutlineClose} from "react-icons/ai"
 
 import { BiPhotoAlbum } from "react-icons/bi";
+import { AddIcon } from "@chakra-ui/icons";
 
 
 const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
@@ -196,7 +198,7 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
   const { data: session } = useSession()
   if (session) {
     return (
-      <Container maxW="container.xl" p={0}>
+      <Container maxW="container.xl" p={0} >
     <Flex h="100vh" py={20}>
       <><VStack w="full" h="full" p={10} spacing={10} alignItems="flex-start">
         <VStack spacing={3} alignItems="flex-start">
@@ -304,14 +306,15 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
         </SimpleGrid>
         </form>
       </VStack>
-      <VStack
-        w="full"
-        h="full"
-        p={10}
-        spacing={10}
-        align="flex-start"
-        bg="gray.50"
-      >
+      
+        <VStack
+          w="full"
+          h="100%"
+          p={10}
+          spacing={10}
+          align="flex-start"
+          bg="gray.50"
+          >
           <VStack alignItems="flex-start" spacing={3}>
             <Heading size="2xl">Personal Information</Heading>
             <Text>Change your personal info.</Text>
@@ -363,10 +366,32 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
             </FormControl>
             </GridItem>
 
-            <GridItem colSpan={2}>
-            <FormControl>
-              <Link href={`/squads`}>Create your weekly squad</Link>
-            </FormControl>
+
+            
+        
+        <GridItem colSpan={2}>
+            
+        <HStack marginTop={"30px"} justify={"space-between"} >
+        
+       
+            <Button p={5} leftIcon={<AddIcon />} colorScheme='pink' variant='solid' onClick={() => router.push('/squads')}>
+            
+              Create your weekly squad
+            
+                </Button>
+           
+           
+              
+            
+            
+            <Button  p={5} colorScheme='purple' variant='solid' onClick={() => router.push('/leaderboards')}>
+            
+              Become an Expert💎
+            
+                </Button>
+           
+                  
+            </HStack>
             </GridItem>
             
             </SimpleGrid>

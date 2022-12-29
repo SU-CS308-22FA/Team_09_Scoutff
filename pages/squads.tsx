@@ -45,7 +45,7 @@ export const getServerSideProps = async () => {
       }
     };
   }catch(error){
-    console.log("ERROR HAPPENNED. WHY? WHO KNOWS MAN");
+    console.log("ERROR");
 
     return{notFound: true,}
   }
