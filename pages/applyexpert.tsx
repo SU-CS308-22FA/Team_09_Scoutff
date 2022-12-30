@@ -23,11 +23,11 @@ import {
     VStack,
     Spacer,
 } from '@chakra-ui/react';
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone"
+import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone"
 import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import Layout from "../components/layout/Layout"
 import * as React from "react";
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from '../pages/api/auth/[...nextauth]';
@@ -47,6 +47,8 @@ const toBase64 = (file: Blob) => new Promise((resolve, reject) => {
 export default function Applyexpert() {
 
     type FormValues = {
+        firstName: string;
+        lastName: string;
         email: string;
         pdf: Array<File>
     };
@@ -55,7 +57,7 @@ export default function Applyexpert() {
 
     const toast = useToast()
 
-    const [pdf, setImage] = useState<Array<File> | undefined>(undefined)
+    const [pdf, setFile] = useState<Array<File> | undefined>(undefined)
 
     const {
         handleSubmit,
@@ -64,12 +66,18 @@ export default function Applyexpert() {
     } = useForm<FormValues>()
 
     const handleFormSubmit: SubmitHandler<FormValues> = async (data) => {
-
-        /*
     
+    const fileInputRef = useRef(null);
+
+    const handleDrop = (acceptedFiles: File[]) => {
+        /*
+      
         add application details to database
     
         */
+      };
+
+        
 
         toast({
             title: "Application successful.",
@@ -103,6 +111,20 @@ export default function Applyexpert() {
                         boxShadow={'lg'}
                         p={8}>
                         <Stack spacing={4}>
+                        <HStack>
+                                <Box>
+                                <FormControl id="firstName" isRequired>
+                                    <FormLabel>First Name</FormLabel>
+                                    <Input type="text" {...register("firstName")} />
+                                </FormControl>
+                                </Box>
+                                <Box>
+                                <FormControl id="lastName" isRequired >
+                                    <FormLabel>Last Name</FormLabel>
+                                    <Input type="text" {...register("lastName")} />
+                                </FormControl>
+                                </Box>
+                            </HStack>
                             <VStack>
                             <FormControl id="email" isRequired isInvalid={Boolean(errors.email)}>
                                     <FormLabel>Email address</FormLabel>
@@ -113,11 +135,11 @@ export default function Applyexpert() {
                                 </FormControl>
                                 <Spacer />
                                 <Dropzone
-                                    onDrop={(files) => setImage(files)}
-                                    onReject={(files) => console.log('rejected files', files)}
+                                    onDrop={(files) => setFile(files)}
                                     maxSize={3 * 1024 ** 2}
-                                    accept={IMAGE_MIME_TYPE}
+                                    accept={PDF_MIME_TYPE}
                                     multiple={false}>
+                                        
                                     <Center>
                                         <HStack spacing={5}>
                                             <Dropzone.Accept>
@@ -130,7 +152,7 @@ export default function Applyexpert() {
                                                 <BiPhotoAlbum />
                                             </Dropzone.Idle>
                                             <Text>
-                                                Upload your document
+                                            {pdf ? pdf.at(0)?.name : "Upload your document"}
                                             </Text>
                                         </HStack>
                                     </Center>
