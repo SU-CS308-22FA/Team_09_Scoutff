@@ -45,6 +45,8 @@ const userSchema = new Schema<IUser>({
         ref: "Player",
         default: []
     }]
+},{
+    discriminatorKey : "role"
 })
 
 
