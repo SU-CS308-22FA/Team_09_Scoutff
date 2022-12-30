@@ -384,7 +384,7 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
               
             
             
-            <Button  p={5} colorScheme='purple' variant='solid' onClick={() => router.push('/leaderboards')}>
+            <Button  p={5} colorScheme='purple' variant='solid' onClick={() => router.push('/applyexpert')}>
             
               Become an Expert💎
             
