@@ -47,8 +47,8 @@ import axios from "axios";
                 <Text>You can receive emails about that player weekly</Text>  
                 <ListItem marginTop='20px'>Can I see leaderoards without creating an account?</ListItem>
                 <Text>Yes, guest users can examine leaderboards</Text> 
-                <ListItem marginTop='20px'>Which framework did you use?</ListItem>
-                <Text>Next.js mostly</Text>
+                <ListItem marginTop='20px'>Which day of the week I get weekly reports?</ListItem>
+                <Text>You can get your weekly report on tuesdays.</Text>
               </UnorderedList>
             </Stack>
 
