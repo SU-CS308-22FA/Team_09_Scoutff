@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import {
   Box,
   Flex,
@@ -15,7 +15,14 @@ import {
   MenuDivider,
   useDisclosure,
   useColorModeValue,
-  Stack,
+  Stack, 
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import Link from "next/link";
@@ -26,6 +33,8 @@ import * as Realm from "realm-web";
 import useDebounce from  "../../../hook/useDebounce";
 import SearchBar from "../../../pages/search";
 import { getToken } from "next-auth/jwt";
+import router from "next/router";
+//import React from "react";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
 
@@ -84,7 +93,6 @@ const buttonLink = [
 
 
 
-
 const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
 
   
@@ -120,7 +128,7 @@ export default function Navbar(props : any) {
 
 
   const app = useApp();
-
+  //const btnRef = useRef();
 
 
 
@@ -143,12 +151,32 @@ export default function Navbar(props : any) {
           
           <HStack
               as={"nav"}
-              paddingLeft= {"50px"}
+              paddingLeft= {"10px"}
               fontWeight={"bold"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {LogoLink.map(({ name, path }) => ( 
+<Button /*ref={btnRef}*/ bg={"black"} textColor={"white"} onClick={onOpen} fontWeight="bold" size={"sm"} >
+        Admin
+      </Button>
+      <Drawer
+        isOpen={isOpen}
+        placement='left'
+        onClose={onClose}
+        //finalFocusRef={btnRef}
+        size={"xs"}
+        //closeOnOverlayClick= {true}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottomWidth='1px'>Administration</DrawerHeader>
+          <DrawerBody>
+            <Button onClick={() =>{ router.push('/evaluation')}} > Evaluate Applications </Button>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+                 {LogoLink.map(({ name, path }) => ( 
                 <NavLink key={path} path={path}>
                   {name}
                 </NavLink>
@@ -167,6 +195,7 @@ export default function Navbar(props : any) {
           <HStack
               as={"nav"}
               spacing={4}
+              fontWeight={"semibold"}
               display={{ base: "none", md: "flex" }}
             >
               {Links.map(({ name, path }) => (
