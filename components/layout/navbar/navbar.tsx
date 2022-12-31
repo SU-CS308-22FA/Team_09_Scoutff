@@ -93,6 +93,7 @@ const buttonLink = [
 
 
 
+
 const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
 
   
@@ -120,6 +121,10 @@ export default function Navbar(props : any) {
 
 
   const session = useSession();
+
+
+  console.log(session.data?.user);
+
 
 
 
@@ -156,9 +161,12 @@ export default function Navbar(props : any) {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-<Button /*ref={btnRef}*/ bg={"black"} textColor={"white"} onClick={onOpen} fontWeight="bold" size={"sm"} >
+
+    {session.data?.user.role === "admin" && (
+      <Button /*ref={btnRef}*/ bg={"black"} textColor={"white"} onClick={onOpen} fontWeight="bold" size={"sm"} >
         Admin
       </Button>
+    )}
       <Drawer
         isOpen={isOpen}
         placement='left'

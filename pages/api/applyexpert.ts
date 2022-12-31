@@ -5,13 +5,27 @@ import { getApplyexpert, postApplyexpert } from "../../lib/api/apply_expert";
 import dbConnect from "../../lib/mongoose";
 import { Types } from "mongoose";
 
+import {v2} from "cloudinary"
+
+v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: process.env.CLOUDINARY_SECURE === "true",
+});
+
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     if (req.method === "POST") {
+
+        console.log("POST")
         const firstname = req.body.firstname
         const lastname = req.body.lastname
         const email = req.body.email
         const pdf = req.body.pdf
+        
+        let pdfLink
 
 
         invariant(firstname, "First name cannot be empty")
@@ -28,9 +42,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         console.log(userInfo.sub)
 
-        const author = new Types.ObjectId(userInfo.sub)
 
-        const newApplication = await postApplyexpert({ firstname, lastname, email, pdf })
+        //filename consits of email and timestamp
+        const fileName = `${userInfo.sub}-${Date.now()}.pdf`
+
+
+            
+        try {
+            const {secure_url} = await v2.uploader.upload(pdf, {
+            folder: "expert_application",
+            resource_type: "raw",
+            public_id : fileName,
+            unique_filename: true,
+            overwrite: true,
+            allowed_formats: ["pdf"],
+            
+ 
+            })
+
+            pdfLink = secure_url
+
+        
+
+        }
+        catch (err) {
+           return res.status(500).json({message: "fİle upload failed"})
+        }
+  
+          
+
+        const newApplication = await postApplyexpert({ firstname, lastname, email, pdf : pdfLink })
     
         if (newApplication) return res.status(200).json({ message: "Application added" })
 
@@ -59,3 +100,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
 }
+
+//set file size limit to 2mb
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: "2mb",
+        },
+    },
+};

@@ -37,29 +37,20 @@ import { useForm, FieldError, SubmitHandler } from 'react-hook-form'
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiUpload, BiPhotoAlbum } from 'react-icons/bi';
 import axios from 'axios';
-import { Readable } from 'stream';
-import { resolve } from 'path';
 
 
 
-const toBase64 = (file: Blob) => new Promise((resolve, reject) => {
+
+
+
+const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve((reader.result as string));
     reader.onerror = error => reject(error);
-});
+  });
+  
 
-async function getPdfAsBase64(files: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const chunks: Buffer[] = [];
-      const fileStream = new Readable();
-      fileStream.push(files);
-      fileStream.push(null);
-      fileStream.on('error', (error) => reject(error));
-      fileStream.on('data', (chunk) => chunks.push(chunk));
-      fileStream.on('end', () => resolve(Buffer.concat(chunks).toString('base64')));
-    });
-  }
 
 export default function Applyexpert() {
 
@@ -76,6 +67,7 @@ export default function Applyexpert() {
 
     const [pdf, setFile] = useState<Array<File> | undefined>(undefined)
 
+
     const {
         handleSubmit,
         register,
@@ -85,16 +77,37 @@ export default function Applyexpert() {
     
 
     const handleFormSubmit: SubmitHandler<FormValues> = async (data) => {
+
+        console.log(data)
     
-        const file = data.pdf?.at(0)
-        //const fileconst = file ? await toBase64(file) : undefined
-        const fileconst = file ? await getPdfAsBase64(file) : undefined
+        const file = pdf?.at(0)
+        if (!file) {
+            setErrorMessage("Please upload a resume.")
+            return
+            
+        }
+
+        const filebase64 = await toBase64(file) 
+
+        //check if filebase64 is not string
+        if (typeof filebase64 !== "string") {
+            setErrorMessage("Error converting image.")
+            return
+        }
+
+
+        
+
+
+          
+
+
 
         await axios.post("/api/applyexpert", {
             firstname : data.firstName,
             lastname : data.lastName,
             email : data.email,
-            pdf : fileconst
+            pdf : filebase64,
         })
         
 
@@ -222,22 +235,3 @@ export default function Applyexpert() {
     );
 }
 
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const session = await unstable_getServerSession(context.req, context.res, authOptions)
-
-
-/*
-    if (session) {
-        return {
-            redirect: {
-                destination: '/profile',
-                permanent: false,
-            },
-        }
-    }
-*/
-    return {
-        props: {},
-    }
-}
