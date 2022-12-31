@@ -28,7 +28,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import Layout from "../components/layout/Layout"
 import * as React from "react";
 import { useRef, useState } from 'react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { AttachmentIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from '../pages/api/auth/[...nextauth]';
 import { useRouter } from 'next/router';
@@ -36,6 +36,7 @@ import { signIn } from 'next-auth/react';
 import { useForm, FieldError, SubmitHandler } from 'react-hook-form'
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiUpload, BiPhotoAlbum } from 'react-icons/bi';
+import axios from 'axios';
 
 const toBase64 = (file: Blob) => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -67,16 +68,15 @@ export default function Applyexpert() {
 
     const handleFormSubmit: SubmitHandler<FormValues> = async (data) => {
     
-    const fileInputRef = useRef(null);
+        const file = data.pdf?.at(0)
+        const fileconst = file ? await toBase64(file) : undefined
 
-    const handleDrop = (acceptedFiles: File[]) => {
-        /*
-      
-        add application details to database
-    
-        */
-      };
-
+        await axios.post("/api/applyexpert", {
+            firstname : data.firstName,
+            lastname : data.lastName,
+            email : data.email,
+            pdf : fileconst
+        })
         
 
         toast({
@@ -134,6 +134,7 @@ export default function Applyexpert() {
                                     })} />
                                 </FormControl>
                                 <Spacer />
+                                <FormControl id="pdf" isRequired >
                                 <Dropzone
                                     onDrop={(files) => setFile(files)}
                                     maxSize={3 * 1024 ** 2}
@@ -149,7 +150,7 @@ export default function Applyexpert() {
                                                 <AiOutlineClose />
                                             </Dropzone.Reject>
                                             <Dropzone.Idle>
-                                                <BiPhotoAlbum />
+                                                <AttachmentIcon />
                                             </Dropzone.Idle>
                                             <Text>
                                             {pdf ? pdf.at(0)?.name : "Upload your document"}
@@ -157,6 +158,7 @@ export default function Applyexpert() {
                                         </HStack>
                                     </Center>
                                 </Dropzone>
+                                </FormControl>
                             </VStack>
                             <Stack pt={4}>
                                 {errors.email &&

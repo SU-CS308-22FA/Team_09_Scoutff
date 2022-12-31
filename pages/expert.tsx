@@ -73,8 +73,7 @@ const convertToQuery = (id : number) => {
 type ExpertProps = {
     name?: string
     image?: string
-    ranking?: number
-    age?: number
+    job?: string
     _id: string
     csrfToken: string
   }
@@ -82,7 +81,7 @@ type ExpertProps = {
   
 
   
-const ExpertPage= ({name, image, ranking, age, _id, csrfToken, expertsquads} : ExpertProps |any) => {
+const ExpertPage= ({name, image, job, _id, csrfToken, expertsquads} : ExpertProps |any) => {
   
   let dataMap = new Map();
 

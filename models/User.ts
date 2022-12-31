@@ -1,3 +1,4 @@
+import { SchemaMetaFieldDef } from "graphql";
 import mongoose, { Schema } from "mongoose";
 import { PlayerInterface } from "../interfaces/PlayerInterface";
 
@@ -9,7 +10,7 @@ export interface IUser {
     role: string;
     emailVerified: Date | null;
     likedPlayers: Array<PlayerInterface>;
-
+    squads: { [key: string]: { players: Array<{ id: string }>, comment: string } };
 }
 
 
@@ -47,6 +48,7 @@ const userSchema = new Schema<IUser>({
     }]
 },{
     discriminatorKey : "role"
+
 })
 
 
