@@ -33,7 +33,7 @@ import * as Realm from "realm-web";
 import useDebounce from  "../../../hook/useDebounce";
 import SearchBar from "../../../pages/search";
 import { getToken } from "next-auth/jwt";
-import router from "next/router";
+import router, { useRouter } from "next/router";
 //import React from "react";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
@@ -117,6 +117,8 @@ const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
 export default function Navbar(props : any) {
   const client = useApolloClient();
 
+  const router = useRouter();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
 
@@ -180,7 +182,10 @@ export default function Navbar(props : any) {
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth='1px'>Administration</DrawerHeader>
           <DrawerBody>
-            <Button onClick={() =>{ router.push('/evaluation')}} > Evaluate Applications </Button>
+            <Button onClick={() =>{
+              onClose()
+               router.push('/evaluation')
+               }} > Evaluate Applications </Button>
           </DrawerBody>
         </DrawerContent>
       </Drawer>

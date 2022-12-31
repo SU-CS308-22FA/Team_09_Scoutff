@@ -52,6 +52,7 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
   interface Props {
     csrfToken: string,
     name: string,
+    role : string,
   }
 
   export const getServerSideProps : GetServerSideProps = async (context) => {
@@ -68,10 +69,11 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
     password: string;
     confirmPassword: string;
     image : Array<File>
+    role : string
   };
   
 
-  export default function UserCompIndex({ name,csrfToken } : Props) {
+  export default function UserCompIndex({ name,csrfToken ,role} : Props) {
 
     const toast = useToast()
 
@@ -374,11 +376,14 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
         <HStack marginTop={"30px"} justify={"space-between"} >
         
        
+              {role === "commentator"   ?
             <Button p={5} leftIcon={<AddIcon />} colorScheme='pink' variant='solid' onClick={() => router.push('/squads')}>
             
               Create your weekly squad
             
-                </Button>
+                </Button> : <Spacer />
+              }
+
            
            
               

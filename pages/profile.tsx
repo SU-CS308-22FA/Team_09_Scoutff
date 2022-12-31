@@ -7,7 +7,7 @@ import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { ParsedUrlQuery } from "querystring";
 
-export default function Home({name,csrfToken} : InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Home({name,csrfToken,role} : InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div>
       <Head>
@@ -18,7 +18,7 @@ export default function Home({name,csrfToken} : InferGetServerSidePropsType<type
 
       <main>
         
-        <UserCompIndex  name={name ?? ""} csrfToken={csrfToken ?? ""} />
+        <UserCompIndex  name={name ?? ""} csrfToken={csrfToken ?? ""} role={role ?? "user"} />
 
       </main>
     </div>
@@ -40,6 +40,7 @@ export  const getServerSideProps  = async (context : GetServerSidePropsContext<P
   return {
       props: { 
         name : session?.user?.name,
+        role : session?.user?.role,
         csrfToken: csrfToken,
        },
   }
