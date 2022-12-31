@@ -37,6 +37,10 @@ import { useForm, FieldError, SubmitHandler } from 'react-hook-form'
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiUpload, BiPhotoAlbum } from 'react-icons/bi';
 import axios from 'axios';
+import { Readable } from 'stream';
+import { resolve } from 'path';
+
+
 
 const toBase64 = (file: Blob) => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -44,6 +48,18 @@ const toBase64 = (file: Blob) => new Promise((resolve, reject) => {
     reader.onload = () => resolve((reader.result as string));
     reader.onerror = error => reject(error);
 });
+
+async function getPdfAsBase64(files: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const chunks: Buffer[] = [];
+      const fileStream = new Readable();
+      fileStream.push(files);
+      fileStream.push(null);
+      fileStream.on('error', (error) => reject(error));
+      fileStream.on('data', (chunk) => chunks.push(chunk));
+      fileStream.on('end', () => resolve(Buffer.concat(chunks).toString('base64')));
+    });
+  }
 
 export default function Applyexpert() {
 
@@ -66,10 +82,13 @@ export default function Applyexpert() {
         formState: { errors, isSubmitting },
     } = useForm<FormValues>()
 
+    
+
     const handleFormSubmit: SubmitHandler<FormValues> = async (data) => {
     
         const file = data.pdf?.at(0)
-        const fileconst = file ? await toBase64(file) : undefined
+        //const fileconst = file ? await toBase64(file) : undefined
+        const fileconst = file ? await getPdfAsBase64(file) : undefined
 
         await axios.post("/api/applyexpert", {
             firstname : data.firstName,
