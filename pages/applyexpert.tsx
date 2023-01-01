@@ -168,8 +168,17 @@ export default function Applyexpert() {
                                 <Spacer />
                                 <FormControl id="pdf" isRequired >
                                 <Dropzone
-                                    onDrop={(files) => setFile(files)}
-                                    maxSize={3 * 1024 ** 2}
+                                    onDrop={(files) =>{
+                                        setFile(files)
+                                        toast({
+                                            title: "Uploading...",
+                                            status: "info",
+                                            duration: 1000,
+                                            isClosable: true,
+                                          })
+                                         
+                                    }}
+                                    maxSize={1024 * 1024 * 2}
                                     accept={PDF_MIME_TYPE}
                                     multiple={false}>
                                         
