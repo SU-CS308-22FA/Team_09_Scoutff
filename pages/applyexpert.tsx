@@ -22,6 +22,7 @@ import {
     Center,
     VStack,
     Spacer,
+    Textarea,
 } from '@chakra-ui/react';
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone"
 import { GetServerSideProps, InferGetServerSidePropsType } from "next"
@@ -58,6 +59,7 @@ export default function Applyexpert() {
         firstName: string;
         lastName: string;
         email: string;
+        bio?: string
         pdf: Array<File>;
     };
 
@@ -96,7 +98,10 @@ export default function Applyexpert() {
         }
 
 
-        
+        if( data?.bio ==="")
+        {
+            delete data.bio
+        }
 
 
           
@@ -107,6 +112,7 @@ export default function Applyexpert() {
             firstname : data.firstName,
             lastname : data.lastName,
             email : data.email,
+            bio : data.bio,
             pdf : filebase64,
         })
         
@@ -166,6 +172,11 @@ export default function Applyexpert() {
                                         pattern: { value: /[a-zA-Z][a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/, message: 'Please enter a valid email' },
                                     })} />
                                 </FormControl>
+                            <FormControl id="bio">
+                                    <FormLabel>Please talk about yourself briefly</FormLabel>
+                                    <Input {...register("bio")}></Input>
+
+                            </FormControl>
                                 <Spacer />
                                 <FormControl id="pdf" isRequired >
                                 <Dropzone

@@ -59,9 +59,16 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
 
     useEffect(() => { 
         const loadExpertSquad = async () => {
+            try{
             const result = await axios.get<WeeklyMatchRecord>(`/api/expert/${expert._id}/squads`);
+           
             setSquads(result.data);
+            }
+        catch(err)
+        {
+            setSquads(null);
 
+        }
         }
         loadExpertSquad();
 
@@ -81,7 +88,10 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
 
            
        }
-
+       else
+       {
+            setSquad(null);
+       }
 
     }, [squads]);
 
