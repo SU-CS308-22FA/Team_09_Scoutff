@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const lastname = req.body.lastname
         const email = req.body.email
         const pdf = req.body.pdf
-        
+        const status = "pending"
         let pdfLink
 
 
@@ -71,7 +71,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
           
 
-        const newApplication = await postApplyexpert({ firstname, lastname, email, pdf : pdfLink })
+        const newApplication = await postApplyexpert({ firstname, lastname, email, pdf : pdfLink, status })
     
         if (newApplication) return res.status(200).json({ message: "Application added" })
 
@@ -86,9 +86,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         invariant(userInfo.sub, "User Id cannot be empty")
 
-       // const comments = await getApplyexpert()
+       const applications = await getApplyexpert()
 
-      //  if (comments) return res.status(200).json(comments)
+       if (applications) return res.status(200).json(applications)
 
         return res.status(500).json({ message: "Something went wrong" })
 
