@@ -1,5 +1,4 @@
-import { ApolloClient, gql, HttpLink, InMemoryCache } from "@apollo/client";
-import { AddIcon } from "@chakra-ui/icons";
+
 import {
     Box,
     Center,
@@ -17,6 +16,10 @@ import axios from "axios";
 import {InferGetServerSidePropsType } from "next";
 
 import React, { useEffect, useState } from "react";
+import RealShowcaseUI from "../components/showcase/RealShowcaseUI";
+import ShowcaseUI from "../components/showcase/ShowcaseUI";
+import { PlayerInterface } from "../interfaces/PlayerInterface";
+import { getAllSquadOfExpert, SingleMatchRecord, WeeklyMatchRecord } from "../lib/api/expert";
 import dbConnect from "../lib/mongoose";
 import Expert, { IExpert } from "../models/Expert";
 
@@ -43,7 +46,45 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
    
 
 
+
     const [expert, setExpert] = useState(experts[0]);
+
+    const [squads, setSquads] = useState<WeeklyMatchRecord | null>(null);
+
+    const [squad, setSquad] = useState<SingleMatchRecord| null>(null);
+
+    console.log(squad, "squad");
+    
+
+
+    useEffect(() => { 
+        const loadExpertSquad = async () => {
+            const result = await axios.get<WeeklyMatchRecord>(`/api/expert/${expert._id}/squads`);
+            setSquads(result.data);
+
+        }
+        loadExpertSquad();
+
+        
+    }, [expert]);
+
+    useEffect(() => {
+       if (squads) {
+            //get first key of map
+
+            const result = squads[Object.keys(squads)[0]];
+
+
+            
+
+            setSquad(result ?? null);
+
+           
+       }
+
+
+    }, [squads]);
+
 
     const handleExpertChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setExpert(experts[parseInt(event.target.value)]);
@@ -75,26 +116,36 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
       </VStack>
       <VStack w="full" h="full" p={10} spacing={10}>
 
-        <Box>
+        
+      <Box
+            height={'1200px'}
+            alignItems={"flex-end"}
+            width={"800px"}
+            overflow={'hidden'}>
+            <VStack spacing={5} alignItems={"left"}>
+            
 
             <Select 
                 variant="filled"
                 onChange={handleExpertChange}
                 width={"200px"}>
                 {experts.map((expert,index) => (
-                    <option value={index}>{expert.name}</option>
+                    <option key={index} value={index}>{expert.name}</option>
                 ))}
 
-            </Select>
+            </Select>   
 
-            <Box
-            height={'1200px'}
-            alignItems={"flex-end"}
-            width={"800px"}
-            overflow={'hidden'}>
+
+            {squad && (
+            <Box w={"fit-content"} alignItems={"center"}>
+
+                <RealShowcaseUI players={squad.players}  name={expert.name}  comment={squad.comment}/>
+                    
             </Box>
-
-        </Box>
+            )}
+            
+        </VStack>
+    </Box>
 
 
 
@@ -121,15 +172,21 @@ export const getServerSideProps = async () => {
 
     const experts = await Expert.find({}).select("image  name   _id").lean();
 
+   
+
     //convert id to string
     experts.forEach((expert) => {
         expert._id = expert._id.toString();
     });
 
+
+
+
+
     
     return {
       props: {
-        experts : experts
+        experts : experts,
       },
     };
 

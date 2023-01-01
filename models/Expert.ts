@@ -3,8 +3,14 @@ import { PlayerInterface } from "../interfaces/PlayerInterface";
 import User, { IUser } from "./User";
 
 export interface IExpert extends IUser {
-    weeklySquads : Record<string, Array<PlayerInterface>>
+    weeklySquads : Record<string, {
+        comment : string,
+        players : Array<PlayerInterface>
+        _id ?: Schema.Types.ObjectId
+    }>
 }
+
+
 
 
 
@@ -14,10 +20,17 @@ type InterfacePlayerDemo = mongoose.Document & IExpert
 const expertSchema  = new Schema<IExpert>({
     weeklySquads : {
         type : Map,
-        of : [{
-            type : Schema.Types.ObjectId,
-            ref : mongoose.models.Player
-        }],
+        of : {
+            comment : {
+                type : String,
+                default : ""
+            },
+            players : {
+                type : Array,
+                default : []
+            }
+        },
+        
 
         default : {}
     },
@@ -29,5 +42,8 @@ const expertSchema  = new Schema<IExpert>({
 
 
 export default (mongoose.models.User?.discriminators?.commentator  as mongoose.Model<InterfacePlayerDemo>) || User.discriminator("commentator", expertSchema)
+
+
+
 
 
