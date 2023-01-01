@@ -5,6 +5,7 @@ export interface IApplyexpert {
     lastname: string;
     email: string;
     pdf: string;
+    status: string;
 }
 
 const applyexpertSchema = new Schema<IApplyexpert>({
@@ -24,6 +25,13 @@ const applyexpertSchema = new Schema<IApplyexpert>({
         type: String,
         required: true,
         },
+    status:  {
+        type: String,
+        default: "pending",
+        
+        enum: ["pending", "accepted", "rejected"],
+
+    },
     });
 export type IApplyexpert2 = mongoose.Document & IApplyexpert
 export default (mongoose.models.Applyexpert as mongoose.Model<IApplyexpert2>)  || mongoose.model("Applyexpert", applyexpertSchema)
