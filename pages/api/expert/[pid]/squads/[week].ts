@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import {  getSquadOfWeek } from "../../../../../lib/api/expert";
 
-const seasonWeeks = 14;
+const seasonWeeks = 38;
 
 export default async function handler (_req : NextApiRequest, res : NextApiResponse) {
 
