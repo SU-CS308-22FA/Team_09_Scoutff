@@ -24,6 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const lastname = req.body.lastname
         const email = req.body.email
         const pdf = req.body.pdf
+        const bio = req.body.bio
         const status = "pending"
         
         let pdfLink
@@ -72,7 +73,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
           
 
-        const newApplication = await postApplyexpert({ firstname, lastname, email, pdf : pdfLink, status})
+        const newApplication = await postApplyexpert({ firstname, lastname, email, pdf : pdfLink, status, bio})
     
         if (newApplication) return res.status(200).json({ message: "Application added" })
 
