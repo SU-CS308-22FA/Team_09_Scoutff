@@ -26,8 +26,14 @@ import UserCompIndex from "../components/user/ui";
 import HelpCompIndex from "../components/help/ui";
 import { GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } from "next";
 import { ParsedUrlQuery } from "querystring";
+import { getApplyexpert } from "../lib/api/apply_expert";
+import Applyexpert, { IApplyexpert, IApplyexpert2 } from "../models/Applyexpert";
 
-export default function Evaluation() {
+export default function Evaluation({csrfToken, applications}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  
+  
+
+  
   return (
     
     <Flex
@@ -37,7 +43,7 @@ export default function Evaluation() {
     paddingBottom={"150px"}
     bg={useColorModeValue('gray.100', 'gray.800')}>  
   <Box  p="4" w="850px" mx="auto" textAlign="center" rounded="2xl" boxShadow="md" bgColor="white" >
-   <TableContainer   >
+   <TableContainer>
     <Table>
       <Thead>
         <Tr>
@@ -50,48 +56,32 @@ export default function Evaluation() {
         </Tr>
       </Thead>
       <Tbody>
-        <Tr>
-          <Td></Td>
-          <Td></Td>
-          <Td></Td>
-          <Td>
-            <Button colorScheme="green" mr={2}>
-              Accept
-            </Button>
-            <Button colorScheme="red" mr={2}>
-              Reject
-            </Button>
-            <Button colorScheme="blue">Download Document</Button>
-          </Td>
-        </Tr>
-        <Tr>
-          <Td></Td>
-          <Td></Td>
-          <Td></Td>
-          <Td>
-            <Button colorScheme="green" mr={2}>
-              Accept
-            </Button>
-            <Button colorScheme="red" mr={2}>
-              Reject
-            </Button>
-            <Button colorScheme="blue">Download Document</Button>
-          </Td>
-        </Tr>
-        <Tr>
-          <Td></Td>
-          <Td></Td>
-          <Td></Td>
-          <Td>
-            <Button colorScheme="green" mr={2}>
-              Accept
-            </Button>
-            <Button colorScheme="red" mr={2}>
-              Reject
-            </Button>
-            <Button colorScheme="blue">Download Document</Button>
-          </Td>
-        </Tr>
+       { applications && applications.length ?
+       <>
+        
+          {applications.map((app: { firstname: string, lastname: string, email: string, pdf: string}, index: number) => (
+          
+          
+            <Tr key={index.toString()}>
+              <Td>{app.firstname + app.lastname}</Td>
+              <Td>{app.email}</Td>
+              <Td>{app.pdf}</Td> {/*pdf name ?*/}
+            
+              <Button colorScheme="green" mr={2} /* this should send informative email on click and also change status pending->accepted*/ >
+                Accept 
+              </Button>
+              <Button colorScheme="red" mr={2} /*change status from pending -> rejected */  >
+                Reject
+              </Button>
+              <Button colorScheme="blue"  >
+              Download Document
+              </Button>
+            </Tr>
+          ))}
+        </>
+        :
+        <div><Center>There are no applications</Center></div>}
+          
       </Tbody>
     </Table>
    </TableContainer>
@@ -104,11 +94,14 @@ export default function Evaluation() {
 export const getServerSideProps  = async (context : GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
   const csrfToken = await getCsrfToken(context)
 
+  const applications = await getApplyexpert()
 
-
+  
+  
   return {
     props: { 
-      csrfToken
+      csrfToken,
+      applications
      },
   }
 }
