@@ -58,7 +58,7 @@ export default function Applyexpert() {
         firstName: string;
         lastName: string;
         email: string;
-        pdf: Array<File>
+        pdf: Array<File>;
     };
 
     const [errorMessage, setErrorMessage] = useState<String>("");
@@ -136,7 +136,8 @@ export default function Applyexpert() {
                         Apply to become an Expert
                     </Heading>
                 </Stack>
-                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                <form onSubmit={/*send to profile*/
+                    handleSubmit(handleFormSubmit)}>
                     <Box
                         rounded={'lg'}
                         bg={useColorModeValue('white', 'gray.700')}

@@ -16,7 +16,9 @@ export async function getApplyexpert(): Promise<IApplyexpert[]> {
 
     await mongooseConnection();
 
-    const applyexperts = await Applyexpert.find().lean();
+    const applyexperts = await Applyexpert.find({
+        status  : "pending"
+    }).lean();
 
     return applyexperts;
 

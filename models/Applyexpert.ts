@@ -6,6 +6,7 @@ export interface IApplyexpert {
     email: string;
     pdf: string;
     status: string;
+    _id ?: string;
 }
 
 const applyexpertSchema = new Schema<IApplyexpert>({

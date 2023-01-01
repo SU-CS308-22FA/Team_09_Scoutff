@@ -18,7 +18,7 @@ import {   Box,
     Center} from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/Home.module.css";
 import HomeCompIndex from "../components/home/ui";
 import Navbar from "../components/layout/navbar/navbar";
@@ -28,11 +28,13 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType, PreviewData } f
 import { ParsedUrlQuery } from "querystring";
 import { getApplyexpert } from "../lib/api/apply_expert";
 import Applyexpert, { IApplyexpert, IApplyexpert2 } from "../models/Applyexpert";
+import axios from "axios";
 
-export default function Evaluation({csrfToken, applications}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Evaluation({csrfToken, applications2}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   
-  
+  const [applications, setapplications] = useState<Array<IApplyexpert> | undefined>(applications2)
 
+  console.log(applications)
   
   return (
     
@@ -50,7 +52,7 @@ export default function Evaluation({csrfToken, applications}: InferGetServerSide
           
           <Th fontWeight="bold"><Center>Applicant Name</Center></Th>
           <Th fontWeight="bold"><Center>Email</Center></Th>
-          <Th fontWeight="bold"><Center>Uploaded File</Center></Th>
+          
           <Th fontWeight="bold"> <Center>Actions</Center></Th>
           
         </Tr>
@@ -59,22 +61,32 @@ export default function Evaluation({csrfToken, applications}: InferGetServerSide
        { applications && applications.length ?
        <>
         
-          {applications.map((app: { firstname: string, lastname: string, email: string, pdf: string}, index: number) => (
+          {applications.map((app: { firstname: string, lastname: string, email: string, pdf: string, _id?: string}, index: number) => (
           
           
-            <Tr key={index.toString()}>
-              <Td>{app.firstname + app.lastname}</Td>
+            <Tr key={app._id}>
+              <Td>{app.firstname +" " + app.lastname}</Td>
               <Td>{app.email}</Td>
-              <Td>{app.pdf}</Td> {/*pdf name ?*/}
+             
             
               <Button colorScheme="green" mr={2} /* this should send informative email on click and also change status pending->accepted*/ >
                 Accept 
               </Button>
-              <Button colorScheme="red" mr={2} /*change status from pending -> rejected */  >
+              <Button colorScheme="red" mr={2} onClick={async ()=> {
+                    await axios.post(`/api/evaluateexpert/${app._id!}`, {decision : "rejected"}).then(
+                      ()=>{
+                            setapplications(temp=> temp?.filter(tempapp => tempapp._id !== app._id!) )
+                      }
+                    )
+              }
+              
+              }  >
                 Reject
               </Button>
-              <Button colorScheme="blue"  >
-              Download Document
+              <Button colorScheme="blue"  onClick={()=>{
+                    window.open(app.pdf, "_blank")
+              }}>
+              Preview Document
               </Button>
             </Tr>
           ))}
@@ -94,14 +106,19 @@ export default function Evaluation({csrfToken, applications}: InferGetServerSide
 export const getServerSideProps  = async (context : GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) => {
   const csrfToken = await getCsrfToken(context)
 
-  const applications = await getApplyexpert()
+  const applications2 = await getApplyexpert()
+
+  //console.log(applications2)
+
+  applications2.forEach(element => {element._id = element._id!.toString()})
+    
 
   
   
   return {
     props: { 
       csrfToken,
-      applications
+      applications2
      },
   }
 }
