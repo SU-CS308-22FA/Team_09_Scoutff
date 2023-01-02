@@ -109,9 +109,7 @@ export default function Applyexpert() {
 
 
         await axios.post("/api/applyexpert", {
-            firstname : data.firstName,
-            lastname : data.lastName,
-            email : data.email,
+        
             bio : data.bio,
             pdf : filebase64,
         })
@@ -150,31 +148,12 @@ export default function Applyexpert() {
                         boxShadow={'lg'}
                         p={8}>
                         <Stack spacing={4}>
-                        <HStack>
-                                <Box>
-                                <FormControl id="firstName" isRequired>
-                                    <FormLabel>First Name</FormLabel>
-                                    <Input type="text" {...register("firstName")} />
-                                </FormControl>
-                                </Box>
-                                <Box>
-                                <FormControl id="lastName" isRequired >
-                                    <FormLabel>Last Name</FormLabel>
-                                    <Input type="text" {...register("lastName")} />
-                                </FormControl>
-                                </Box>
-                            </HStack>
+           
                             <VStack>
-                            <FormControl id="email" isRequired isInvalid={Boolean(errors.email)}>
-                                    <FormLabel>Email address</FormLabel>
-                                    <Input type="email" {...register("email", {
-                                        required: 'This is required',
-                                        pattern: { value: /[a-zA-Z][a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/, message: 'Please enter a valid email' },
-                                    })} />
-                                </FormControl>
+    
                             <FormControl id="bio">
                                     <FormLabel>Please talk about yourself briefly</FormLabel>
-                                    <Input {...register("bio")}></Input>
+                                    <Textarea {...register("bio")}></Textarea>
 
                             </FormControl>
                                 <Spacer />

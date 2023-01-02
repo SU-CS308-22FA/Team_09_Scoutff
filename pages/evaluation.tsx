@@ -36,6 +36,7 @@ import { ParsedUrlQuery } from "querystring";
 import { getApplyexpert } from "../lib/api/apply_expert";
 import Applyexpert, { IApplyexpert, IApplyexpert2 } from "../models/Applyexpert";
 import axios from "axios";
+import { IUser } from "../models/User";
 
 export default function Evaluation({csrfToken, applications2}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   
@@ -80,16 +81,16 @@ export default function Evaluation({csrfToken, applications2}: InferGetServerSid
        </ModalContent>
      </Modal>
         
-          {applications.map((app: { firstname: string, lastname: string, email: string, pdf: string, _id?: string, bio:string}, index: number) => (
-          
-          
-            <Tr key={app._id}>
-              <Td>{app.firstname +" " + app.lastname}</Td>
-              <Td>{app.email}</Td>
+          {applications.map((app, index: number) => {
+            const user = app.user as IUser
+            return (
+              <Tr key={app._id}>
+              <Td>{user.name}</Td>
+              <Td>{user.email}</Td>
              
             
               <Button colorScheme="green" mr={2} onClick={async ()=> {
-                    await axios.post(`/api/evaluateexpert/${app._id!}`, {decision : "accepted", email : app.email}).then(
+                    await axios.post(`/api/evaluateexpert/${app._id!}`, {decision : "accepted"}).then(
                       ()=>{
                             setapplications(temp=> temp?.filter(tempapp => tempapp._id !== app._id!) )
                       }
@@ -124,8 +125,15 @@ export default function Evaluation({csrfToken, applications2}: InferGetServerSid
               </Button>
               
             </Tr>
+            )
+
+          
             
-          ))}
+          
+          
+
+            
+  })}
         </>
         :
         <div><Center>There are no applications</Center></div>}
@@ -147,6 +155,9 @@ export const getServerSideProps  = async (context : GetServerSidePropsContext<Pa
   //console.log(applications2)
 
   applications2.forEach(element => {element._id = element._id!.toString()})
+
+
+  console.log(applications2)
     
 
   

@@ -1,9 +1,8 @@
 import mongoose, { Schema } from "mongoose";
+import { IUser } from "./User";
 
 export interface IApplyexpert {
-    firstname: string;
-    lastname: string;
-    email: string;
+    user: IUser | string;
     pdf: string;
     status: string;
     bio: string;
@@ -11,18 +10,11 @@ export interface IApplyexpert {
 }
 
 const applyexpertSchema = new Schema<IApplyexpert>({
-    firstname: {
-        type: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: true,
-        },
-    lastname: {
-        type: String,
-        required: true,
-        },
-    email: {
-        type: String,
-        required: true,
-        },      
+    },
     pdf: {
         type: String,
         required: true,

@@ -4,6 +4,7 @@ import invariant from "tiny-invariant";
 import { getApplyexpert, postApplyexpert } from "../../lib/api/apply_expert";
 import dbConnect from "../../lib/mongoose";
 import { Types } from "mongoose";
+import { createHash } from "crypto"; 
 
 import {v2} from "cloudinary"
 
@@ -20,18 +21,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === "POST") {
 
         console.log("POST")
-        const firstname = req.body.firstname
-        const lastname = req.body.lastname
-        const email = req.body.email
         const pdf = req.body.pdf
         const bio = req.body.bio
+
+        const user = await getToken({ req })
+
+        const email = user?.email
         const status = "pending"
         
         let pdfLink
 
-
-        invariant(firstname, "First name cannot be empty")
-        invariant(lastname, "Last name cannot be empty")
         invariant(email, "Email cannot be empty")
         invariant(pdf, "File cannot be empty")
         await dbConnect()
@@ -42,11 +41,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         invariant(userInfo.sub, "User Id cannot be empty")
 
-        console.log(userInfo.sub)
+
+        //get sha256 hash of email
+        const hash = createHash('sha256');
+        hash.update(email);
+        const hashemail = hash.digest('hex');
+
+
+        //hash email 
 
 
         //filename consits of email and timestamp
-        const fileName = `${userInfo.sub}-${Date.now()}.pdf`
+        const fileName = `${userInfo.sub}-${hash}.pdf`
 
 
             
@@ -55,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             folder: "expert_application",
             resource_type: "raw",
             public_id : fileName,
-            unique_filename: true,
+            unique_filename: false,
             overwrite: true,
             allowed_formats: ["pdf"],
             
@@ -73,7 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
           
 
-        const newApplication = await postApplyexpert({ firstname, lastname, email, pdf : pdfLink, status, bio})
+        const newApplication = await postApplyexpert({ user : userInfo.sub ,pdf : pdfLink, status, bio})
     
         if (newApplication) return res.status(200).json({ message: "Application added" })
 
