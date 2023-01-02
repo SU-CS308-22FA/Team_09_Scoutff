@@ -31,17 +31,7 @@ export const getServerSideProps = async () => {
   try{
     await dbConnect()
 
-    const experts = await Expert.find({}).select("name _id").lean();
-
-    experts.forEach((expert) => {
-      expert._id = expert._id.toString();
-
-    });
-    
-
-    await Promise.all(experts.map(async (expert) => {
-      const squad = await getSquadOfWeek({weekNumber : 1,expert: expert._id});
-    }))
+    const expertsquads = await ExpertSquad.find().sort({$natural: -1 })
 
 
     
@@ -58,7 +48,7 @@ export const getServerSideProps = async () => {
 
     return{
       props: {
-        expertsquads: experts
+        expertsquads: JSON.parse(JSON.stringify(expertsquads))
       }
     };
   }catch(error){
