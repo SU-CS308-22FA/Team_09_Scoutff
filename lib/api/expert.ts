@@ -69,6 +69,22 @@ export async function  getAllSquadOfExpert(expert : string) {
 }
 
 
+export async function createSquadOfExpert({weekNumber,expert,comment,players} : WeeklyMatchProps & {comment : string,players : string[]}) {
+
+    await mongooseConnection();
+
+    const  week = `week${weekNumber}`;
+
+    await Expert.findByIdAndUpdate(expert,{
+        $set : {
+            [`weeklySquads.${week}.comment`] : comment,
+            [`weeklySquads.${week}.players`] : players
+        }
+    })
+
+}
+
+
 
 
 export async function getSquadOfWeek({weekNumber,expert} : WeeklyMatchProps) {
@@ -91,9 +107,11 @@ export async function getSquadOfWeek({weekNumber,expert} : WeeklyMatchProps) {
 
     const teams = weeklyTeam?.weeklySquads as unknown as WeeklyMatchRecord
 
+    if (!teams) return null;
+
     const team = teams[week];
 
-    console.log(teams);
+    if (!team) return null;
 
 
     const teamWithFootballPositions = team.players?.map((player,index) => {
