@@ -49,6 +49,7 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
 
     const [expert, setExpert] = useState(experts[0]);
 
+
     const [squads, setSquads] = useState<WeeklyMatchRecord | null>(null);
 
     const [squad, setSquad] = useState<SingleMatchRecord| null>(null);
@@ -74,14 +75,14 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
 
         
     }, [expert]);
-
+  
     useEffect(() => {
        if (squads) {
             //get first key of map
 
             const result = squads[Object.keys(squads)[0]];
 
-
+            console.log(Object.keys(squads));
             
 
             setSquad(result ?? null);
@@ -99,7 +100,12 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
     const handleExpertChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setExpert(experts[parseInt(event.target.value)]);
     }
-
+    const handleWeekChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      if (squads){
+        console.log(event.target.value);
+        setSquad(squads[event.target.value]);
+      }
+    }
 
 
 
@@ -134,7 +140,7 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
             overflow={'hidden'}>
             <VStack spacing={5} alignItems={"left"}>
             
-
+<HStack>
             <Select 
                 variant="filled"
                 onChange={handleExpertChange}
@@ -144,6 +150,16 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
                 ))}
 
             </Select>   
+            <Select 
+                variant="filled"
+                onChange={handleWeekChange}
+                width={"200px"}>
+                {Object.keys(squads??{}).map((obj,index) => (
+                    <option key={index} value={obj}>{obj}</option>
+                ))}
+
+            </Select>   
+            </HStack>
 
 
             {squad && (
