@@ -2,18 +2,44 @@ import mongooseConnection from "../mongoose"
 import Applyexpert, { IApplyexpert, IApplyexpert2 } from "../../models/Applyexpert";
 import console from "console";
 import { transporter } from "../email/emailData";
-import Player from "../../models/Player";
-import User from "../../models/User";
+import User, { IUser } from "../../models/User";
 export async function postrejectexpert(applyid : string): Promise<Boolean>
 {
     await mongooseConnection();
     
     try {
-    await Applyexpert.findByIdAndUpdate(applyid,{
+
+
+
+    const application = await Applyexpert.findById(applyid).populate("user")
+
+
+
+    //if it is not pending, return false
+    if(application?.status !== "pending" || !application.user)
+    {
+        return false
+    }
+
+    const user = application.user as IUser
+
+    const email = user.email
+
+
+    await application.updateOne({
         status : "rejected"
+    })
+
+
+
+    const info = transporter.sendMail({
+        from : '"Scoutff Football" <bisiler@scoutff.com>',
+        to : email,
+        subject : "Your expert application is rejected",
+        text : "Your application is rejected. Please try again later."
         
-    } )
-    
+    })
+
     return true
     }
     catch(err)
@@ -21,16 +47,32 @@ export async function postrejectexpert(applyid : string): Promise<Boolean>
         return false
     }
 }
-export async function postacceptexpert(applyid : string, email: string): Promise<Boolean>
+export async function postacceptexpert(applyid : string): Promise<Boolean>
 {
-    console.log(email)
     await mongooseConnection();
     
     try {
-    await Applyexpert.findByIdAndUpdate(applyid,{
+
+
+    const application = await Applyexpert.findById(applyid).populate("user")
+
+    //if it is not pending, return false
+    if(application?.status !== "pending" || !application.user)
+    {
+        return false
+    }
+
+
+
+    const user = application.user as IUser
+
+    const email = user.email    
+
+    await application.updateOne({
         status : "accepted"
-        
-    } )
+    })
+    
+
     
     await User.findOneAndUpdate({email}, {
         role : "commentator" , weeklySquads : {}

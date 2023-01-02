@@ -16,23 +16,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const decision = req.body.decision
         const applyid = req.query.id
-        const email = req.body.email
+
+        let successfullDecision;
 
         if (!applyid) return res.status(400).json({ message: "Enter ApplyID" })
 
 
         if( decision === "rejected")
         {
-            const youarerejected = await postrejectexpert(applyid as string)
+            successfullDecision = await postrejectexpert(applyid as string)
         }
         else if( decision === "accepted")
         {
-            const youareaccepted = await postacceptexpert(applyid as string, email )
+            successfullDecision = await postacceptexpert(applyid as string )
         }
         else
         {
             return res.status(400).json({ message: "Wrong status" })
         }
+
+        if (!successfullDecision) return res.status(400).json({ message: "Something went wrong" })
 
         return res.status(200).json({message : "Successful change"})
     }
