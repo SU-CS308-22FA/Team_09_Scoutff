@@ -72,7 +72,19 @@ export default function SquadsUI({data, whichExpert} :  any) {
 
 const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:5,path:"name",query:"${graphqlQuery}"}) { name slug photo team{name logo} }}`;
 const [players, setPlayer] = useState<PlayerInterface[]>([]);
-const [loading, setLoading] = useState(false);
+const [loading1, setLoading1] = useState(false);
+const [loading2, setLoading2] = useState(false);
+const [loading3, setLoading3] = useState(false);
+const [loading4, setLoading4] = useState(false);
+const [loading5, setLoading5] = useState(false);
+const [loading6, setLoading6] = useState(false);
+const [loading7, setLoading7] = useState(false);
+const [loading8, setLoading8] = useState(false);
+const [loading9, setLoading9] = useState(false);
+const [loading10, setLoading10] = useState(false);
+const [loading11, setLoading11] = useState(false);
+
+
 const client = useApolloClient();
 
 const [search1, setSearch1] = useState<string | null>(null);
@@ -82,14 +94,14 @@ const [focusedSearch1, setFocusedSearch1] = useState(false);
 useEffect(() => {
     // search the api
     async function fetchData() {
-      setLoading(true);  
+      setLoading1(true);  
       setPlayer([]);
       const datas = await client.query({
         query: convertToQuery(debouncedSearch1),
       }) 
       console.log(datas);
       setPlayer(datas.data.playerSearch);
-      setLoading(false);
+      setLoading1(false);
     }
     if (debouncedSearch1) fetchData();
   }, [debouncedSearch1,client]);
@@ -102,14 +114,14 @@ const [focusedSearch2, setFocusedSearch2] = useState(false);
 useEffect(() => {
     // search the api
     async function fetchData() {
-      setLoading(true);  
+      setLoading2(true);  
       setPlayer([]);
       const datas = await client.query({
         query: convertToQuery(debouncedSearch2),
       }) 
       console.log(datas);
       setPlayer(datas.data.playerSearch);
-      setLoading(false);
+      setLoading2(false);
     }
     if (debouncedSearch2) fetchData();
   }, [debouncedSearch2,client]);
@@ -122,14 +134,14 @@ useEffect(() => {
   useEffect(() => {
       // search the api
       async function fetchData() {
-        setLoading(true);  
+        setLoading3(true);  
         setPlayer([]);
         const datas = await client.query({
           query: convertToQuery(debouncedSearch3),
         }) 
         console.log(datas);
         setPlayer(datas.data.playerSearch);
-        setLoading(false);
+        setLoading3(false);
       }
       if (debouncedSearch3) fetchData();
     }, [debouncedSearch3,client]);
@@ -141,14 +153,14 @@ useEffect(() => {
     useEffect(() => {
         // search the api
         async function fetchData() {
-          setLoading(true);  
+          setLoading4(true);  
           setPlayer([]);
           const datas = await client.query({
             query: convertToQuery(debouncedSearch4),
           }) 
           console.log(datas);
           setPlayer(datas.data.playerSearch);
-          setLoading(false);
+          setLoading4(false);
         }
         if (debouncedSearch4) fetchData();
       }, [debouncedSearch4,client]);
@@ -161,14 +173,14 @@ useEffect(() => {
       useEffect(() => {
           // search the api
           async function fetchData() {
-            setLoading(true);  
+            setLoading5(true);  
             setPlayer([]);
             const datas = await client.query({
               query: convertToQuery(debouncedSearch5),
             }) 
             console.log(datas);
             setPlayer(datas.data.playerSearch);
-            setLoading(false);
+            setLoading5(false);
           }
           if (debouncedSearch5) fetchData();
         }, [debouncedSearch5,client]);
@@ -181,14 +193,14 @@ useEffect(() => {
         useEffect(() => {
             // search the api
             async function fetchData() {
-              setLoading(true);  
+              setLoading6(true);  
               setPlayer([]);
               const datas = await client.query({
                 query: convertToQuery(debouncedSearch6),
               }) 
               console.log(datas);
               setPlayer(datas.data.playerSearch);
-              setLoading(false);
+              setLoading6(false);
             }
             if (debouncedSearch6) fetchData();
           }, [debouncedSearch6,client]);
@@ -200,14 +212,14 @@ useEffect(() => {
           useEffect(() => {
               // search the api
               async function fetchData() {
-                setLoading(true);  
+                setLoading7(true);  
                 setPlayer([]);
                 const datas = await client.query({
                   query: convertToQuery(debouncedSearch7),
                 }) 
                 console.log(datas);
                 setPlayer(datas.data.playerSearch);
-                setLoading(false);
+                setLoading7(false);
               }
               if (debouncedSearch7) fetchData();
             }, [debouncedSearch7,client]);
@@ -220,14 +232,14 @@ useEffect(() => {
             useEffect(() => {
                 // search the api
                 async function fetchData() {
-                  setLoading(true);  
+                  setLoading8(true);  
                   setPlayer([]);
                   const datas = await client.query({
                     query: convertToQuery(debouncedSearch8),
                   }) 
                   console.log(datas);
                   setPlayer(datas.data.playerSearch);
-                  setLoading(false);
+                  setLoading8(false);
                 }
                 if (debouncedSearch8) fetchData();
               }, [debouncedSearch8,client]);
@@ -239,14 +251,14 @@ useEffect(() => {
               useEffect(() => {
                   // search the api
                   async function fetchData() {
-                    setLoading(true);  
+                    setLoading9(true);  
                     setPlayer([]);
                     const datas = await client.query({
                       query: convertToQuery(debouncedSearch9),
                     }) 
                     console.log(datas);
                     setPlayer(datas.data.playerSearch);
-                    setLoading(false);
+                    setLoading9(false);
                   }
                   if (debouncedSearch9) fetchData();
                 }, [debouncedSearch9,client]);
@@ -258,14 +270,14 @@ useEffect(() => {
                 useEffect(() => {
                     // search the api
                     async function fetchData() {
-                      setLoading(true);  
+                      setLoading10(true);  
                       setPlayer([]);
                       const datas = await client.query({
                         query: convertToQuery(debouncedSearch10),
                       }) 
                       console.log(datas);
                       setPlayer(datas.data.playerSearch);
-                      setLoading(false);
+                      setLoading10(false);
                     }
                     if (debouncedSearch10) fetchData();
                   }, [debouncedSearch10,client]);                
@@ -278,14 +290,14 @@ useEffect(() => {
                   useEffect(() => {
                       // search the api
                       async function fetchData() {
-                        setLoading(true);  
+                        setLoading11(true);  
                         setPlayer([]);
                         const datas = await client.query({
                           query: convertToQuery(debouncedSearch11),
                         }) 
                         console.log(datas);
                         setPlayer(datas.data.playerSearch);
-                        setLoading(false);
+                        setLoading11(false);
                       }
                       if (debouncedSearch11) fetchData();
                     }, [debouncedSearch11,client]);
@@ -501,7 +513,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading1 && <Spinner />}
               </HStack>
 
 
@@ -581,7 +593,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading2 && <Spinner />}
               </HStack>
 
 
@@ -656,7 +668,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading3 && <Spinner />}
               </HStack>
 
 
@@ -730,7 +742,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading4 && <Spinner />}
               </HStack>
 
 
@@ -807,7 +819,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading5 && <Spinner />}
               </HStack>
 
 
@@ -882,7 +894,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading6 && <Spinner />}
               </HStack>
 
 
@@ -979,7 +991,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading7 && <Spinner />}
               </HStack>
 
 
@@ -1080,7 +1092,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading8 && <Spinner />}
               </HStack>
 
 
@@ -1183,7 +1195,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading9 && <Spinner />}
               </HStack>
 
 
@@ -1270,7 +1282,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading10 && <Spinner />}
               </HStack>
 
 
@@ -1376,7 +1388,7 @@ useEffect(() => {
                 />
                   </InputGroup>
 
-              {loading && <Spinner />}
+              {loading11 && <Spinner />}
               </HStack>
 
 
