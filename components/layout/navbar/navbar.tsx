@@ -82,6 +82,12 @@ const dropdownLink5 = [
     path: "/customsquads",
   },
 ];
+const dropdownLink6 = [
+  {
+    name:"Squads Showcase" ,
+    path: "/squads_showcase",
+  },
+];
 const buttonLink = [
   {
     name:"Favourite Players 🌟" ,
@@ -240,6 +246,19 @@ export default function Navbar(props : any) {
                     ))}
         {dropdownLink5.map(({ name, path }) => (
                       <NavLink key={path} path={path}>
+                            <MenuItem >
+                          <HStack
+                          as={"nav"}
+                          spacing={4}
+                          display={{ base: "none", md: "flex" }}
+                          >
+                          </HStack>
+                          {name}
+                        </MenuItem>
+                      </NavLink>
+                    ))}
+                          {dropdownLink6.map(({ name, path }) => (
+                    <NavLink key={path} path={path}>
                             <MenuItem >
                           <HStack
                           as={"nav"}
