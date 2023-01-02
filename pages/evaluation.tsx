@@ -15,14 +15,7 @@ import {   Box,
     useColorModeValue,
     Th,
     Container,
-    Center,
-    useDisclosure,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalCloseButton,
-    ModalBody,
-    Modal} from "@chakra-ui/react";
+    Center} from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -40,10 +33,9 @@ import axios from "axios";
 export default function Evaluation({csrfToken, applications2}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   
   const [applications, setapplications] = useState<Array<IApplyexpert> | undefined>(applications2)
-  const [comm, setcomm] = useState<string | undefined>()
 
   console.log(applications)
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  
   return (
     
     <Flex
@@ -52,7 +44,7 @@ export default function Evaluation({csrfToken, applications2}: InferGetServerSid
     justify={'center'}
     paddingBottom={"150px"}
     bg={useColorModeValue('gray.100', 'gray.800')}>  
-  <Box  p="4" w="1050px" mx="auto" textAlign="center" rounded="2xl" boxShadow="md" bgColor="white" >
+  <Box  p="4" w="850px" mx="auto" textAlign="center" rounded="2xl" boxShadow="md" bgColor="white" >
    <TableContainer>
     <Table>
       <Thead>
@@ -60,27 +52,16 @@ export default function Evaluation({csrfToken, applications2}: InferGetServerSid
           
           <Th fontWeight="bold"><Center>Applicant Name</Center></Th>
           <Th fontWeight="bold"><Center>Email</Center></Th>
+          
           <Th fontWeight="bold"> <Center>Actions</Center></Th>
           
         </Tr>
       </Thead>
       <Tbody>
        { applications && applications.length ?
-       <><Modal isOpen = {isOpen} onClose ={onClose}>
-       <ModalOverlay/>
-       <ModalContent>
-         <ModalHeader>
-           <ModalCloseButton/>
-         </ModalHeader>
-         <ModalBody>
-           <Center>
-             {comm?? <Center>No information provided.</Center>}
-           </Center>
-         </ModalBody>
-       </ModalContent>
-     </Modal>
+       <>
         
-          {applications.map((app: { firstname: string, lastname: string, email: string, pdf: string, _id?: string, bio:string}, index: number) => (
+          {applications.map((app: { firstname: string, lastname: string, email: string, pdf: string, _id?: string}, index: number) => (
           
           
             <Tr key={app._id}>
@@ -88,15 +69,7 @@ export default function Evaluation({csrfToken, applications2}: InferGetServerSid
               <Td>{app.email}</Td>
              
             
-              <Button colorScheme="green" mr={2} onClick={async ()=> {
-                    await axios.post(`/api/evaluateexpert/${app._id!}`, {decision : "accepted", email : app.email}).then(
-                      ()=>{
-                            setapplications(temp=> temp?.filter(tempapp => tempapp._id !== app._id!) )
-                      }
-                    )
-              }
-              
-              }  >
+              <Button colorScheme="green" mr={2} /* this should send informative email on click and also change status pending->accepted*/ >
                 Accept 
               </Button>
               <Button colorScheme="red" mr={2} onClick={async ()=> {
@@ -110,21 +83,12 @@ export default function Evaluation({csrfToken, applications2}: InferGetServerSid
               }  >
                 Reject
               </Button>
-              <Button colorScheme="blue" mr={2} onClick={()=>{
+              <Button colorScheme="blue"  onClick={()=>{
                     window.open(app.pdf, "_blank")
               }}>
               Preview Document
               </Button>
-              <Button bg="black" textColor={"white"} onClick={()=>
-                {
-                  setcomm(app.bio)
-                  onOpen()
-                }}>
-              See Comments
-              </Button>
-              
             </Tr>
-            
           ))}
         </>
         :
