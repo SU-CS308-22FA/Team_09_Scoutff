@@ -23,10 +23,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log("POST")
         const pdf = req.body.pdf
         const bio = req.body.bio
+
+        const user = await getToken({ req })
+
+        const email = user?.email
         const status = "pending"
         
         let pdfLink
-        const email = req.body.email
 
         invariant(email, "Email cannot be empty")
         invariant(pdf, "File cannot be empty")

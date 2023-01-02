@@ -18,7 +18,10 @@ export async function getApplyexpert(): Promise<IApplyexpert[]> {
 
     const applyexperts = await Applyexpert.find({
         status  : "pending"
-    }).populate("user").lean();
+    }).populate("user","-_id email name ").lean();
+
+
+    
 
     return applyexperts;
 

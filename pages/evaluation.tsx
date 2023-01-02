@@ -155,6 +155,9 @@ export const getServerSideProps  = async (context : GetServerSidePropsContext<Pa
   //console.log(applications2)
 
   applications2.forEach(element => {element._id = element._id!.toString()})
+
+
+  console.log(applications2)
     
 
   
