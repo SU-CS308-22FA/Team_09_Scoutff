@@ -19,7 +19,8 @@ import {
   LinkBox,
   LinkOverlay,
   Spinner,
-  Link
+  Link,
+  Textarea
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import ExpertSquad from "../../../models/Expertsquads";
@@ -305,8 +306,17 @@ useEffect(() => {
 
 
 
-
-
+  const [tempSt, setTempSt] = useState('');
+  const [tempLw, setTempLw] = useState('');
+  const [tempCam, setTempCam] = useState('');
+  const [tempRw, setTempRw] = useState('');
+  const [tempLcm, setTempLcm] = useState('');
+  const [tempRcm, setTempRcm] = useState('');
+  const [tempLb, setTempLb] = useState('');
+  const [tempLcb, setTempLcb] = useState('');
+  const [tempRcb, setTempRcb] = useState('');
+  const [tempRb, setTempRb] = useState('');
+  const [tempGk, setTempGk] = useState('');
 
 
 
@@ -473,16 +483,17 @@ useEffect(() => {
         <Center marginTop='10px' fontSize='20px'>
           <VStack>
             
-            <Image boxSize='40px' src={data?.stphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.stslug}`}>{data?.st}</Link>
-              
+            <Image boxSize='35px' src={data?.stphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.stslug}`}>{data?.st}</Link>
+              <Text fontSize="10px">{tempSt}</Text>
               <div onFocus={ () => setFocusedSearch1(true)} onBlur={() => setTimeout(() => setFocusedSearch1(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                   <Input placeholder="Search" 
+                   <Input
+                  placeholder="Search" 
                 _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
@@ -499,7 +510,7 @@ useEffect(() => {
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox  zIndex={900} key={player.slug}
+                        <LinkBox zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
@@ -523,7 +534,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setStName(player.name); setStPhoto(player.photo); setStSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempSt(`🔃 `+player.name);setStName(player.name); setStPhoto(player.photo); setStSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -552,16 +563,17 @@ useEffect(() => {
         <Center marginTop='1px' fontSize='20px'>
          
           <VStack>
-          <Image boxSize='40px' src={data?.lwphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lwslug}`}>{data?.lw}</Link>
-              
+          <Image boxSize='35px' src={data?.lwphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.lwslug}`}>{data?.lw}</Link>
+              <Text fontSize="10px">{tempLw}</Text>
               <div onFocus={ () => setFocusedSearch2(true)} onBlur={() => setTimeout(() => setFocusedSearch2(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
                   <InputLeftElement>
                   <SearchIcon/>
                   </InputLeftElement>
-                   <Input placeholder="Search" 
+                   <Input 
+                   placeholder="Search" 
                 _placeholder={{ color: 'blue.100' }}
                 type= "search"
                 colorScheme="teal" 
@@ -578,7 +590,7 @@ useEffect(() => {
                 {players.map((player) => {
                       return (
                   
-                        <LinkBox  zIndex={900} key={player.slug}
+                        <LinkBox zIndex={900} key={player.slug}
                       
                         backgroundColor="Background"
                         width= "250px"
@@ -602,7 +614,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setLwName(player.name); setLwPhoto(player.photo); setLwSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempLw(`🔃 `+player.name);setLwName(player.name); setLwPhoto(player.photo); setLwSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -627,9 +639,9 @@ useEffect(() => {
           <VStack  marginX='100px'>
             <VStack>
               
-              <Image boxSize='40px' src={data?.camphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.camslug}`}>{data?.cam}</Link>
-              
+              <Image boxSize='35px' src={data?.camphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.camslug}`}>{data?.cam}</Link>
+              <Text fontSize="10px">{tempCam}</Text>
               <div onFocus={ () => setFocusedSearch3(true)} onBlur={() => setTimeout(() => setFocusedSearch3(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
@@ -677,7 +689,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setCamName(player.name); setCamPhoto(player.photo); setCamSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempCam(`🔃 `+player.name);setCamName(player.name); setCamPhoto(player.photo); setCamSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -701,9 +713,9 @@ useEffect(() => {
 
           <VStack>
             
-            <Image boxSize='40px' src={data?.rwphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rwslug}`}>{data?.rw}</Link>
-              
+            <Image boxSize='35px' src={data?.rwphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.rwslug}`}>{data?.rw}</Link>
+              <Text fontSize="10px">{tempRw}</Text>
               <div onFocus={ () => setFocusedSearch4(true)} onBlur={() => setTimeout(() => setFocusedSearch4(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
@@ -751,7 +763,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setRwName(player.name); setRwPhoto(player.photo); setRwSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempRw(`🔃 `+player.name);setRwName(player.name); setRwPhoto(player.photo); setRwSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -778,9 +790,9 @@ useEffect(() => {
         <Center marginTop='1px' fontSize='20px'>
           <VStack marginRight='50px'>
             <VStack>
-              <Image boxSize='40px' src={data?.lcmphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lcmslug}`}>{data?.lcm}</Link>
-              
+              <Image boxSize='35px' src={data?.lcmphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.lcmslug}`}>{data?.lcm}</Link>
+              <Text fontSize="10px">{tempLcm}</Text>
               <div onFocus={ () => setFocusedSearch5(true)} onBlur={() => setTimeout(() => setFocusedSearch5(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
@@ -828,7 +840,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setLcmName(player.name); setLcmPhoto(player.photo); setLcmSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempLcm(`🔃 `+player.name);setLcmName(player.name); setLcmPhoto(player.photo); setLcmSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -853,9 +865,9 @@ useEffect(() => {
           <VStack  marginLeft='50px'>
             <VStack>
               
-              <Image boxSize='40px' src={data?.rcmphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rcmslug}`}>{data?.rcm}</Link>
-              
+              <Image boxSize='35px' src={data?.rcmphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.rcmslug}`}>{data?.rcm}</Link>
+              <Text fontSize="10px">{tempRcm}</Text>
               <div onFocus={ () => setFocusedSearch6(true)} onBlur={() => setTimeout(() => setFocusedSearch6(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
@@ -903,7 +915,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setRcmName(player.name); setRcmPhoto(player.photo); setRcmSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempRcm(`🔃 `+player.name);setRcmName(player.name); setRcmPhoto(player.photo); setRcmSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -950,9 +962,9 @@ useEffect(() => {
 
 
 
-              <Image boxSize='40px' src={data?.lbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lbslug}`}>{data?.lb}</Link>
-              
+              <Image boxSize='35px' src={data?.lbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.lbslug}`}>{data?.lb}</Link>
+              <Text fontSize="10px">{tempLb}</Text>
               <div onFocus={ () => setFocusedSearch7(true)} onBlur={() => setTimeout(() => setFocusedSearch7(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
@@ -1000,7 +1012,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setLbName(player.name); setLbPhoto(player.photo); setLbSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempLb(`🔃 `+player.name);setLbName(player.name); setLbPhoto(player.photo); setLbSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -1051,9 +1063,9 @@ useEffect(() => {
               
               
               
-              <Image boxSize='40px' src={data?.lcbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.lcbslug}`}>{data?.lcb}</Link>
-              
+              <Image boxSize='35px' src={data?.lcbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.lcbslug}`}>{data?.lcb}</Link>
+              <Text fontSize="10px">{tempLcb}</Text>
               <div onFocus={ () => setFocusedSearch8(true)} onBlur={() => setTimeout(() => setFocusedSearch8(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
@@ -1101,7 +1113,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setLcbName(player.name); setLcbPhoto(player.photo); setLcbSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempLcb(`🔃 `+player.name);setLcbName(player.name); setLcbPhoto(player.photo); setLcbSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -1154,9 +1166,9 @@ useEffect(() => {
 
 
 
-              <Image boxSize='40px' src={data?.rcbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rcbslug}`}>{data?.rcb}</Link>
-              
+              <Image boxSize='35px' src={data?.rcbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.rcbslug}`}>{data?.rcb}</Link>
+              <Text fontSize="10px">{tempRcb}</Text>
               <div onFocus={ () => setFocusedSearch9(true)} onBlur={() => setTimeout(() => setFocusedSearch9(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
@@ -1204,7 +1216,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setRcbName(player.name); setRcbPhoto(player.photo); setRcbSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempRcb(`🔃 `+player.name);setRcbName(player.name); setRcbPhoto(player.photo); setRcbSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -1241,9 +1253,9 @@ useEffect(() => {
 
 
 
-              <Image boxSize='40px' src={data?.rbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.rbslug}`}>{data?.rb}</Link>
-              
+              <Image boxSize='35px' src={data?.rbphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.rbslug}`}>{data?.rb}</Link>
+              <Text fontSize="10px">{tempRb}</Text>
               <div onFocus={ () => setFocusedSearch10(true)} onBlur={() => setTimeout(() => setFocusedSearch10(false),100)}>
                 <HStack zIndex={200}  >
                   <InputGroup>
@@ -1291,7 +1303,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setRbName(player.name); setRbPhoto(player.photo); setRbSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempRb(`🔃 `+player.name);setRbName(player.name); setRbPhoto(player.photo); setRbSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
@@ -1346,8 +1358,9 @@ useEffect(() => {
 
 
 
-              <Image boxSize='40px' src={data?.gkphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='15px' href={`/player_profile/${data?.gkslug}`}>{data?.gk}</Link>
+              <Image boxSize='35px' src={data?.gkphoto} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${data?.gkslug}`}>{data?.gk}</Link>
+              <Text fontSize="10px">{tempGk}</Text>
               
               <div onFocus={ () => setFocusedSearch11(true)} onBlur={() => setTimeout(() => setFocusedSearch11(false),100)}>
                 <HStack zIndex={200}  >
@@ -1396,7 +1409,7 @@ useEffect(() => {
                             />
                           
                           <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {setGkName(player.name); setGkPhoto(player.photo); setGkSlug(player.slug);}} size='sm'>
+                            <Button zIndex={600} onClick={()=> {setTempGk(`🔃 `+player.name);setGkName(player.name); setGkPhoto(player.photo); setGkSlug(player.slug);}} size='sm'>
                               {player.name}
                             </Button>
                   
