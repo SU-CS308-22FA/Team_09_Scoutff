@@ -21,7 +21,7 @@ export const handleReportMail = async (res : NextApiResponse)  => {
 
 async function handler (_req : NextApiRequest, res : NextApiResponse) {
 
-    await handleReportMail(res)
+    return await handleReportMail(res)
 
 
   

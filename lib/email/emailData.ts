@@ -230,7 +230,7 @@ export async  function generateWeeklyReports() {
     await mongooseConnection();
 
 
-    const weeklyMatches = await findMatchesBetweenDates(new Date("2022-11-4"),new Date("2022-11-12"));
+    const weeklyMatches = await findMatchesBetweenDates(new Date("2022-12-26"),new Date("2023-01-01"));
 
     const weeklyPlayerData = await getThisWeekPlayerData(weeklyMatches);
 
@@ -266,7 +266,6 @@ export async  function generateWeeklyReports() {
 
     userWithLikedPlayers.forEach((user) => {
 
-        console.log(user)
         const likedPlayers = user.likedPlayers.map((player) => player._id.toString());
 
 
