@@ -61,7 +61,6 @@ sportAPI.interceptors.request.use((config :AxiosRequestConfig) => {
 sportAPI.interceptors.response.use((response : AxiosResponse)  => {
     return response;
 }, (error : AxiosError) => {
-    console.log(error?.response?.data,"error");
     if (error?.response?.status === 429) {
 
 
@@ -69,7 +68,6 @@ sportAPI.interceptors.response.use((response : AxiosResponse)  => {
 
         //get headers from error.request
 
-        console.log(error?.config?.data,"error config data");
 
 
 

@@ -3,14 +3,12 @@ import { Button } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
-import HomeCompIndex from "../components/home/ui";
-import Navbar from "../components/layout/navbar/navbar";
+
 import SquadsCompIndex from "../components/squads/ui";
 import dbConnect from "../lib/mongoose";
 import ExpertSquad from "../models/Expertsquads";
-import { InferGetServerSidePropsType } from "next";
+import Expert from "../models/Expert";
+import { getSquadOfWeek } from "../lib/api/expert";
 
 export default function Home({expertsquads} : any) {
   return (
@@ -31,20 +29,40 @@ export default function Home({expertsquads} : any) {
 
 export const getServerSideProps = async () => {
   try{
-    console.log('connecting to mongo')
     await dbConnect()
-    console.log('connected to mongo')
 
-    console.log('Fetching document')
-    const expertsquads = await ExpertSquad.find().sort({$natural: -1 })
-    console.log('Fetched document')
+    const experts = await Expert.find({}).select("name _id").lean();
+
+    experts.forEach((expert) => {
+      expert._id = expert._id.toString();
+
+    });
+    
+
+    await Promise.all(experts.map(async (expert) => {
+      const squad = await getSquadOfWeek({weekNumber : 1,expert: expert._id});
+    }))
+
+
+    
+
+
+
+    
+
+    
+
+    
+  
+  
 
     return{
       props: {
-        expertsquads: JSON.parse(JSON.stringify(expertsquads))
+        expertsquads: experts
       }
     };
   }catch(error){
+    console.log(error);
     console.log("ERROR");
 
     return{notFound: true,}

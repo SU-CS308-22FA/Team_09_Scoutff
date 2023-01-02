@@ -266,6 +266,7 @@ export async  function generateWeeklyReports() {
 
     userWithLikedPlayers.forEach((user) => {
 
+        console.log(user)
         const likedPlayers = user.likedPlayers.map((player) => player._id.toString());
 
 

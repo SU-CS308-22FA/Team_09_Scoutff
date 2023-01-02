@@ -3,7 +3,7 @@ import { verifySignature } from "@upstash/qstash/nextjs";
 import {generateWeeklyReports} from "../../lib/email/emailData";
 import dbConnect from "../../lib/mongoose";
 
-async function handler (_req : NextApiRequest, res : NextApiResponse) {
+export const handleReportMail = async (res : NextApiResponse)  => {
 
     try {
         await dbConnect()
@@ -17,13 +17,21 @@ async function handler (_req : NextApiRequest, res : NextApiResponse) {
         console.log(e)
         return res.status(500).json({message : "Something went wrong"})
     }
+}
+
+async function handler (_req : NextApiRequest, res : NextApiResponse) {
+
+    await handleReportMail(res)
+
 
   
 
 
 }
 
-export default verifySignature(handler);
+
+export default verifySignature(handler) 
+
 
 export const config = {
     api: {

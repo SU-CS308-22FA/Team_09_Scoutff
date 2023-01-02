@@ -23,6 +23,8 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import Link from "next/link";
@@ -34,6 +36,7 @@ import useDebounce from  "../../../hook/useDebounce";
 import SearchBar from "../../../pages/search";
 import { getToken } from "next-auth/jwt";
 import router, { useRouter } from "next/router";
+import axios from "axios";
 //import React from "react";
 // const Links = ["Dashboard", "Projects", "Team"];
 const Links = [
@@ -121,6 +124,8 @@ const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
 );
 
 export default function Navbar(props : any) {
+
+  const toast = useToast();
   const client = useApolloClient();
 
   const router = useRouter();
@@ -188,10 +193,46 @@ export default function Navbar(props : any) {
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth='1px'>Administration</DrawerHeader>
           <DrawerBody>
+
+            <VStack spacing={10}>
             <Button onClick={() =>{
               onClose()
                router.push('/evaluation')
                }} > Evaluate Applications </Button>
+
+          <Button onClick={() =>{
+                toast({
+                  title: "Weekly Reports tried",
+                  description: "We've tried  the weekly reports to all the users",
+                  status: "info",
+                  duration: 2000,
+                  isClosable: true,
+                })
+                 axios.post('/api/manual').then((res) => {
+                  toast({
+                    title: "Weekly Reports sent",
+                    description: "We've sent the weekly reports to all the users",
+                    status: "success",
+                    duration: 2000,
+                    isClosable: true,
+                  })
+                }).catch((err) => {
+                  toast({
+                    title: "Weekly Reports failed",
+                    description: "We've failed to send the weekly reports to all the users",
+                    status: "error",
+                    duration: 2000,
+                    isClosable: true,
+                  })
+                })
+                
+
+                
+               
+               }} > Send Weekly Reports
+              </Button>
+            </VStack>
+
           </DrawerBody>
         </DrawerContent>
       </Drawer>
