@@ -3,6 +3,7 @@ import { TeamInterface } from "./TeamInterface";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 export interface PlayerInterface {
+    footballPosition ?: string;
     _id : string;
     id: number;
     slug : string;
