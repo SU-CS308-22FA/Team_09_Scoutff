@@ -70,7 +70,9 @@ export default async function handler (_req : NextApiRequest, res : NextApiRespo
         const user = await getToken({req : _req, secret : process.env.JWT_SECRET})
         
 
-        if (user?.sub !== pid || user?.role !== "admin") {
+
+
+        if (user?.sub !== pid && user?.role !== "admin") {
             return res.status(401).json({message : "Unauthorized"})
         }
 
@@ -88,6 +90,8 @@ export default async function handler (_req : NextApiRequest, res : NextApiRespo
             players : members
         })
         
+
+        return res.status(200).json({message : "Success"})
 
 
 

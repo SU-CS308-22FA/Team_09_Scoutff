@@ -44,12 +44,28 @@ export async function  getAllSquadOfExpert(expert : string) {
     }).lean();
 
 
-    Object.values(allSquads?.weeklySquads ?? {}).forEach((week) => {
+/*     Object.values(allSquads?.weeklySquads ?? {}).forEach((week) => {
         week.players?.forEach((player,index) => {
             player.footballPosition = indexToFootballPosition11Players[index];
         })
         delete week._id;
     })
+ */
+
+
+    Object.values(allSquads?.weeklySquads ?? {}).forEach((week) => {
+       
+        week.players = (week.players).map((player,index) => {
+            return {
+                ...player,
+                footballPosition : indexToFootballPosition11Players[index]
+            }
+        })
+        delete week._id;
+    })
+
+
+
 
 
 

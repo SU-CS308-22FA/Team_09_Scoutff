@@ -22,6 +22,10 @@ type Props = {
 
   export default function RealShowcaseUI({players,name,comment} : Props) {  
 
+    console.log(players)
+
+
+
     const playerByPos = useCallback((footballPosition : string) => {
         return players.find(player => player.footballPosition === footballPosition)
         
@@ -29,6 +33,7 @@ type Props = {
 
     const playerStack = useCallback((footballPosition : string) => {
         const player = playerByPos(footballPosition)
+        
 
         return (
             <VStack>

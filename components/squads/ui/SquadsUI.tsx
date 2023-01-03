@@ -63,7 +63,7 @@ type FormValues = {
 
 export default function SquadsUI({squad, whichExpert} :  Props) {  
 
-const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:5,path:"name",query:"${graphqlQuery}"}) { name slug photo team{name logo} }}`;
+const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:5,path:"name",query:"${graphqlQuery}"}) { _id name slug photo team{name logo} }}`;
 
 
 
@@ -101,9 +101,23 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
 
     const {members, comment, week} = data;
 
+    console.log(members);
+
+    const indexToFootballPosition11Players = ["GK","LB","LCB","RCB","RB","LCM","RCM","CAM","LW","RW","ST"] as const;
+
+    
+    const orderedMembers = members.sort((a,b) => {
+      const indexA = indexToFootballPosition11Players.indexOf(a.footballPosition as any);
+      const indexB = indexToFootballPosition11Players.indexOf(b.footballPosition as any);
+      return indexA - indexB;
+    })
+
+    
+
+
 
     const res = await axios.post(`/api/expert/${whichExpert}/squads`,{
-      members : members.map((member) => member._id),
+      members : orderedMembers.map((member) => member._id),
       comment,
       week
     })
@@ -312,6 +326,10 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
 
         </Box>
         
+      </HStack>
+
+      <HStack>
+        <Button type={"submit"}>  Save</Button>
       </HStack>
 
       </VStack>
