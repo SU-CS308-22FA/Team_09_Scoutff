@@ -31,6 +31,7 @@ export default function Home({expertsquads} : InferGetServerSidePropsType<typeof
 
 export const getServerSideProps = async () => {
   try{
+
     await dbConnect()
 
     const experts = await Expert.find({}).limit(4).select("name _id").lean();

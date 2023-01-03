@@ -178,7 +178,11 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
       <Image boxSize='35px' src={item.photo} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
         <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${item.slug}`}>{item.name}</Link>
         
-        <div onFocus={ () => setFocus(index)} onBlur={() => setTimeout(() => {setFocus(-1); setFoundPlayers([]);},100)}>
+        <div onFocus={ () => setFocus(index)} onBlur={() => setTimeout(() => 
+            {setFocus(-1); 
+            setFoundPlayers([]);
+            setSearch(null);
+          },100)}>
 
           <HStack zIndex={200}  >
             <InputGroup>

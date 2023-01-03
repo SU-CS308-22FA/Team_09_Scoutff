@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import SquadsUI from "./SquadsUI";
 import { Text, Flex, VStack, HStack, Button } from "@chakra-ui/react";
 import { PlayerInterface } from "../../../interfaces/PlayerInterface";
@@ -26,31 +26,39 @@ const SquadsCompIndex = ({experts} :  Props) => {
 
 
 
-  let expertRow = [];
+
+  let expertRow = useMemo (() => {
+
+    let tempRow = [];
+    while (experts.length) {
+      tempRow.push(
+        <HStack key={experts.length} marginBottom='50px'>
+  
+          {experts.splice(0, 2).map((expert) => {
+  
+  
+            const isAuthor = (session?.data?.user?.id === expert._id) && session?.data?.user?.role === "commentator";
+            return (
+  
+              <VStack key={expert.name} marginRight='40px' pointerEvents={isAuthor ? "auto" : "none"}>
+                <Text fontSize='20px'>{expert?.name}</Text>
+                <SquadsUI isAuthor={isAuthor} squad={expert?.squad} whichExpert={expert._id}></SquadsUI>
+              </VStack>
+            );
+          })}
+  
+              
+  
+        </HStack>
+      );
+    }
+    return tempRow;
+  },[experts]);
 
 
-  while (experts.length) {
-    expertRow.push(
-      <HStack key={experts.length} marginBottom='50px'>
-
-        {experts.splice(0, 2).map((expert) => {
 
 
-          const isAuthor = (session?.data?.user?.id === expert._id) && session?.data?.user?.role === "commentator";
-          return (
 
-            <VStack key={expert.name} marginRight='40px' pointerEvents={isAuthor ? "auto" : "none"}>
-              <Text fontSize='20px'>{expert?.name}</Text>
-              <SquadsUI isAuthor={isAuthor} squad={expert?.squad} whichExpert={expert._id}></SquadsUI>
-            </VStack>
-          );
-        })}
-
-            
-
-      </HStack>
-    );
-  }
 
 
 
