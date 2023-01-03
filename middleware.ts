@@ -2,7 +2,6 @@
 const adminPaths = ["/evaluation","/api/manual"]
 
 
-export const config = { matcher: ["/profile",...adminPaths] }
 
 
 import { withAuth } from "next-auth/middleware";
@@ -15,10 +14,13 @@ export default withAuth({
       if (adminPaths.includes(req.nextUrl.pathname)) {
         return token?.role === "admin";
       }
+      
+
       return !!token;
     }
   },
 
+  
 
 
 
@@ -27,8 +29,12 @@ export default withAuth({
     signIn: "/auth/signin",
     
   },
+
   
 });
+
+export const config = { matcher: ["/profile","/evaluation","/api/manual"] }
+
 
 
 
