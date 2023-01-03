@@ -90,24 +90,25 @@ const SearchBar = () => {
 
 
   {focusedSearch &&  
-  <div style={{position:"absolute"}}>
+    <div style={{position: "absolute", zIndex: 998}}>
     {players.map((player) => {
           return (
       
             <LinkBox key={player.slug}
-          
-            backgroundColor="Background"
-            width= "250px"
-            maxHeight={70}
-            z-index= "30"
-                  rounded="lg"
-                  _hover={{
-                    color: "gray",
-                    transform: 'scale(1.05)',
-                    transition: 'all 0.5s ease',
-                    bg: 'rgba(0,0,0,0.1)',
-                  }}
-                  as="article" borderWidth='1px' >
+  backgroundColor="Background"
+  position={"relative"}
+  width= "250px"
+  maxHeight={70}
+  z-index= "999"
+  rounded="lg"
+  _hover={{
+    color: "gray",
+    transform: 'scale(1.05)',
+    transition: 'all 0.5s ease',
+    opacity: 0.8,
+  }}                  
+  as="article" borderWidth='1px' >
+
                
             <Flex key={player.slug} p={4} >
               
