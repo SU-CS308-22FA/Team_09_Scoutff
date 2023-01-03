@@ -67,10 +67,15 @@ export const authOptions :  NextAuthOptions = {
      
       if (!session.original || token.email !== session.user.email ) {
 
+        
+
 
         
 
         session.original = jwt.sign({email : token.email,role : token.role,sub : token.sub,aud : "football-uhuan"}, process.env.NEXTAUTH_SECRET!, {expiresIn: "30d"})
+
+
+        session.user.id = token.sub!
 
 
         session.user.role = token.role

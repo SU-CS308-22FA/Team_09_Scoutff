@@ -66,6 +66,7 @@ type FormValues = {
 
 export default function SquadsUI({isAuthor,squad, whichExpert} :  Props) {  
 
+
 const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:5,path:"name",query:"${graphqlQuery}"}) { _id name slug photo team{name logo} }}`;
 
 

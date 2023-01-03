@@ -28,18 +28,20 @@ const SquadsCompIndex = ({experts} :  Props) => {
 
   let expertRow = [];
 
+
   while (experts.length) {
     expertRow.push(
       <HStack key={experts.length} marginBottom='50px'>
 
         {experts.splice(0, 2).map((expert) => {
 
-          const isAuthor = session?.data?.user?.id === expert._id;
+
+          const isAuthor = (session?.data?.user?.id === expert._id) && session?.data?.user?.role === "commentator";
           return (
 
             <VStack key={expert.name} marginRight='40px' pointerEvents={isAuthor ? "auto" : "none"}>
               <Text fontSize='20px'>{expert?.name}</Text>
-              <SquadsUI squad={expert?.squad} whichExpert={expert._id}></SquadsUI>
+              <SquadsUI isAuthor={isAuthor} squad={expert?.squad} whichExpert={expert._id}></SquadsUI>
             </VStack>
           );
         })}
