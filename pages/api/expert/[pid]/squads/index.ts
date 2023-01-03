@@ -39,8 +39,10 @@ export default async function handler (_req : NextApiRequest, res : NextApiRespo
            
   
             if (!squads || Object.keys(squads).length  === 0) {
-                return res.status(404).json({message : "Squad not found"})
+                return  res.status(200).json(null)
             }
+
+
 
 
       

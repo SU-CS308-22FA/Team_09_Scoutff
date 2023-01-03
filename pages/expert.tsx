@@ -63,6 +63,7 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
             try{
             console.log(expert._id, "expert id");
             const result = await axios.get<WeeklyMatchRecord>(`/api/expert/${expert._id}/squads`);
+
            
             setSquads(result.data);
             }
@@ -94,6 +95,7 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
        }
        else
        {
+        console.log("no squad");
             setSquad(null);
        }
 
