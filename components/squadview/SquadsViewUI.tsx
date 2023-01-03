@@ -12,10 +12,12 @@ import {
   InputGroup,
   InputLeftElement,
   Link,
-
+  Text,
   LinkBox,
 
   Spinner,
+
+  Textarea,
 
   useToast, VStack,
 
@@ -169,7 +171,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
 
     <Flex>
       <VStack>
-      <Input {...register("comment")}  placeholder={"Enter a comment"} _placeholder={{ opacity: 1, color: 'grey.700' }} size='lg' />
+      <Input fontFamily = "sans-serif" fontSize="14px" border={0} readOnly={true} unselectable="on" {...register("comment")}  placeholder={"Enter a comment"} _placeholder={{ opacity: 1, color: 'grey.700' }} size='lg' />
       <HStack w='688px'>
         {/*https://images.saymedia-content.com/.image/t_share/MTc0MjQ3MjE5MTQxMDI3MzI0/positions-in-soccer-and-their-roles.png*/}
       <Box backgroundImage='https://pbs.twimg.com/media/DG9CaHdXYAEmLw5.jpg' 
