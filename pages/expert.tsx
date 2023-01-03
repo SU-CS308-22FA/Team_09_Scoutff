@@ -117,8 +117,8 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
   
   return (
     <Container maxW="container.xl" p={0}>
-    <Flex h="100vh" py={15}>
-      <><VStack w="half" h="full" p={10} spacing={10} alignItems="flex-start">
+    <Flex h="110vh" w="fit-content" py={15}>
+      <><VStack w="full" h="full" p={10} spacing={20} alignItems="flex-end">
         <HStack>
         <Image alt={"expertImage"} src={expert.image ?? "https://www.macfit.com.tr/wp-content/uploads/2022/09/PHOTO-2021-12-16-17-56-13.png"} borderRadius='full' boxSize='200px'/>
 

@@ -2,6 +2,7 @@ import React from "react";
 import SquadsUItwo from "./SquadsViewUI";
 import { Text, Flex, VStack, HStack, Button } from "@chakra-ui/react";
 import { PlayerInterface } from "../../interfaces/PlayerInterface";
+import Link from "next/link";
 
 type Props = {
   experts : Array<{
@@ -29,7 +30,9 @@ const SquadsCompIndexTwo = ({experts} :  Props) => {
         {experts.splice(0, 2).map((expert) => {
           return (
             <VStack key={expert.name} marginRight='40px'>
-              <Text fontSize='20px'>{expert?.name}</Text>
+              <Link href={'/squads'}>
+            {expert?.name}
+          </Link>
               <SquadsUItwo squad={expert?.squad} whichExpert={expert._id}></SquadsUItwo>
             </VStack>
           );
