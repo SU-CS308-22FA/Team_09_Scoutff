@@ -45,7 +45,7 @@ import axios from "axios";
               <UnorderedList fontSize='20px'>
                 <ListItem marginTop='20px'>What happens when I add a player to my favorites</ListItem>
                 <Text>You can receive emails about that player weekly</Text>  
-                <ListItem marginTop='20px'>Can I see leaderoards without creating an account?</ListItem>
+                <ListItem marginTop='20px'>Can I see leaderboards without creating an account?</ListItem>
                 <Text>Yes, guest users can examine leaderboards</Text> 
                 <ListItem marginTop='20px'>Which day of the week I get weekly reports?</ListItem>
                 <Text>You can get your weekly report on tuesdays.</Text>
