@@ -168,7 +168,7 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
                 onChange={handleWeekChange}
                 width={"200px"}>
                 {Object.keys(squads??{}).map((obj,index) => (
-                    <option key={index} value={obj}>{obj}</option>
+                    <option key={index} value={obj}>{obj.charAt(0).toUpperCase() + obj.slice(1, 4) + ' ' + obj.slice(4)}</option>
                 ))}
 
             </Select>   
