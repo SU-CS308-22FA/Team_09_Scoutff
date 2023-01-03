@@ -105,7 +105,6 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
 
     const {members, comment, week} = data;
 
-    console.log(members);
 
     const indexToFootballPosition11Players = ["GK","LB","LCB","RCB","RB","LCM","RCM","CAM","LW","RW","ST"] as const;
 
@@ -160,7 +159,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
         const datas = await client.query({
           query: convertToQuery(debouncedSearch),
         }) 
-        console.log(datas);
+        console.log(focus);
         setFoundPlayers(datas.data.playerSearch);
         setLoading(false);
       }
@@ -181,7 +180,6 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
         <div onFocus={ () => setFocus(index)} onBlur={()  => 
 
             {setFocus(-1); 
-              console.log("focus",focus);
             setFoundPlayers([]);
             setSearch(null);
           }} >
@@ -208,7 +206,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
         {focus === index && 
 
         <div style={{position:"absolute"}}>
-          {foundPlayers.map((player) => {
+          {foundPlayers.filter(player => player._id !== item._id) .map((player) => {
                 return (
             
                   <LinkBox   zIndex={900} key={player.slug}
@@ -236,6 +234,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
                     
                     <Flex direction="column" ml={4}>
                       <Button zIndex={600} onMouseDown={(e) => e.preventDefault()}  onClick={()=> {
+                        //clear 
                         update(index, {
                           _id: player._id,
                           name: player.name,
