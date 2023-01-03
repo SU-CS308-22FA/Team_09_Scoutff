@@ -47,6 +47,7 @@ type FormValues = {
     name : string;
     photo ?: string;
     slug : string;
+    footballPosition : string;
     team? : {
       name : string;
       logo : string;
@@ -63,6 +64,8 @@ type FormValues = {
 export default function SquadsUI({squad, whichExpert} :  Props) {  
 
 const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:5,path:"name",query:"${graphqlQuery}"}) { name slug photo team{name logo} }}`;
+
+
 
 
 
@@ -147,95 +150,100 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
     }, [debouncedSearch,client]);
 
   
-  const playerStack =  fields.map((item, index) => {
 
-    
+  
+  const playerStack =  fields.reduce((acc,item,index) => {
+    const temp =  (
+      <VStack key={item._id}>
+      
+      
+      <Image boxSize='35px' src={item.photo} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
+        <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${item.slug}`}>{item.name}</Link>
+        <div onFocus={ () => setFocus(index)} onBlur={() => setTimeout(() => setFocus(-1),100)}>
 
-          return (
-            <VStack key={item._id}>
+          <HStack zIndex={200}  >
+            <InputGroup>
+              <InputLeftElement>
+              <SearchIcon/>
+              </InputLeftElement>
+              <Input
+                  placeholder="Search" 
+                _placeholder={{ color: 'blue.100' }}
+                type= "search"
+                colorScheme="teal" 
+                onChange={(e) => setSearch(e.target.value)}
+                />
+            </InputGroup>
+
+            {loading && focus === index && <Spinner />}
+
+
+        </HStack>
+
+        {focus === index && 
+
+        <div style={{position:"absolute"}}>
+          {foundPlayers.map((player) => {
+                return (
             
-            
-            <Image boxSize='35px' src={item.photo} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
-              <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${item.slug}`}>{item.name}</Link>
-              <div onFocus={ () => setFocus(index)} onBlur={() => setTimeout(() => setFocus(-1),100)}>
-
-                <HStack zIndex={200}  >
-                  <InputGroup>
-                    <InputLeftElement>
-                    <SearchIcon/>
-                    </InputLeftElement>
-                    <Input
-                        placeholder="Search" 
-                      _placeholder={{ color: 'blue.100' }}
-                      type= "search"
-                      colorScheme="teal" 
-                      onChange={(e) => setSearch(e.target.value)}
+                  <LinkBox zIndex={900} key={player.slug}
+                
+                  backgroundColor="Background"
+                  width= "250px"
+                  maxHeight={70}
+                  
+                        rounded="lg"
+                        _hover={{
+                          color: "gray",
+                          transform: 'scale(1.05)',
+                          transition: 'all 0.5s ease',
+                          bg: 'gray.200',
+                        }}
+                        as="article" borderWidth='1px' >
+                    
+                  <Flex key={player.slug} p={4} >
+                    
+                      <Avatar
+                        src={player.photo}
+                        width="40px"
+                        height="40px"
                       />
-                  </InputGroup>
-
-                  {loading && focus === index && <Spinner />}
-
-
-              </HStack>
-
-              {focus === index && 
-
-              <div style={{position:"absolute"}}>
-                {foundPlayers.map((player) => {
-                      return (
-                  
-                        <LinkBox zIndex={900} key={player.slug}
-                      
-                        backgroundColor="Background"
-                        width= "250px"
-                        maxHeight={70}
-                        
-                              rounded="lg"
-                              _hover={{
-                                color: "gray",
-                                transform: 'scale(1.05)',
-                                transition: 'all 0.5s ease',
-                                bg: 'gray.200',
-                              }}
-                              as="article" borderWidth='1px' >
-                          
-                        <Flex key={player.slug} p={4} >
-                          
-                            <Avatar
-                              src={player.photo}
-                              width="40px"
-                              height="40px"
-                            />
-                          
-                          <Flex direction="column" ml={4}>
-                            <Button zIndex={600} onClick={()=> {
-                              update(index, {
-                                _id: player._id,
-                                name: player.name,
-                                photo: player.photo,
-                                slug: player.slug,
-                              })
-                            }}
-                            >
-                              {player.name}
-                            </Button>
-                  
-    
-                          </Flex>
-                        </Flex>
-                        </LinkBox>
-                      );
-
-                })}
-              
-              </div>
-              }
-                       
-              </div>
+                    
+                    <Flex direction="column" ml={4}>
+                      <Button zIndex={600} onClick={()=> {
+                        update(index, {
+                          _id: player._id,
+                          name: player.name,
+                          photo: player.photo,
+                          slug: player.slug,
+                          footballPosition: item.footballPosition
+                        })
+                      }}
+                      >
+                        {player.name}
+                      </Button>
             
-          </VStack> 
-          );
-        })
+
+                    </Flex>
+                  </Flex>
+                  </LinkBox>
+                );
+
+          })}
+        
+        </div>
+        }
+                 
+        </div>
+      
+    </VStack> 
+    );
+
+    acc.set(item.footballPosition,temp);
+
+    return acc;
+
+  },new Map<string,JSX.Element>())
       
     
 
@@ -257,47 +265,47 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
         h='746px' flex='1'> 
 
           <Center marginTop='10px' fontSize='20px'>
-            {playerStack.at(10)}
+            {playerStack.get("ST")}
           </Center>
 
           <Center marginTop='1px' fontSize='20px'>
 
-            {playerStack.at(9)}
+            {playerStack.get("LW")}
             
             <VStack marginX = '100px'>
-              {playerStack.at(8)}
+              {playerStack.get("CAM")}
             </VStack>
             
 
-            {playerStack.at(7)}
+            {playerStack.get("RW")}
           </Center>
 
           <Center marginTop='1px' fontSize='20px'>
             <VStack marginRight='50px'>
-              {playerStack.at(6)}
+              {playerStack.get("LCM")}
             </VStack>
             <VStack marginLeft='50px'>
-              {playerStack.at(5)}
+              {playerStack.get("RCM")}
             </VStack>
           </Center>
 
           <Center marginTop='1px' fontSize='20px'>
             <VStack>
-              {playerStack.at(4)}
+              {playerStack.get("LB")}
             </VStack>
             <VStack marginX = '40px'>
-              {playerStack.at(3)}
+              {playerStack.get("LCB")}
             </VStack>
             <VStack marginX = '40px'>
-              {playerStack.at(2)}
+              {playerStack.get("RCB")}
             </VStack>
             <VStack>
-              {playerStack.at(1)}
+              {playerStack.get("RB")}
             </VStack>
           </Center>
 
           <Center marginTop='1px' fontSize='20px'>
-            {playerStack.at(0)}
+            {playerStack.get("GK")}
           </Center>
 
 
