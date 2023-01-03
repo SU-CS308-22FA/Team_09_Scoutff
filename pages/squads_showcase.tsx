@@ -1,15 +1,7 @@
 import dbConnect from "../lib/mongoose";
-import { useSession, signIn, signOut } from "next-auth/react"
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
-import HomeCompIndex from "../components/home/ui";
-import Navbar from "../components/layout/navbar/navbar";
-import ExpertSquad from "../models/Expertsquads";
-import { InferGetServerSidePropsType } from "next";
-
-import {
-    Button,
+import Expert, { IExpert } from "../models/Expert";
+import {InferGetServerSidePropsType } from "next";
+import { Button,
     Flex,
     Heading,
     Image,
@@ -28,8 +20,12 @@ import {
   } from "@chakra-ui/react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import Slider from 'react-slick';
-import ShowcaseUI from "../components/showcase/ShowcaseUI";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import RealShowcaseUI from "../components/showcase/RealShowcaseUI";
+import { getAllSquadOfExpert, SingleMatchRecord, WeeklyMatchRecord } from "../lib/api/expert";
+import { PlayerInterface } from "../interfaces/PlayerInterface";
+
 
   // Settings for the slider
   const settings = {
@@ -45,20 +41,65 @@ import React from "react";
   };
   
   
-  export default function SquadsShowcase({expertsquads} : any)  {  
+  const SquadsShowcase = ({experts}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     
-    let dataMap = new Map();
+    if (!experts || experts.length === 0) {
+      return <div>
+          <Center>
+              <Text fontSize="xl" color={"blackAlpha.600"}>{"No expert found"} </Text>
+          </Center>
+      </div>
+  }
+ 
 
-    for (let i = 0; i < expertsquads.length; i++) {
-        dataMap.set(expertsquads[i].num, expertsquads[i]);  
-        }
+  const [expert, setExpert] = useState(experts[0]);
 
-    let myDataArray = [
-        dataMap.get('expert1'),
-        dataMap.get('expert2'),
-        dataMap.get('expert3'),
-        dataMap.get('expert4'),
-    ];
+
+  const [squads, setSquads] = useState<WeeklyMatchRecord | null>(null);
+
+  const [squad, setSquad] = useState<SingleMatchRecord| null>(null);
+
+  console.log(squad, "squad");
+
+
+  useEffect(() => { 
+      const loadExpertSquad = async () => {
+          try{
+          const result = await axios.get<WeeklyMatchRecord>(`/api/expert/${expert._id}/squads`);
+         
+          setSquads(result.data);
+          }
+      catch(err)
+      {
+          setSquads(null);
+
+      }
+      }
+      loadExpertSquad();
+
+      
+  }, [expert]);
+
+  useEffect(() => {
+     if (squads) {
+          //get first key of map
+          const result = squads[Object.keys(squads)[0]];
+          console.log(Object.keys(squads));
+          setSquad(result ?? null);
+
+         
+     }
+     else
+     {
+          setSquad(null);
+     }
+
+  }, [squads]);
+
+
+  const handleExpertChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setExpert(experts[parseInt(event.target.value)]);
+  }
 
         // As we have used custom buttons, we need a reference variable to
         // change the state
@@ -69,30 +110,12 @@ import React from "react";
         const top = useBreakpointValue({ base: '90%', md: '50%' });
         const side = useBreakpointValue({ base: '30%', md: '40px' });
 
-        const cards = [
-            {
-              title: "Expert 1",
-              text:
-                "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-              },
-            {
-              title: 'Expert 2',
-              text:
-                "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-            },
-            {
-              title: 'Expert 3',
-              text:
-                "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-              },
-            
-          ];
   
     return (
         <Center>
         <Box
         position={"relative"}
-        height={'800px'}
+        height={'900px'}
         width={"788px"}
         overflow={'hidden'}>
         {/* CSS files for react-slick */}
@@ -133,51 +156,50 @@ import React from "react";
         </IconButton>
         {/* Slider */}
         <Slider {...settings} ref={(slider) => setSlider(slider)}>
-          {cards.map((card, index) => (
+
+        {experts.map((expert,index) => (
+            <option key={index} value={index}>{expert.name}</option>
+           ))}                            
+           {squad && (
+
             <Box
-              key={index}
               height={'full'}
               position="relative"
               backgroundPosition="center"
               backgroundRepeat="no-repeat"
               backgroundSize="cover"              
               >
-                
+
               {/* This is the block you need to change, to customize the caption */}
-              <ShowcaseUI data={myDataArray[index]}></ShowcaseUI>         
+              <RealShowcaseUI players={squad.players}  name={expert.name}  comment={squad.comment}/>
               
             </Box>
-          ))}
+            )}
+          ))
         </Slider>
       </Box>
       </Center>
     );
   
-    function techStackButton(text: string) {
-      return <Button rounded={"base"}>{text}</Button>;
-    }
+    
   }
 
+  export default SquadsShowcase;
 
-export const getServerSideProps = async () => {
-    try{
-      console.log('connecting to mongo')
-      await dbConnect()
-      console.log('connected to mongo')
-  
-      console.log('Fetching document')
-      const expertsquads = await ExpertSquad.find().sort({$natural: -1 })
-      console.log('Fetched document')
-  
-      return{
-        props: {
-          expertsquads: JSON.parse(JSON.stringify(expertsquads))
-        }
-      };
-    }catch(error){
-      console.log("ERROR HAPPENNED. WHY? WHO KNOWS MAN");
-  
-      return{notFound: true,}
-    }
-  };
-  
+  export const getServerSideProps = async () => {
+    await dbConnect();
+
+    const experts = await Expert.find({}).select("image  name   _id").lean();
+
+    //convert id to string
+    experts.forEach((expert) => {
+        expert._id = expert._id.toString();
+    });
+    
+    return {
+      props: {
+        experts : experts,
+      },
+    };
+
+};
