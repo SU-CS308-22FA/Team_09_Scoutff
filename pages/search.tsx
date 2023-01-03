@@ -1,4 +1,4 @@
-import { Icon, Input, Flex, Text, Spinner, LinkBox, MenuList, Menu, LinkOverlay, Box, Avatar, InputGroup, InputLeftAddon, InputLeftElement, HStack } from "@chakra-ui/react";
+import { Icon, Input, Flex, Text, Spinner, LinkBox, MenuList, Menu, LinkOverlay, Box, Avatar, InputGroup, InputLeftAddon, InputLeftElement, HStack, Button } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -9,6 +9,7 @@ import InterfacePlayer from "../models/Player";
 import { string } from "yup";
 import { SearchIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 interface PlayerInterface {
     name: string;
     slug: string;
@@ -28,6 +29,8 @@ const SearchBar = () => {
   const [search, setSearch] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const client = useApolloClient();
+
+  const router = useRouter();
 
   
   const debouncedSearch = useDebounce(search, 500);
@@ -69,7 +72,7 @@ const SearchBar = () => {
   }, [debouncedSearch,client]);
 
   return (
-  <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setTimeout(() => setFocusedSearch(false),100)}>
+  <div onFocus={ () => setFocusedSearch(true)} onBlur={() => setFocusedSearch(false)}>
     <HStack zIndex={200}  >
       <InputGroup>
       <InputLeftElement>
@@ -116,9 +119,17 @@ const SearchBar = () => {
               
               <Flex direction="column" ml={4}>
 
-                <Link href={`/player_profile/${player.slug}`}>
-                  {player.name}
-                </Link>
+         
+                
+              <Box style={{cursor:"pointer"}} onMouseDown={(e) => e.preventDefault()}  onClick={()=> {
+                       router.push(`/player_profile/${player.slug}`).then(() => setFocusedSearch(false));
+                        
+                      }}
+                      >
+
+                        {player.name}
+                        
+                  </Box>
       
                 <Text fontSize={"x-small"}
                 >{player.team.name}</Text>

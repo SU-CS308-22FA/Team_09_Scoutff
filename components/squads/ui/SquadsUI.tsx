@@ -178,11 +178,13 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
       <Image boxSize='35px' src={item.photo} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
         <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${item.slug}`}>{item.name}</Link>
         
-        <div onFocus={ () => setFocus(index)} onBlur={() => setTimeout(() => 
+        <div onFocus={ () => setFocus(index)} onBlur={()  => 
+
             {setFocus(-1); 
+              console.log("focus",focus);
             setFoundPlayers([]);
             setSearch(null);
-          },100)}>
+          }} >
 
           <HStack zIndex={200}  >
             <InputGroup>
@@ -209,7 +211,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
           {foundPlayers.map((player) => {
                 return (
             
-                  <LinkBox zIndex={900} key={player.slug}
+                  <LinkBox   zIndex={900} key={player.slug}
                 
                   backgroundColor="Background"
                   width= "250px"
@@ -233,7 +235,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
                       />
                     
                     <Flex direction="column" ml={4}>
-                      <Button zIndex={600} onClick={()=> {
+                      <Button zIndex={600} onMouseDown={(e) => e.preventDefault()}  onClick={()=> {
                         update(index, {
                           _id: player._id,
                           name: player.name,
@@ -241,6 +243,9 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
                           slug: player.slug,
                           footballPosition: item.footballPosition
                         })
+                        setFocus(-1);
+                        setSearch(null);
+                        setFoundPlayers([]);
                       }}
                       >
                         {player.name}
@@ -338,11 +343,10 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
       </HStack>
 
 
-      {isAuthor &&
-      <HStack>
+      <HStack style={{visibility : isAuthor ? "visible" : "hidden"}}>
         <Button type={"submit"}>  Save</Button>
       </HStack>
-      }
+      
 
       </VStack>
 
