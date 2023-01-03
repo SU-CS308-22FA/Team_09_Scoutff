@@ -77,6 +77,7 @@ import RealShowcaseUI from "../components/showcase/RealShowcaseUI";
     return (
         <Center>
         <Box
+        marginTop={"50px"}
         position={"relative"}
         height={'1000px'}
         width={"900px"}
