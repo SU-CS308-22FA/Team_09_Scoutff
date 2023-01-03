@@ -2,6 +2,7 @@ import React from "react";
 import SquadsUI from "./SquadsUI";
 import { Text, Flex, VStack, HStack, Button } from "@chakra-ui/react";
 import { PlayerInterface } from "../../../interfaces/PlayerInterface";
+import { useSession } from "next-auth/react";
 
 type Props = {
   experts : Array<{
@@ -20,6 +21,10 @@ type Props = {
 
 const SquadsCompIndex = ({experts} :  Props) => {
 
+  const session  = useSession();
+
+
+
 
   let expertRow = [];
 
@@ -28,8 +33,11 @@ const SquadsCompIndex = ({experts} :  Props) => {
       <HStack key={experts.length} marginBottom='50px'>
 
         {experts.splice(0, 2).map((expert) => {
+
+          const isAuthor = session?.data?.user?.id === expert._id;
           return (
-            <VStack key={expert.name} marginRight='40px'>
+
+            <VStack key={expert.name} marginRight='40px' pointerEvents={isAuthor ? "auto" : "none"}>
               <Text fontSize='20px'>{expert?.name}</Text>
               <SquadsUI squad={expert?.squad} whichExpert={expert._id}></SquadsUI>
             </VStack>

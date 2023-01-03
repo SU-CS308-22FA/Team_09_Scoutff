@@ -37,6 +37,7 @@ type Props = {
       }>;
       } | null,
       whichExpert: string;
+      isAuthor: boolean;
 
 
   
@@ -63,7 +64,7 @@ type FormValues = {
 
 
 
-export default function SquadsUI({squad, whichExpert} :  Props) {  
+export default function SquadsUI({isAuthor,squad, whichExpert} :  Props) {  
 
 const convertToQuery = (graphqlQuery: string) => gql`query {playerSearch(input : {limit:5,path:"name",query:"${graphqlQuery}"}) { _id name slug photo team{name logo} }}`;
 
@@ -175,6 +176,7 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
       
       <Image boxSize='35px' src={item.photo} fallbackSrc='http://cdn.onlinewebfonts.com/svg/img_76927.png' borderRadius='full'/>
         <Link fontWeight='bold' fontSize='14px' href={`/player_profile/${item.slug}`}>{item.name}</Link>
+        
         <div onFocus={ () => setFocus(index)} onBlur={() => setTimeout(() => {setFocus(-1); setFoundPlayers([]);},100)}>
 
           <HStack zIndex={200}  >
@@ -330,9 +332,12 @@ const { fields, append, prepend, remove, swap, move, insert,update } = useFieldA
         
       </HStack>
 
+
+      {isAuthor &&
       <HStack>
         <Button type={"submit"}>  Save</Button>
       </HStack>
+      }
 
       </VStack>
 

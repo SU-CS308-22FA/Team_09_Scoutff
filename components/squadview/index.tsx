@@ -30,7 +30,7 @@ const SquadsCompIndexTwo = ({experts} :  Props) => {
         {experts.splice(0, 2).map((expert) => {
           return (
             <VStack key={expert.name} marginRight='40px'>
-              <Link href={'/squads'}>
+              <Link href={`/expert?load=${expert._id}`}>
             {expert?.name}
           </Link>
               <SquadsUItwo squad={expert?.squad} whichExpert={expert._id}></SquadsUItwo>

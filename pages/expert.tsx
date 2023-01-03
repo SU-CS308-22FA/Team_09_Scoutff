@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 
 import {InferGetServerSidePropsType } from "next";
+import { useRouter } from "next/router";
 
 import React, { useEffect, useState } from "react";
 import RealShowcaseUI from "../components/showcase/RealShowcaseUI";
@@ -36,6 +37,12 @@ import Expert, { IExpert } from "../models/Expert";
   
 const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 
+    const router = useRouter();
+
+    const { load } = router.query;
+
+
+
     if (!experts || experts.length === 0) {
         return <div>
             <Center>
@@ -47,7 +54,7 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
 
 
 
-    const [expert, setExpert] = useState(experts[0]);
+    const [expert, setExpert] = useState(experts.find(expert => expert._id === load) ?? experts[0]);
 
 
     const [squads, setSquads] = useState<WeeklyMatchRecord | null>(null);
@@ -149,6 +156,7 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
             <Select 
                 variant="filled"
                 onChange={handleExpertChange}
+                defaultValue={experts.indexOf(expert)}
                 width={"200px"}>
                 {experts.map((expert,index) => (
                     <option key={index} value={index}>{expert.name}</option>
