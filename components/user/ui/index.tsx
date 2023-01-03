@@ -92,10 +92,30 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
       watch,
       formState: { errors, isSubmitting },
     } = useForm<FormValues>()
+    const useLocalStorageState = (stateName: string, setFuncName: string, localStorageKey: string): [string, React.Dispatch<React.SetStateAction<string>>] => {
+      const [state, setState] = useState(localStorage.getItem(localStorageKey) || 'na');
+      return [state, setState];
+    };
     
 
-
-
+    const [selectedOptionTeam, setSelectedOptionTeam] = useLocalStorageState('favoriteTeam', 'setSelectedOptionTeam', 'favoriteTeam');
+    const [selectedOptionPlayer, setSelectedOptionPlayer] = useLocalStorageState('favoritePlayer', 'setSelectedOptionPlayer', 'favoritePlayer');
+    const [selectedOptionExpert, setSelectedOptionExpert] = useLocalStorageState('favoriteExpert', 'setSelectedOptionExpert', 'favoriteExpert');
+  
+    const handleTeamChange = (event) => {
+      setSelectedOptionTeam(event.target.value);
+      localStorage.setItem('favoriteTeam', event.target.value);
+    };
+  
+    const handlePlayerChange = (event) => {
+      setSelectedOptionPlayer(event.target.value);
+      localStorage.setItem('favoritePlayer', event.target.value);
+    };
+  
+    const handleExpertChange = (event) => {
+      setSelectedOptionExpert(event.target.value);
+      localStorage.setItem('favoriteExpert', event.target.value);
+    };
 
 
   const deleteUserData = async () => {
@@ -327,8 +347,8 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
         
           <FormControl>
               <FormLabel>Favorite Team</FormLabel>
-              <Select>
-                <option value="na">None</option>
+               <Select value={selectedOptionTeam} onChange={handleTeamChange}>
+               <option value="na">None</option>
                 <option value="adn">Adana Demirspor</option>
                 <option value="aln">Alanyaspor</option>
                 <option value="ant">Antalyaspor</option>
@@ -354,16 +374,22 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
           <GridItem colSpan={2}>
             <FormControl>
               <FormLabel>Favorite Player</FormLabel>
-              <Select>
-                <option value="na">None</option>
+              <Select value={selectedOptionPlayer} onChange={handlePlayerChange}>
+              <option value="na">None</option>
+                <option value="ank">Mauro Icardi</option>
+                <option value="svs">Arda Güler</option>
+                <option value="ts">Dries Mertens</option>
               </Select>
             </FormControl>
             </GridItem>
           <GridItem colSpan={2}>
             <FormControl>
               <FormLabel>Favorite Expert</FormLabel>
-              <Select>
-                <option value="na">None</option>
+              <Select value={selectedOptionExpert} onChange={handleExpertChange}>
+              <option value="na">None</option>
+                <option value="na">Erman Yaşar</option>
+                <option value="na">Rıdvan Dilmen</option>
+                <option value="na">Ali Ece</option>
               </Select>
             </FormControl>
             </GridItem>
@@ -411,3 +437,4 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
     </div>
   )
   }
+
