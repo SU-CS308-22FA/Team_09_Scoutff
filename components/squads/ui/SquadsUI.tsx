@@ -32,7 +32,9 @@ import { SearchIcon } from "@chakra-ui/icons";
 type Props = {
     squad: {
       comment: string;
-      team: Array<PlayerInterface>;
+      team: Array<PlayerInterface |  {
+        footballPosition: string;
+      }>;
       } | null,
       whichExpert: string;
 
@@ -43,10 +45,10 @@ type Props = {
 
 type FormValues = {
   members : Array<{
-    _id : string;
-    name : string;
+    _id ?: string;
+    name ?: string;
     photo ?: string;
-    slug : string;
+    slug ?: string;
     footballPosition : string;
     team? : {
       name : string;

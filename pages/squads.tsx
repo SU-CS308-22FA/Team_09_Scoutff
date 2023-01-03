@@ -40,9 +40,11 @@ export const getServerSideProps = async () => {
     const expertsWithTeams = await Promise.all(experts.map(async (expert) => {
       const squad = await getSquadOfWeek({expert: expert._id,weekNumber: 1})
       squad?.team.forEach((team) => {
-        team._id = team._id.toString();
+        if (team._id)
+          team._id = team._id.toString();
       });
 
+      
       
       
       return {...expert,_id : expert._id.toString(), squad: squad};

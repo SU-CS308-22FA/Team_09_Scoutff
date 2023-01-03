@@ -10,12 +10,18 @@ import {
     Link
   } from "@chakra-ui/react";
   import React, { useCallback, useState } from "react";
-import { PlayerInterface } from "../../interfaces/PlayerInterface";
   
   
-  
+type Players = Array<{
+  footballPosition ?: string,
+  photo ?: string,
+  slug ?: string,
+  name ?: string,
+}>
+
+
 type Props = {
-    players :  Array<PlayerInterface>,
+    players : Players,
     name : string,
     comment : string
 }

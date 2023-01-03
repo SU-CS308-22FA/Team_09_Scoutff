@@ -13,7 +13,9 @@ export type WeeklyMatchRecord = Record<string, SingleMatchRecord>
 
 export type SingleMatchRecord = {
     comment : string,
-    players : PlayerInterface[]
+    players : Array<PlayerInterface | {
+        footballPosition : string
+    }>,
 }
 
 const indexToFootballPosition11Players = ["GK","LB","LCB","RCB","RB","LCM","RCM","CAM","LW","RW","ST"] as const;
@@ -46,13 +48,29 @@ export async function  getAllSquadOfExpert(expert : string) {
 
 
     Object.values(allSquads?.weeklySquads ?? {}).forEach((week) => {
+
+
+
+        if (!week.players) week.players = [];
+
+        else {
+            const filledPlayers = [...week.players, ...Array(11 - week.players.length).fill(null)] as Array<PlayerInterface | null>;
+     
+        
+     
        
-        week.players = (week.players).map((player,index) => {
-            return {
-                ...player,
-                footballPosition : indexToFootballPosition11Players[index]
-            }
-        })
+            week.players = (filledPlayers).map((player,index) => {
+                return {
+                    ...player as PlayerInterface,
+                    footballPosition : indexToFootballPosition11Players[index]
+                }
+            })
+
+        }
+
+
+
+
         delete week._id;
     })
 
@@ -104,6 +122,8 @@ export async function getSquadOfWeek({weekNumber,expert} : WeeklyMatchProps) {
 
 
 
+
+
     const weeklyTeam  = await Expert.findById(expert).populate({
         path : `weeklySquads.${week}.players`,
         model : Player,
@@ -122,7 +142,17 @@ export async function getSquadOfWeek({weekNumber,expert} : WeeklyMatchProps) {
     if (!team) return null;
 
 
-    const teamWithFootballPositions = team.players?.map((player,index) => {
+    if (!team.players) return {
+        comment : team.comment,
+        team : []
+    }
+
+        //add null values until 11 players
+        const filledPlayers = [...team.players, ...Array(11 - team.players.length).fill(null)] as Array<PlayerInterface | null>;
+
+    
+
+    const teamWithFootballPositions = filledPlayers?.map((player,index) => {
         return {
             ...player,
             footballPosition : indexToFootballPosition11Players[index]

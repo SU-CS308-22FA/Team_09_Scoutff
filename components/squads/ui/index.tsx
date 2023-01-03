@@ -9,7 +9,9 @@ type Props = {
     name : string;
     squad: {
       comment : string;
-      team: Array<PlayerInterface>
+      team: Array<PlayerInterface | {
+        footballPosition: string;
+      }>;
     } | null;
   }> ;
 }
