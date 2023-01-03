@@ -75,7 +75,7 @@ export async function postacceptexpert(applyid : string): Promise<Boolean>
 
     
     await User.findOneAndUpdate({email}, {
-        role : "commentator" , weeklySquads : {}
+        role : "commentator" , weeklySquads : {}, bio : application.bio
     })
 
     const info = transporter.sendMail({
