@@ -11,8 +11,10 @@ import dbConnect from "../lib/mongoose";
 import ExpertSquad from "../models/Expertsquads";
 import { InferGetServerSidePropsType } from "next";
 import SquadsCompIndexTwo from "../components/squadview";
+import Expert from "../models/Expert";
+import { getSquadOfWeek } from "../lib/api/expert";
 
-export default function Home({expertsquads} : any) {
+export default function Home({expertsquads} : InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div>
       <Head>
@@ -22,7 +24,7 @@ export default function Home({expertsquads} : any) {
       </Head>
 
       <main>
-        <SquadsCompIndexTwo data={expertsquads}/>
+        <SquadsCompIndexTwo experts={expertsquads}/>
       </main>
     </div>
   );
@@ -35,17 +37,35 @@ export const getServerSideProps = async () => {
     await dbConnect()
     console.log('connected to mongo')
 
-    console.log('Fetching document')
-    const expertsquads = await ExpertSquad.find().sort({$natural: -1 })
-    console.log('Fetched document')
+    const experts = await Expert.find({}).limit(4).select("name _id").lean();
+
+
+
+    const expertsWithTeams = await Promise.all(experts.map(async (expert) => {
+      const squad = await getSquadOfWeek({expert: expert._id,weekNumber: 1})
+      squad?.team.forEach((team) => {
+        if (team._id)
+          team._id = team._id.toString();
+      });
+
+      
+      
+      
+      return {...expert,_id : expert._id.toString(), squad: squad};
+      
+    }));
+    
+    
+
 
     return{
       props: {
-        expertsquads: JSON.parse(JSON.stringify(expertsquads))
+        expertsquads: expertsWithTeams
       }
     };
   }catch(error){
-    console.log("ERROR HAPPENNED. WHY? WHO KNOWS MAN");
+    console.log(error);
+    console.log("ERROR");
 
     return{notFound: true,}
   }
