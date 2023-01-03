@@ -10,17 +10,27 @@ import {
     Link
   } from "@chakra-ui/react";
   import React, { useCallback, useState } from "react";
-import { PlayerInterface } from "../../interfaces/PlayerInterface";
   
   
-  
+type Players = Array<{
+  footballPosition ?: string,
+  photo ?: string,
+  slug ?: string,
+  name ?: string,
+}>
+
+
 type Props = {
-    players :  Array<PlayerInterface>,
+    players : Players,
     name : string,
     comment : string
 }
 
   export default function RealShowcaseUI({players,name,comment} : Props) {  
+
+    console.log(players)
+
+
 
     const playerByPos = useCallback((footballPosition : string) => {
         return players.find(player => player.footballPosition === footballPosition)
@@ -29,6 +39,7 @@ type Props = {
 
     const playerStack = useCallback((footballPosition : string) => {
         const player = playerByPos(footballPosition)
+        
 
         return (
             <VStack>

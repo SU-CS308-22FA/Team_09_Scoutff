@@ -106,6 +106,7 @@ const buttonLink = [
 const NavLink = ({ children, path }: { children: ReactNode; path: string }) => (
 
   
+  
 
 
   
@@ -135,9 +136,7 @@ export default function Navbar(props : any) {
 
   const session = useSession();
 
-
-  console.log(session.data?.user);
-
+ 
 
 
 
@@ -156,6 +155,7 @@ export default function Navbar(props : any) {
 
   return (
     <>
+    
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={8}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
@@ -177,7 +177,7 @@ export default function Navbar(props : any) {
 
     {session.data?.user.role === "admin" && (
       <Button /*ref={btnRef}*/ bg={"black"} textColor={"white"} onClick={onOpen} fontWeight="bold" size={"sm"} >
-        Admin
+        Admin 
       </Button>
     )}
       <Drawer
@@ -272,6 +272,7 @@ export default function Navbar(props : any) {
         {isOpen ? 'Squads' : 'Squads'}
       </MenuButton>
       <MenuList>
+        
       {dropdownLink4.map(({ name, path }) => (
                       <NavLink key={path} path={path}>
                             <MenuItem >
@@ -333,6 +334,8 @@ export default function Navbar(props : any) {
                   {name}
                 </NavLink>
               ))}
+
+              {}
             </HStack>
             </Button>
             <Menu>
@@ -345,11 +348,12 @@ export default function Navbar(props : any) {
                 <Avatar
                   size={"sm"}
                   src={
-                    session?.data?.user?.image ??  "https://bit.ly/sage-adebayo"
+                    (session?.data?.user?.image === "undefined" ? undefined : session?.data?.user?.image) ?? undefined
                   }
                 />
               </MenuButton>
               <MenuList>
+                {}
 
 
 

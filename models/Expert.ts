@@ -5,7 +5,7 @@ import User, { IUser } from "./User";
 export interface IExpert extends IUser {
     weeklySquads : Record<string, {
         comment : string,
-        players : Array<PlayerInterface>
+        players : Array<PlayerInterface | null>
         _id ?: Schema.Types.ObjectId
     }>
 }

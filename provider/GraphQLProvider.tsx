@@ -13,6 +13,8 @@ const anonymousUser = Realm.Credentials.anonymous();
 
 
 
+
+
 export const  isExpired = (token ?: string | null) => {
 
   
@@ -90,6 +92,8 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
         // We get the latest access token on each request
         fetch: async (uri, options) => {
           const accessToken = app?.currentUser?.accessToken;
+          
+
 
           if (options) {
             options.headers = {
@@ -107,7 +111,6 @@ export function GraphQLProvider({ children } : {children : ReactNode}) {
 
 
  const  client = useMemo(() => {
-  console.log(app?.currentUser?.accessToken)
   return new ApolloClient({
     link: from([errorLink, httpLink]),
     cache: new InMemoryCache(),

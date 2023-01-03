@@ -1,7 +1,8 @@
 import dbConnect from "../lib/mongoose";
-import Expert, { IExpert } from "../models/Expert";
-import {InferGetServerSidePropsType } from "next";
-import { Button,
+import { InferGetServerSidePropsType } from "next";
+
+import {
+    Button,
     Flex,
     Heading,
     Image,
@@ -20,12 +21,12 @@ import { Button,
   } from "@chakra-ui/react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import Slider from 'react-slick';
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { getSquadOfWeek, SingleMatchRecord, WeeklyMatchRecord } from "../lib/api/expert";
+import Expert from "../models/Expert";
+import SquadsCompIndexTwo from "../components/squadview";
+import axios from "axios";
 import RealShowcaseUI from "../components/showcase/RealShowcaseUI";
-import { getAllSquadOfExpert, SingleMatchRecord, WeeklyMatchRecord } from "../lib/api/expert";
-import { PlayerInterface } from "../interfaces/PlayerInterface";
-
 
   // Settings for the slider
   const settings = {
@@ -39,10 +40,20 @@ import { PlayerInterface } from "../interfaces/PlayerInterface";
     slidesToShow: 1,
     slidesToScroll: 1,    
   };
+
   
-  
-  const SquadsShowcase = ({experts}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-    
+  const SquadsShowcase= ({experts}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    // As we have used custom buttons, we need a reference variable to
+        // change the state
+        const [slider, setSlider] = React.useState<Slider | null>(null);
+      
+        // These are the breakpoints which changes the position of the
+        // buttons as the screen size changes
+        const top = useBreakpointValue({ base: '90%', md: '50%' });
+        const side = useBreakpointValue({ base: '50%', md: '40px' });
+
+        console.log(experts);
+
     if (!experts || experts.length === 0) {
       return <div>
           <Center>
@@ -52,6 +63,8 @@ import { PlayerInterface } from "../interfaces/PlayerInterface";
   }
  
 
+
+
   const [expert, setExpert] = useState(experts[0]);
 
 
@@ -59,66 +72,18 @@ import { PlayerInterface } from "../interfaces/PlayerInterface";
 
   const [squad, setSquad] = useState<SingleMatchRecord| null>(null);
 
-  console.log(squad, "squad");
-
-
-  useEffect(() => { 
-      const loadExpertSquad = async () => {
-          try{
-          const result = await axios.get<WeeklyMatchRecord>(`/api/expert/${expert._id}/squads`);
-         
-          setSquads(result.data);
-          }
-      catch(err)
-      {
-          setSquads(null);
-
-      }
-      }
-      loadExpertSquad();
 
       
-  }, [expert]);
-
-  useEffect(() => {
-     if (squads) {
-          //get first key of map
-          const result = squads[Object.keys(squads)[0]];
-          console.log(Object.keys(squads));
-          setSquad(result ?? null);
-
-         
-     }
-     else
-     {
-          setSquad(null);
-     }
-
-  }, [squads]);
-
-
-  const handleExpertChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      setExpert(experts[parseInt(event.target.value)]);
-  }
-
-        // As we have used custom buttons, we need a reference variable to
-        // change the state
-        const [slider, setSlider] = React.useState<Slider | null>(null);
-      
-        // These are the breakpoints which changes the position of the
-        // buttons as the screen size changes
-        const top = useBreakpointValue({ base: '90%', md: '50%' });
-        const side = useBreakpointValue({ base: '30%', md: '40px' });
-
-  
     return (
         <Center>
         <Box
         position={"relative"}
-        height={'900px'}
-        width={"788px"}
-        overflow={'hidden'}>
+        height={'1000px'}
+        width={"900px"}
+        overflow={'hidden'}
+        >
         {/* CSS files for react-slick */}
+        <>
         <link
           rel="stylesheet"
           type="text/css"
@@ -130,6 +95,8 @@ import { PlayerInterface } from "../interfaces/PlayerInterface";
           type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
+        
+        
         {/* Left Icon */}
         <IconButton
           aria-label="left-arrow"
@@ -154,14 +121,12 @@ import { PlayerInterface } from "../interfaces/PlayerInterface";
           onClick={() => slider?.slickNext()}>
           <BiRightArrowAlt size="40px" />
         </IconButton>
+        
         {/* Slider */}
         <Slider {...settings} ref={(slider) => setSlider(slider)}>
 
-        {experts.map((expert,index) => (
-            <option key={index} value={index}>{expert.name}</option>
-           ))}                            
-           {squad && (
-
+        {experts.map((expert, index) => {
+          return (
             <Box
               height={'full'}
               position="relative"
@@ -169,20 +134,28 @@ import { PlayerInterface } from "../interfaces/PlayerInterface";
               backgroundRepeat="no-repeat"
               backgroundSize="cover"              
               >
-
+                <RealShowcaseUI
+          players={expert.squad?.team??[]}
+          name={expert.name}
+          comment={expert.squad?.comment??""}/>  
               {/* This is the block you need to change, to customize the caption */}
-              <RealShowcaseUI players={squad.players}  name={expert.name}  comment={squad.comment}/>
-              
+                          
             </Box>
-            )}
-          ))
+          );
+  })}
         </Slider>
+
+   
+
+</>
       </Box>
+      
       </Center>
     );
   
-    
-  }
+   
+  };
+
 
   export default SquadsShowcase;
 
@@ -191,14 +164,33 @@ import { PlayerInterface } from "../interfaces/PlayerInterface";
 
     const experts = await Expert.find({}).select("image  name   _id").lean();
 
+   
+
     //convert id to string
     experts.forEach((expert) => {
         expert._id = expert._id.toString();
     });
+
+    const expertsWithTeams = await Promise.all(experts.map(async (expert) => {
+      const squad = await getSquadOfWeek({expert: expert._id,weekNumber: 1})
+      squad?.team.forEach((team) => {
+        if (team._id)
+          team._id = team._id.toString();
+      });
+
+
+
+      return {...expert,_id : expert._id.toString(), squad: squad};
+      
+    }));
+    
+
+    console.log(expertsWithTeams)
+
     
     return {
       props: {
-        experts : experts,
+        experts : expertsWithTeams,
       },
     };
 

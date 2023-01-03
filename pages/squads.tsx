@@ -9,8 +9,10 @@ import dbConnect from "../lib/mongoose";
 import ExpertSquad from "../models/Expertsquads";
 import Expert from "../models/Expert";
 import { getSquadOfWeek } from "../lib/api/expert";
+import { InferGetServerSidePropsType } from "next";
+import { TypeOf } from "yup";
 
-export default function Home({expertsquads} : any) {
+export default function Home({expertsquads} : InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div>
       <Head>
@@ -20,7 +22,7 @@ export default function Home({expertsquads} : any) {
       </Head>
 
       <main>
-        <SquadsCompIndex data={expertsquads}/>
+        <SquadsCompIndex experts={expertsquads}/>
       </main>
     </div>
   );
@@ -31,24 +33,30 @@ export const getServerSideProps = async () => {
   try{
     await dbConnect()
 
-    const expertsquads = await ExpertSquad.find().sort({$natural: -1 })
+    const experts = await Expert.find({}).limit(4).select("name _id").lean();
 
 
+
+    const expertsWithTeams = await Promise.all(experts.map(async (expert) => {
+      const squad = await getSquadOfWeek({expert: expert._id,weekNumber: 1})
+      squad?.team.forEach((team) => {
+        if (team._id)
+          team._id = team._id.toString();
+      });
+
+      
+      
+      
+      return {...expert,_id : expert._id.toString(), squad: squad};
+      
+    }));
+    
     
 
-
-
-    
-
-    
-
-    
-  
-  
 
     return{
       props: {
-        expertsquads: JSON.parse(JSON.stringify(expertsquads))
+        expertsquads: expertsWithTeams
       }
     };
   }catch(error){

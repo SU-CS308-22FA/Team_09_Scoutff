@@ -13,7 +13,9 @@ export type WeeklyMatchRecord = Record<string, SingleMatchRecord>
 
 export type SingleMatchRecord = {
     comment : string,
-    players : PlayerInterface[]
+    players : Array<PlayerInterface | {
+        footballPosition : string
+    }>,
 }
 
 const indexToFootballPosition11Players = ["GK","LB","LCB","RCB","RB","LCM","RCM","CAM","LW","RW","ST"] as const;
@@ -44,12 +46,36 @@ export async function  getAllSquadOfExpert(expert : string) {
     }).lean();
 
 
+
     Object.values(allSquads?.weeklySquads ?? {}).forEach((week) => {
-        week.players?.forEach((player,index) => {
-            player.footballPosition = indexToFootballPosition11Players[index];
-        })
+
+
+
+        if (!week.players) week.players = [];
+
+        else {
+            const filledPlayers = [...week.players, ...Array(11 - week.players.length).fill(null)] as Array<PlayerInterface | null>;
+     
+        
+     
+       
+            week.players = (filledPlayers).map((player,index) => {
+                return {
+                    ...player as PlayerInterface,
+                    footballPosition : indexToFootballPosition11Players[index]
+                }
+            })
+
+        }
+
+
+
+
         delete week._id;
     })
+
+
+
 
 
 
@@ -69,6 +95,22 @@ export async function  getAllSquadOfExpert(expert : string) {
 }
 
 
+export async function createSquadOfExpert({weekNumber,expert,comment,players} : WeeklyMatchProps & {comment : string,players : string[]}) {
+
+    await mongooseConnection();
+
+    const  week = `week${weekNumber}`;
+
+    await Expert.findByIdAndUpdate(expert,{
+        $set : {
+            [`weeklySquads.${week}.comment`] : comment,
+            [`weeklySquads.${week}.players`] : players
+        }
+    })
+
+}
+
+
 
 
 export async function getSquadOfWeek({weekNumber,expert} : WeeklyMatchProps) {
@@ -76,6 +118,8 @@ export async function getSquadOfWeek({weekNumber,expert} : WeeklyMatchProps) {
     await mongooseConnection();
 
     const  week = `week${weekNumber}`;
+
+
 
 
 
@@ -91,12 +135,24 @@ export async function getSquadOfWeek({weekNumber,expert} : WeeklyMatchProps) {
 
     const teams = weeklyTeam?.weeklySquads as unknown as WeeklyMatchRecord
 
+    if (!teams) return null;
+
     const team = teams[week];
 
-    console.log(teams);
+    if (!team) return null;
 
 
-    const teamWithFootballPositions = team.players?.map((player,index) => {
+    if (!team.players) return {
+        comment : team.comment,
+        team : []
+    }
+
+        //add null values until 11 players
+        const filledPlayers = [...team.players, ...Array(11 - team.players.length).fill(null)] as Array<PlayerInterface | null>;
+
+    
+
+    const teamWithFootballPositions = filledPlayers?.map((player,index) => {
         return {
             ...player,
             footballPosition : indexToFootballPosition11Players[index]
