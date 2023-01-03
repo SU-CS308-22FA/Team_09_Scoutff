@@ -79,6 +79,7 @@ const SearchBar = () => {
       <SearchIcon/>
       </InputLeftElement>
       <Input placeholder="Search"
+      value={search || ""}
     type= "search"
     colorScheme="teal" 
     onChange={(e) => setSearch(e.target.value)}
@@ -123,7 +124,10 @@ const SearchBar = () => {
          
                 
               <Box style={{cursor:"pointer"}} onMouseDown={(e) => e.preventDefault()}  onClick={()=> {
-                       router.push(`/player_profile/${player.slug}`).then(() => setFocusedSearch(false));
+                       router.push(`/player_profile/${player.slug}`).then(() => {
+                        setSearch("");
+                        setPlayer([]);
+                       });
                         
                       }}
                       >
