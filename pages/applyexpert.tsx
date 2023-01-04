@@ -37,7 +37,7 @@ import { signIn } from 'next-auth/react';
 import { useForm, FieldError, SubmitHandler } from 'react-hook-form'
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiUpload, BiPhotoAlbum } from 'react-icons/bi';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 
 
@@ -105,25 +105,46 @@ export default function Applyexpert() {
 
 
           
+       
+        try {
+            const response = await axios.post("/api/applyexpert", {
+            
+                bio : data.bio,
+                pdf : filebase64,
+            })
+            
+            toast({
+                title: "Application successful.",
+                description: "We've received your application.",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+            })
+    
+
+        }
+        catch (error : any) {
+            
+            const message = error.response.data.message
 
 
-
-        await axios.post("/api/applyexpert", {
-        
-            bio : data.bio,
-            pdf : filebase64,
-        })
-        
-
-        toast({
-            title: "Application successful.",
-            description: "We've received your application.",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-        })
+            toast({
+                title: "Application failed.",
+                description: message,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+            })
+            
+        }
 
         setErrorMessage("")
+
+
+
+
+
+
 
     }
 

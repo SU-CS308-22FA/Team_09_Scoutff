@@ -78,10 +78,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
   
           
-
-        const newApplication = await postApplyexpert({ user : userInfo.sub ,pdf : pdfLink, status, bio})
+        try {
+            const newApplication = await postApplyexpert({ user : userInfo.sub ,pdf : pdfLink, status, bio})
     
-        if (newApplication) return res.status(200).json({ message: "Application added" })
+            if (newApplication) return res.status(200).json({ message: "Application added" })
+
+        }
+        catch (err ) {
+            const message = (err instanceof Error) ? err.message : String(err)
+
+            return res.status(400).json({ message: message })
+        }
+
 
         return res.status(500).json({ message: "Something went wrong" })
 

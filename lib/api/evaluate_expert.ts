@@ -12,6 +12,7 @@ export async function postrejectexpert(applyid : string): Promise<Boolean>
 
 
     const application = await Applyexpert.findById(applyid).populate("user")
+    
 
 
 
@@ -22,6 +23,10 @@ export async function postrejectexpert(applyid : string): Promise<Boolean>
     }
 
     const user = application.user as IUser
+
+    if (user.role === "commentator") {
+        return true;
+    }
 
     const email = user.email
 
@@ -63,8 +68,14 @@ export async function postacceptexpert(applyid : string): Promise<Boolean>
     }
 
 
-
     const user = application.user as IUser
+
+
+    if (user.role === "commentator") {
+        return true;
+    }
+
+
 
     const email = user.email    
 
