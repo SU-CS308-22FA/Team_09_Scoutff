@@ -19,27 +19,7 @@ export interface IExpert extends IUser {
 type InterfacePlayerDemo = mongoose.Document & IExpert
 
 const expertSchema  = new Schema<IExpert>({
-    weeklySquads : {
-        type : Map,
-        of : {
-            comment : {
-                type : String,
-                default : ""
-            },
-            players : {
-                type : Array,
-                default : []
-            }
-        },
-        
 
-        default : {}
-    },
-
-
-    bio : {
-        type : String,
-    }
 
 
 

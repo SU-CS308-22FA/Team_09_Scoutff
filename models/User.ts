@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 import { PlayerInterface } from "../interfaces/PlayerInterface";
 
 export interface IUser {
+    _id: Schema.Types.ObjectId;
     name: string;
     email: string;
     image: string;
@@ -11,7 +12,12 @@ export interface IUser {
     emailVerified: Date | null;
     likedPlayers: Array<PlayerInterface>;
     squads: { [key: string]: { players: Array<{ id: string }>, comment: string } };
-}
+    weeklySquads ?: Record<string, {
+        comment : string,
+        players : Array<PlayerInterface | null>
+        _id ?: Schema.Types.ObjectId
+    }>,
+    bio ?: string,}
 
 
 const userSchema = new Schema<IUser>({
@@ -45,7 +51,29 @@ const userSchema = new Schema<IUser>({
         type: Schema.Types.ObjectId,
         ref: "Player",
         default: []
-    }]
+    }],
+    weeklySquads : {
+        type : Map,
+        of : {
+            comment : {
+                type : String,
+                default : ""
+            },
+            players : {
+                type : Array,
+                default : []
+            }
+        },
+        
+
+        default : {}
+    },
+
+
+    bio : {
+        type : String,
+    }
+
 },{
     discriminatorKey : "role"
 

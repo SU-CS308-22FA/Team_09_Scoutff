@@ -3,6 +3,7 @@ import Applyexpert, { IApplyexpert, IApplyexpert2 } from "../../models/Applyexpe
 import console from "console";
 import User, { IUser } from "../../models/User";
 import nodemailer from "nodemailer";
+import Expert from "../../models/Expert";
 
 
 export const  transporter = nodemailer.createTransport({
@@ -91,16 +92,40 @@ export async function postacceptexpert(applyid : string): Promise<Boolean>
 
 
     const email = user.email    
-
-    await application.updateOne({
-        status : "accepted"
-    })
     
+    
+    const session = await mongooseConnection().then(mongoose => mongoose.startSession());
+    session.startTransaction();
+
+
+    await Promise.all([
+        application.updateOne({
+            status : "accepted"
+        }),
+
+        User.findByIdAndUpdate(user._id,{
+            role : "commentator",
+            bio : application.bio,
+            weeklySquads : {},
+
+            })
+                    
+                    
+
+        
+       
+    ])
+
+
+
+
+
+    await session.commitTransaction();
+    session.endSession();
 
     
-    await User.findOneAndUpdate({email}, {
-        role : "commentator" , weeklySquads : {}, bio : application.bio
-    })
+  
+
 
     const info = transporter.sendMail({
         from : '"Scoutff Football" <bisiler@scoutff.com>',
