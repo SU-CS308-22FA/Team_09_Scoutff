@@ -37,7 +37,7 @@ export const getServerSideProps = async () => {
     await dbConnect()
     console.log('connected to mongo')
 
-    const experts = await Expert.find({}).limit(4).select("name _id").lean();
+    const experts = await Expert.find({}).limit(6).select("name _id").lean();
 
 
 
