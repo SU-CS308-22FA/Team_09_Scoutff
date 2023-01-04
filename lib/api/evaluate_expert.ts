@@ -1,8 +1,21 @@
 import mongooseConnection from "../mongoose"
 import Applyexpert, { IApplyexpert, IApplyexpert2 } from "../../models/Applyexpert";
 import console from "console";
-import { transporter } from "../email/emailData";
 import User, { IUser } from "../../models/User";
+import nodemailer from "nodemailer";
+
+
+export const  transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.EMAIL_SERVER_USER, // generated ethereal user
+      pass: process.env.EMAIL_SERVER_PASSWORD // generated ethereal password
+    },
+  });
+
+
 export async function postrejectexpert(applyid : string): Promise<Boolean>
 {
     await mongooseConnection();
