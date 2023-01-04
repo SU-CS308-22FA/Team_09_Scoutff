@@ -28,6 +28,12 @@ import axios from "axios";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { SearchIcon } from "@chakra-ui/icons";
 
+const positions = ["GK","LB","LCB","RCB","RB","LCM","RCM","CAM","LW","RW","ST"] as const;
+
+const emptySquad = positions.map((position) => ({
+  footballPosition : position
+}))
+
 
 type Props = {
     squad: {
@@ -82,7 +88,7 @@ const {
   formState: { errors, isSubmitting },
 } = useForm<FormValues>({
   defaultValues: {
-    members: squad?.team || [],
+    members: squad?.team || (isAuthor ? emptySquad : []),
     comment: squad?.comment || "",
     week: 1,
   },

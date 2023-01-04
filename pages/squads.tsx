@@ -34,7 +34,7 @@ export const getServerSideProps = async () => {
 
     await dbConnect()
 
-    const experts = await Expert.find({}).limit(4).select("name _id").lean();
+    const experts = await Expert.find({}).limit(6).select("name _id").lean();
 
 
 
