@@ -412,8 +412,9 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
 
            
            
-              
+
             
+            {role === "user" ?
             
             <Button  p={5} colorScheme='purple' variant='solid' onClick={() => router.push('/applyexpert')}>
             
@@ -421,6 +422,8 @@ const toBase64 = (file: Blob)  => new Promise((resolve, reject) => {
             
                 </Button>
            
+             : <Spacer /> 
+             }
                   
             </HStack>
             </GridItem>
