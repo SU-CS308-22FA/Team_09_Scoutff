@@ -15,3 +15,7 @@ a {
   font-family: 'MyFont', -apple-system,BlinkMacSystemFont,Apple Color Emoji,SF Pro,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif;
   box-sizing: border-box;
 }
+
+.slick-current {
+  z-index: 1;
+}

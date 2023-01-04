@@ -298,10 +298,14 @@ export const authOptions :  NextAuthOptions = {
 
           //Get only not empty values from credentials
           //Ignore other credentials
-          const {name,password,image} = credentials
+          let {name,password,image} = credentials
+
+          if (image === "undefined") image = ""
+
 
           
           const update = {name,  password,image}
+
 
 
 
@@ -433,6 +437,8 @@ export const authOptions :  NextAuthOptions = {
           }
 
 
+
+          console.log(update)
         
           const user = await User.findOneAndUpdate({email: token.email}, update, {new: true}).lean();
 
