@@ -139,8 +139,6 @@ const ExpertPage= ({experts}: InferGetServerSidePropsType<typeof getServerSidePr
 
         </VStack>
         </HStack>
-        
-        <Text textAlign={"center"} fontSize="md" color={"blackAlpha.700"}>{expert.bio ?? "No further information has been provided."} </Text>
 
        
       </VStack>
@@ -212,7 +210,7 @@ export default ExpertPage;
 export const getServerSideProps = async () => {
     await dbConnect();
 
-    const experts = await Expert.find({}).select("image  name   bio   _id").lean();
+    const experts = await Expert.find({}).select("image  name   _id").lean();
 
    
 
