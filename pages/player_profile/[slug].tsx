@@ -204,7 +204,7 @@ const PlayerPage= ({market_value,nationality_code,slug, flag, height, weight, pr
   useEffect(() => {
     
     const queryLiked = async () => {
-      if (client && app?.currentUser?.isLoggedIn) {
+      if (client) {
         const likedByCount = await client.query<GraphQLPlayerLikeCountProps>({
           query : playerLikeQuery(slug)
         })

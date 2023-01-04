@@ -22,7 +22,9 @@ const Layout = ({ children }: ILayoutProps) => {
   const chakra = useChakra();
 
 
-
+  if (session.status === "loading") {
+    return <div>Loading...</div>;
+  }
 
 
 
